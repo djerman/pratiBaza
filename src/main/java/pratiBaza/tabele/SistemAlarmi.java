@@ -35,9 +35,11 @@ public class SistemAlarmi implements Serializable {
 	private String sifra;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to AlarmiKorisnik
-	@OneToMany(mappedBy="sistemAlarmi")
+	@OneToMany(mappedBy="sistemAlarm")
 	private List<AlarmiKorisnik> alarmiKorisniks;
 
 	//bi-directional many-to-one association to Javljanja
@@ -195,6 +197,14 @@ public class SistemAlarmi implements Serializable {
 		javljanjaPoslednja.setSistemAlarmi(null);
 
 		return javljanjaPoslednja;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

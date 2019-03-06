@@ -22,7 +22,6 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 
 	public void unesiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
 		sessionFactory.getCurrentSession().persist(alarmKorisnik);
-		
 	}
 
 	@SuppressWarnings("unchecked")

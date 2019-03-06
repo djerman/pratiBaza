@@ -27,6 +27,8 @@ public class SistemUredjajiProizvodjac implements Serializable {
 	private String opis;
 
 	private BigInteger version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemUredjajiModeli
 	@OneToMany(mappedBy="sistemUredjajiProizvodjac")
@@ -95,6 +97,14 @@ public class SistemUredjajiProizvodjac implements Serializable {
 		sistemUredjajiModeli.setSistemUredjajiProizvodjac(null);
 
 		return sistemUredjajiModeli;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

@@ -27,9 +27,11 @@ public class Zone implements Serializable {
 
 	private int precnik;
 
-	private double zonecol;
+	private double lat;
 
-	private Timestamp zonecol1;
+	private Timestamp izmenjen;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
@@ -88,20 +90,20 @@ public class Zone implements Serializable {
 		this.precnik = precnik;
 	}
 
-	public double getZonecol() {
-		return this.zonecol;
+	public double getLat() {
+		return this.lat;
 	}
 
-	public void setZonecol(double zonecol) {
-		this.zonecol = zonecol;
+	public void setLat(double lat) {
+		this.lat = lat;
 	}
 
-	public Timestamp getZonecol1() {
-		return this.zonecol1;
+	public Timestamp getIzmenjen() {
+		return this.izmenjen;
 	}
 
-	public void setZonecol1(Timestamp zonecol1) {
-		this.zonecol1 = zonecol1;
+	public void setIzmenjen(Timestamp izmenjen) {
+		this.izmenjen = izmenjen;
 	}
 
 	public SistemPretplatnici getSistemPretplatnici() {
@@ -140,6 +142,14 @@ public class Zone implements Serializable {
 		zoneObjekti.setZone(null);
 
 		return zoneObjekti;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

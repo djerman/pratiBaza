@@ -24,9 +24,11 @@ public class AlarmiKorisnik implements Serializable {
 
 	private Timestamp kreirano;
 
-	private byte pocetna;
+	private boolean pocetna;
 
-	private byte pracenje;
+	private boolean pracenje;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
@@ -78,22 +80,6 @@ public class AlarmiKorisnik implements Serializable {
 		this.kreirano = kreirano;
 	}
 
-	public byte getPocetna() {
-		return this.pocetna;
-	}
-
-	public void setPocetna(byte pocetna) {
-		this.pocetna = pocetna;
-	}
-
-	public byte getPracenje() {
-		return this.pracenje;
-	}
-
-	public void setPracenje(byte pracenje) {
-		this.pracenje = pracenje;
-	}
-
 	public SistemPretplatnici getSistemPretplatnici() {
 		return this.sistemPretplatnici;
 	}
@@ -116,6 +102,46 @@ public class AlarmiKorisnik implements Serializable {
 
 	public void setSistemAlarmi(SistemAlarmi sistemAlarmi) {
 		this.sistemAlarm = sistemAlarmi;
+	}
+
+	public Korisnici getKorisnik() {
+		return korisnik;
+	}
+
+	public void setKorisnik(Korisnici korisnik) {
+		this.korisnik = korisnik;
+	}
+
+	public SistemAlarmi getSistemAlarm() {
+		return sistemAlarm;
+	}
+
+	public void setSistemAlarm(SistemAlarmi sistemAlarm) {
+		this.sistemAlarm = sistemAlarm;
+	}
+
+	public boolean isPocetna() {
+		return pocetna;
+	}
+
+	public void setPocetna(boolean pocetna) {
+		this.pocetna = pocetna;
+	}
+
+	public boolean isPracenje() {
+		return pracenje;
+	}
+
+	public void setPracenje(boolean pracenje) {
+		this.pracenje = pracenje;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

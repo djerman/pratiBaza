@@ -43,6 +43,8 @@ public class ObjektiDetalji implements Serializable {
 	private int veliki;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
@@ -170,6 +172,14 @@ public class ObjektiDetalji implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

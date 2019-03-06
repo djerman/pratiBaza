@@ -35,7 +35,7 @@ public class Korisnici implements Serializable {
 
 	private Timestamp izmenjeno;
 
-	private byte korisnik;
+	private boolean korisnik;
 
 	private Timestamp kreirano;
 
@@ -45,7 +45,7 @@ public class Korisnici implements Serializable {
 
 	private String prezime;
 
-	private byte sistem;
+	private boolean sistem;
 
 	private String slikaUrl;
 
@@ -53,10 +53,12 @@ public class Korisnici implements Serializable {
 
 	private int version;
 
-	private byte vozac;
+	private boolean vozac;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to AlarmiKorisnik
-	@OneToMany(mappedBy="korisnici")
+	@OneToMany(mappedBy="korisnik")
 	private List<AlarmiKorisnik> alarmiKorisniks;
 
 	//bi-directional many-to-one association to GrupeZaposleni
@@ -144,11 +146,11 @@ public class Korisnici implements Serializable {
 		this.izmenjeno = izmenjeno;
 	}
 
-	public byte getKorisnik() {
-		return this.korisnik;
+	public boolean isKorisnik() {
+		return korisnik;
 	}
 
-	public void setKorisnik(byte korisnik) {
+	public void setKorisnik(boolean korisnik) {
 		this.korisnik = korisnik;
 	}
 
@@ -184,14 +186,6 @@ public class Korisnici implements Serializable {
 		this.prezime = prezime;
 	}
 
-	public byte getSistem() {
-		return this.sistem;
-	}
-
-	public void setSistem(byte sistem) {
-		this.sistem = sistem;
-	}
-
 	public String getSlikaUrl() {
 		return this.slikaUrl;
 	}
@@ -214,14 +208,6 @@ public class Korisnici implements Serializable {
 
 	public void setVersion(int version) {
 		this.version = version;
-	}
-
-	public byte getVozac() {
-		return this.vozac;
-	}
-
-	public void setVozac(byte vozac) {
-		this.vozac = vozac;
 	}
 
 	public List<AlarmiKorisnik> getAlarmiKorisniks() {
@@ -304,6 +290,30 @@ public class Korisnici implements Serializable {
 		sistemSesije.setKorisnici(null);
 
 		return sistemSesije;
+	}
+
+	public boolean isVozac() {
+		return vozac;
+	}
+
+	public void setVozac(boolean vozac) {
+		this.vozac = vozac;
+	}
+
+	public boolean isSistem() {
+		return sistem;
+	}
+
+	public void setSistem(boolean sistem) {
+		this.sistem = sistem;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

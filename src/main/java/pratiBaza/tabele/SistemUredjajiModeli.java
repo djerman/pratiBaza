@@ -30,6 +30,8 @@ public class SistemUredjajiModeli implements Serializable {
 	private byte sim2;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemUredjajiProizvodjac
 	@ManyToOne
@@ -127,6 +129,14 @@ public class SistemUredjajiModeli implements Serializable {
 		uredjaji.setSistemUredjajiModeli(null);
 
 		return uredjaji;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

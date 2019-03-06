@@ -29,6 +29,8 @@ public class Grupe implements Serializable {
 	private String opis;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
@@ -144,6 +146,14 @@ public class Grupe implements Serializable {
 		grupeZaposleni.setGrupe(null);
 
 		return grupeZaposleni;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

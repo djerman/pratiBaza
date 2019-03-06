@@ -37,6 +37,8 @@ public class Sim implements Serializable {
 	private int version;
 
 	private byte zauzet;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemOperateri
 	@ManyToOne
@@ -132,6 +134,14 @@ public class Sim implements Serializable {
 
 	public void setSistemOperateri(SistemOperateri sistemOperateri) {
 		this.sistemOperateri = sistemOperateri;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

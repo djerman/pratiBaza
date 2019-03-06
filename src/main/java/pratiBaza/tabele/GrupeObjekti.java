@@ -22,6 +22,8 @@ public class GrupeObjekti implements Serializable {
 
 	private Timestamp kreirano;
 	
+	private boolean izbrisan;
+	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="goorganizacijaId")
@@ -99,6 +101,14 @@ public class GrupeObjekti implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

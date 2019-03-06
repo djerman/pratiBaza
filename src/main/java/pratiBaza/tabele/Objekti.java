@@ -19,13 +19,11 @@ public class Objekti implements Serializable {
 	@Id
 	private String id;
 
-	private byte aktivan;
+	private boolean aktivan;
 
-	private byte detalji;
+	private boolean detalji;
 
 	private byte gorivo;
-
-	private float gpskm;
 
 	private Timestamp izmenjeno;
 
@@ -33,13 +31,15 @@ public class Objekti implements Serializable {
 
 	private String oznaka;
 
-	private byte teretno;
+	private boolean teretno;
 
 	private byte tip;
 
 	private int version;
 
 	private float virtualOdo;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to GrupeObjekti
 	@OneToMany(mappedBy="objekti")
@@ -91,36 +91,12 @@ public class Objekti implements Serializable {
 		this.id = id;
 	}
 
-	public byte getAktivan() {
-		return this.aktivan;
-	}
-
-	public void setAktivan(byte aktivan) {
-		this.aktivan = aktivan;
-	}
-
-	public byte getDetalji() {
-		return this.detalji;
-	}
-
-	public void setDetalji(byte detalji) {
-		this.detalji = detalji;
-	}
-
 	public byte getGorivo() {
 		return this.gorivo;
 	}
 
 	public void setGorivo(byte gorivo) {
 		this.gorivo = gorivo;
-	}
-
-	public float getGpskm() {
-		return this.gpskm;
-	}
-
-	public void setGpskm(float gpskm) {
-		this.gpskm = gpskm;
 	}
 
 	public Timestamp getIzmenjeno() {
@@ -145,14 +121,6 @@ public class Objekti implements Serializable {
 
 	public void setOznaka(String oznaka) {
 		this.oznaka = oznaka;
-	}
-
-	public byte getTeretno() {
-		return this.teretno;
-	}
-
-	public void setTeretno(byte teretno) {
-		this.teretno = teretno;
 	}
 
 	public byte getTip() {
@@ -333,6 +301,38 @@ public class Objekti implements Serializable {
 		zoneObjekti.setObjekti(null);
 
 		return zoneObjekti;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
+	}
+
+	public boolean isDetalji() {
+		return detalji;
+	}
+
+	public void setDetalji(boolean detalji) {
+		this.detalji = detalji;
+	}
+
+	public boolean isTeretno() {
+		return teretno;
+	}
+
+	public void setTeretno(boolean teretno) {
+		this.teretno = teretno;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

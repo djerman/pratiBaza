@@ -14,18 +14,15 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiKorisnika(Korisnici korisnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(korisnik);
 	}
 
 	public void azurirajKorisnika(Korisnici korisnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(korisnik);
 	}
 
 	public void izbrisiKorisnika(Korisnici korisnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().delete(korisnik);
 	}
 
 	public SessionFactory getSessionFactory() {

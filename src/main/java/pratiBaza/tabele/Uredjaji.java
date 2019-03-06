@@ -39,6 +39,8 @@ public class Uredjaji implements Serializable {
 	private int version;
 
 	private byte zauzet;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Objekti
 	@OneToMany(mappedBy="uredjaji")
@@ -181,6 +183,14 @@ public class Uredjaji implements Serializable {
 
 	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
 		this.sistemPretplatnici = sistemPretplatnici;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

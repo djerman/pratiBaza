@@ -14,18 +14,15 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiGrupaZaposleni(GrupeKorisnici grupaKorisnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(grupaKorisnik);
 	}
 
 	public void azurirajGrupaZaposleni(GrupeKorisnici grupaKorisnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(grupaKorisnik);
 	}
 
 	public void izbrisiGrupaZaposleni(GrupeKorisnici grupaKorisnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().delete(grupaKorisnik);
 	}
 
 	public SessionFactory getSessionFactory() {

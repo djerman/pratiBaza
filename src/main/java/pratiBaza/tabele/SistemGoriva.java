@@ -20,6 +20,8 @@ public class SistemGoriva implements Serializable {
 	private String naziv;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	public SistemGoriva() {
 	}
@@ -46,6 +48,14 @@ public class SistemGoriva implements Serializable {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

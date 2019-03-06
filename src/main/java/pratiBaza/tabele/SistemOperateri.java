@@ -21,6 +21,8 @@ public class SistemOperateri implements Serializable {
 	private String naziv;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Sim
 	@OneToMany(mappedBy="sistemOperateri")
@@ -73,6 +75,14 @@ public class SistemOperateri implements Serializable {
 		sim.setSistemOperateri(null);
 
 		return sim;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

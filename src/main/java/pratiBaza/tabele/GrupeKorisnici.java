@@ -21,6 +21,8 @@ public class GrupeKorisnici implements Serializable {
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
@@ -99,6 +101,14 @@ public class GrupeKorisnici implements Serializable {
 
 	public void setKorisnici(Korisnici korisnici) {
 		this.korisnici = korisnici;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

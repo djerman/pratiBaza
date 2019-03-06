@@ -25,6 +25,8 @@ public class ZoneObjekti implements Serializable {
 	private Timestamp kreirano;
 
 	private byte ulaz;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Zone
 	@ManyToOne
@@ -93,6 +95,14 @@ public class ZoneObjekti implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

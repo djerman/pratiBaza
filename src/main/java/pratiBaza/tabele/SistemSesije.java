@@ -27,6 +27,8 @@ public class SistemSesije implements Serializable {
 	private String ipAdresa;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
@@ -82,6 +84,14 @@ public class SistemSesije implements Serializable {
 
 	public void setKorisnici(Korisnici korisnici) {
 		this.korisnici = korisnici;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }

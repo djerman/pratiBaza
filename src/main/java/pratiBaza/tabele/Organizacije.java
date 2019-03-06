@@ -29,6 +29,8 @@ public class Organizacije implements Serializable {
 	private String opis;
 
 	private BigInteger pretplatnikId;
+	
+	private boolean izbrisan;
 	/*
 	//bi-directional many-to-one association to GrupeObjekti
 	@OneToMany(mappedBy="organizacije")
@@ -100,6 +102,15 @@ public class Organizacije implements Serializable {
 	public void setPretplatnikId(BigInteger pretplatnikId) {
 		this.pretplatnikId = pretplatnikId;
 	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
+	}
+	
 	/*
 	public List<GrupeObjekti> getGrupeObjektis() {
 		return this.grupeObjektis;

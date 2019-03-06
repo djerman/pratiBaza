@@ -40,6 +40,8 @@ public class SistemPretplatnici implements Serializable {
 	private byte tip;
 
 	private int version;
+	
+	private boolean izbrisan;
 
 	//bi-directional many-to-one association to AlarmiKorisnik
 	@OneToMany(mappedBy="sistemPretplatnici")
@@ -377,6 +379,14 @@ public class SistemPretplatnici implements Serializable {
 		zone.setSistemPretplatnici(null);
 
 		return zone;
+	}
+
+	public boolean isIzbrisan() {
+		return izbrisan;
+	}
+
+	public void setIzbrisan(boolean izbrisan) {
+		this.izbrisan = izbrisan;
 	}
 
 }
