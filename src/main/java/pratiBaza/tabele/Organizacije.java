@@ -29,7 +29,7 @@ public class Organizacije implements Serializable {
 	private String opis;
 
 	private BigInteger pretplatnikId;
-
+	/*
 	//bi-directional many-to-one association to GrupeObjekti
 	@OneToMany(mappedBy="organizacije")
 	private List<GrupeObjekti> grupeObjektis;
@@ -48,7 +48,7 @@ public class Organizacije implements Serializable {
 
 	//bi-directional many-to-one association to Zone
 	@OneToMany(mappedBy="organizacije")
-	private List<Zone> zones;
+	private List<Zone> zones;**/
 
 	public Organizacije() {
 	}
@@ -100,7 +100,7 @@ public class Organizacije implements Serializable {
 	public void setPretplatnikId(BigInteger pretplatnikId) {
 		this.pretplatnikId = pretplatnikId;
 	}
-
+	/*
 	public List<GrupeObjekti> getGrupeObjektis() {
 		return this.grupeObjektis;
 	}
@@ -108,7 +108,7 @@ public class Organizacije implements Serializable {
 	public void setGrupeObjektis(List<GrupeObjekti> grupeObjektis) {
 		this.grupeObjektis = grupeObjektis;
 	}
-
+	
 	public GrupeObjekti addGrupeObjekti(GrupeObjekti grupeObjekti) {
 		getGrupeObjektis().add(grupeObjekti);
 		grupeObjekti.setOrganizacija(this);
@@ -210,5 +210,5 @@ public class Organizacije implements Serializable {
 
 		return zone;
 	}
-
+	**/
 }

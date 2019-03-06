@@ -24,22 +24,22 @@ public class GrupeKorisnici implements Serializable {
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
-	@JoinColumn(name="pretplatnikId")
+	@JoinColumn(name="gkpretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
 
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
-	@JoinColumn(name="organizacijaId")
+	@JoinColumn(name="gkorganizacijaId")
 	private Organizacije organizacija;
 
 	//bi-directional many-to-one association to Grupe
 	@ManyToOne
-	@JoinColumn(name="grupaId")
+	@JoinColumn(name="gkgrupaId")
 	private Grupe grupe;
 
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
-	@JoinColumn(name="korisnikId")
+	@JoinColumn(name="gkkorisnikId")
 	private Korisnici korisnici;
 
 	public GrupeKorisnici() {

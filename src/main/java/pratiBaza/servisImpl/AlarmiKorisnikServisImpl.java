@@ -1,11 +1,16 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
+import org.hibernate.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.AlarmiKorisnikDAO;
 import pratiBaza.servis.AlarmiKorisnikServis;
 import pratiBaza.tabele.AlarmiKorisnik;
+import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.SistemAlarmi;
 
 @Service("alarmKorisnikServis")
 public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
@@ -15,6 +20,11 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 	@Transactional
 	public void unesiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
 		alarmKorisnikDAO.unesiAlarmiKorisnik(alarmKorisnik);
+	}
+
+	@Transactional
+	public ArrayList<SistemAlarmi> vratiAlarmePoKorisniku(Korisnici korisnik) {
+		return alarmKorisnikDAO.vratiAlarmePoKorisniku(korisnik);
 	}
 
 	@Transactional
@@ -36,6 +46,5 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 	public void setAlarmKorisnikDAO(AlarmiKorisnikDAO alarmKorisnikDAO) {
 		this.alarmKorisnikDAO = alarmKorisnikDAO;
 	}
-	
 	
 }

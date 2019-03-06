@@ -36,12 +36,12 @@ public class AlarmiKorisnik implements Serializable {
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
 	@JoinColumn(name="korisnikId")
-	private Korisnici korisnici;
+	private Korisnici korisnik;
 
 	//bi-directional many-to-one association to SistemAlarmi
 	@ManyToOne
 	@JoinColumn(name="alarmId")
-	private SistemAlarmi sistemAlarmi;
+	private SistemAlarmi sistemAlarm;
 
 	public AlarmiKorisnik() {
 	}
@@ -103,19 +103,19 @@ public class AlarmiKorisnik implements Serializable {
 	}
 
 	public Korisnici getKorisnici() {
-		return this.korisnici;
+		return this.korisnik;
 	}
 
 	public void setKorisnici(Korisnici korisnici) {
-		this.korisnici = korisnici;
+		this.korisnik = korisnici;
 	}
 
 	public SistemAlarmi getSistemAlarmi() {
-		return this.sistemAlarmi;
+		return this.sistemAlarm;
 	}
 
 	public void setSistemAlarmi(SistemAlarmi sistemAlarmi) {
-		this.sistemAlarmi = sistemAlarmi;
+		this.sistemAlarm = sistemAlarmi;
 	}
 
 }

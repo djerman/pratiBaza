@@ -45,6 +45,8 @@ public class JavljanjaPoslednja implements Serializable {
 	private int version;
 
 	private float visina;
+	
+	private float virtualOdo;
 
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
@@ -55,6 +57,11 @@ public class JavljanjaPoslednja implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="alarmId")
 	private SistemAlarmi sistemAlarmi;
+	
+	//bi-directional many-to-one association to Objekti
+	@ManyToOne
+	@JoinColumn(name="korisnikId")
+	private Korisnici korisnik;
 
 	public JavljanjaPoslednja() {
 	}
@@ -185,6 +192,22 @@ public class JavljanjaPoslednja implements Serializable {
 
 	public void setSistemAlarmi(SistemAlarmi sistemAlarmi) {
 		this.sistemAlarmi = sistemAlarmi;
+	}
+
+	public float getVirtualOdo() {
+		return virtualOdo;
+	}
+
+	public void setVirtualOdo(float virtualOdo) {
+		this.virtualOdo = virtualOdo;
+	}
+
+	public Korisnici getKorisnik() {
+		return korisnik;
+	}
+
+	public void setKorisnik(Korisnici korisnik) {
+		this.korisnik = korisnik;
 	}
 
 }

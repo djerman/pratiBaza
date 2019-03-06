@@ -46,7 +46,7 @@ public class Obd implements Serializable {
 
 	private float tripKm;
 
-	private float tripVreme;
+	private float ukupnoVreme;
 
 	private float ukupnoGorivo;
 
@@ -174,12 +174,12 @@ public class Obd implements Serializable {
 		this.tripKm = tripKm;
 	}
 
-	public float getTripVreme() {
-		return this.tripVreme;
+	public float getUkupnoVreme() {
+		return this.ukupnoVreme;
 	}
 
-	public void setTripVreme(float tripVreme) {
-		this.tripVreme = tripVreme;
+	public void setUkupnoVreme(float ukupnoVreme) {
+		this.ukupnoVreme = ukupnoVreme;
 	}
 
 	public float getUkupnoGorivo() {

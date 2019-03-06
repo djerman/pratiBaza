@@ -21,25 +21,25 @@ public class GrupeObjekti implements Serializable {
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
-
+	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
-	@JoinColumn(name="organizacijaId")
+	@JoinColumn(name="goorganizacijaId")
 	private Organizacije organizacija;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
-	@JoinColumn(name="pretplatnikId")
+	@JoinColumn(name="gopretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
 
 	//bi-directional many-to-one association to Grupe
 	@ManyToOne
-	@JoinColumn(name="grupaId")
+	@JoinColumn(name="gogrupaId")
 	private Grupe grupe;
 
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
-	@JoinColumn(name="objekatId")
+	@JoinColumn(name="goobjekatId")
 	private Objekti objekti;
 
 	public GrupeObjekti() {
@@ -68,7 +68,7 @@ public class GrupeObjekti implements Serializable {
 	public void setKreirano(Timestamp kreirano) {
 		this.kreirano = kreirano;
 	}
-
+	
 	public Organizacije getOrganizacija() {
 		return this.organizacija;
 	}
@@ -76,7 +76,7 @@ public class GrupeObjekti implements Serializable {
 	public void setOrganizacija(Organizacije organizacija) {
 		this.organizacija = organizacija;
 	}
-
+	
 	public SistemPretplatnici getSistemPretplatnici() {
 		return this.sistemPretplatnici;
 	}
