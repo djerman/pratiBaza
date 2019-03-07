@@ -1,6 +1,8 @@
 package pratiBaza.dao;
 
+import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.SistemPretplatnici;
 
 public interface KorisniciDAO {
 
@@ -9,4 +11,10 @@ public interface KorisniciDAO {
 	void azurirajKorisnika(Korisnici korisnik);
 	
 	void izbrisiKorisnika(Korisnici korisnik);
+	
+	public Korisnici nadjiKorisnikaPoKorisnickom(String email, String lozinka);
+	
+	public ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik);
+	
+	public Korisnici nadjiKorisnikaPoIButton(String iButton);
 }

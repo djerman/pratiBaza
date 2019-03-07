@@ -1,11 +1,8 @@
 package pratiBaza.servisImpl;
 
 import java.util.ArrayList;
-
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pratiBaza.dao.AlarmiKorisnikDAO;
 import pratiBaza.servis.AlarmiKorisnikServis;
 import pratiBaza.tabele.AlarmiKorisnik;

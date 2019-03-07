@@ -6,17 +6,11 @@ import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-
-/**
- * The persistent class for the sistemPretplatnici database table.
- * 
- */
 @Entity
 @Table(name="sistemPretplatnici")
 @NamedQuery(name="SistemPretplatnici.findAll", query="SELECT s FROM SistemPretplatnici s")
 public class SistemPretplatnici implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	private String id;
 
@@ -35,9 +29,9 @@ public class SistemPretplatnici implements Serializable {
 
 	private String naziv;
 
-	private byte podrazumevani;
+	private boolean gMapa;
 
-	private byte tip;
+	private boolean tip;
 
 	private int version;
 	
@@ -149,22 +143,6 @@ public class SistemPretplatnici implements Serializable {
 
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
-	}
-
-	public byte getPodrazumevani() {
-		return this.podrazumevani;
-	}
-
-	public void setPodrazumevani(byte podrazumevani) {
-		this.podrazumevani = podrazumevani;
-	}
-
-	public byte getTip() {
-		return this.tip;
-	}
-
-	public void setTip(byte tip) {
-		this.tip = tip;
 	}
 
 	public int getVersion() {
@@ -387,6 +365,22 @@ public class SistemPretplatnici implements Serializable {
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public boolean isgMapa() {
+		return gMapa;
+	}
+
+	public void setgMapa(boolean gMapa) {
+		this.gMapa = gMapa;
+	}
+
+	public boolean isTip() {
+		return tip;
+	}
+
+	public void setTip(boolean tip) {
+		this.tip = tip;
 	}
 
 }

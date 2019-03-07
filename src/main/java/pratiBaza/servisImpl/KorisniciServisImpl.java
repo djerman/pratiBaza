@@ -1,10 +1,13 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.KorisniciDAO;
 import pratiBaza.servis.KorisniciServis;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("korisnikServis")
 public class KorisniciServisImpl implements KorisniciServis{
@@ -27,6 +30,21 @@ public class KorisniciServisImpl implements KorisniciServis{
 	}
 
 	@Transactional
+	public Korisnici nadjiKorisnikaPoKorisnickom(String email, String lozinka) {
+		return korisnikDAO.nadjiKorisnikaPoKorisnickom(email, lozinka);
+	}
+
+	@Transactional
+	public ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik) {
+		return korisnikDAO.nadjiKorisnikePoPretplatniku(pretplatnik);
+	}
+
+	@Transactional
+	public Korisnici nadjiKorisnikaPoIButton(String iButton) {
+		return korisnikDAO.nadjiKorisnikaPoIButton(iButton);
+	}
+	
+	@Transactional
 	public KorisniciDAO getKorisnikDAO() {
 		return korisnikDAO;
 	}
@@ -35,6 +53,5 @@ public class KorisniciServisImpl implements KorisniciServis{
 	public void setKorisnikDAO(KorisniciDAO korisnikDAO) {
 		this.korisnikDAO = korisnikDAO;
 	}
-	
 	
 }

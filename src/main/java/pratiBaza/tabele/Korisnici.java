@@ -20,9 +20,9 @@ public class Korisnici implements Serializable {
 	@Id
 	private String id;
 
-	private byte admin;
+	private boolean admin;
 
-	private byte aktivan;
+	private boolean aktivan;
 
 	@Temporal(TemporalType.DATE)
 	private Date aktivanDo;
@@ -90,28 +90,28 @@ public class Korisnici implements Serializable {
 		this.id = id;
 	}
 
-	public byte getAdmin() {
-		return this.admin;
-	}
-
-	public void setAdmin(byte admin) {
-		this.admin = admin;
-	}
-
-	public byte getAktivan() {
-		return this.aktivan;
-	}
-
-	public void setAktivan(byte aktivan) {
-		this.aktivan = aktivan;
-	}
-
 	public Date getAktivanDo() {
 		return this.aktivanDo;
 	}
 
 	public void setAktivanDo(Date aktivanDo) {
 		this.aktivanDo = aktivanDo;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
 	}
 
 	public String getEmail() {

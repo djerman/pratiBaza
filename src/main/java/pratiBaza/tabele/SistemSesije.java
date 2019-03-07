@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
-/**
- * The persistent class for the sistemSesije database table.
- * 
- */
 @Entity
 @Table(name="sistemSesije")
 @NamedQuery(name="SistemSesije.findAll", query="SELECT s FROM SistemSesije s")
