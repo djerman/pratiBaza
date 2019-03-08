@@ -14,58 +14,58 @@ import pratiBaza.tabele.SistemSesije;
 @Service("sistemSesijaServis")
 public class SistemSesijeServisImpl implements SistemSesijeServis{
 	//mora da se doda i get i set metode za objekat AkcijeDAO jer ne radi spring bez toga
-	SistemSesijeDAO sesijaDAO;
+	SistemSesijeDAO sistemSesijaDAO;
 
 	@Transactional
 	public void unesiSesiju(SistemSesije sesija) {
-		sesijaDAO.unesiSesiju(sesija);
+		sistemSesijaDAO.unesiSesiju(sesija);
 	}
 
 	@Transactional
 	public void izmeniSesiju(SistemSesije sesija) {
-		sesijaDAO.izmeniSesiju(sesija);
+		sistemSesijaDAO.izmeniSesiju(sesija);
 	}
 
 	@Transactional
 	public void izbrisiSesiju(SistemSesije sesija) {
-		sesijaDAO.izbrisiSesiju(sesija);
+		sistemSesijaDAO.izbrisiSesiju(sesija);
 	}
 
 	@Transactional
 	public ArrayList<SistemSesije> nadjiSveSesije() {
-		return sesijaDAO.nadjiSveSesije();
+		return sistemSesijaDAO.nadjiSveSesije();
 	}
 
 	@Transactional
 	public ArrayList<SistemSesije> nadjiSveSesijeKorisnika(Korisnici korisnik) {
-		return sesijaDAO.nadjiSveSesijeKorisnika(korisnik);
+		return sistemSesijaDAO.nadjiSveSesijeKorisnika(korisnik);
 	}
 
 	@Transactional
 	public ArrayList<SistemSesije> nadjiSveSesijeKorisnikaPoVremenu(Korisnici korisnik, Timestamp datumVremeOd,
 			Timestamp datumVremeDo) {
-		return sesijaDAO.nadjiSveSesijeKorisnikaPoVremenu(korisnik, datumVremeOd, datumVremeDo);
+		return sistemSesijaDAO.nadjiSveSesijeKorisnikaPoVremenu(korisnik, datumVremeOd, datumVremeDo);
 	}
 
 	@Transactional
 	public ArrayList<SistemSesije> nadjiSveSesijePretplatnika(SistemPretplatnici pretplatnik) {
-		return sesijaDAO.nadjiSveSesijePretplatnika(pretplatnik);
+		return sistemSesijaDAO.nadjiSveSesijePretplatnika(pretplatnik);
 	}
 
 	@Transactional
 	public ArrayList<SistemSesije> nadjiSveSesijePretplatnikaPoVremenu(SistemPretplatnici pratplatnika,
 			Timestamp datumVremeOd, Timestamp datumVremDo) {
-		return sesijaDAO.nadjiSveSesijePretplatnikaPoVremenu(pratplatnika, datumVremeOd, datumVremDo);
+		return sistemSesijaDAO.nadjiSveSesijePretplatnikaPoVremenu(pratplatnika, datumVremeOd, datumVremDo);
 	}
 
 	@Transactional
-	public SistemSesijeDAO getSesijaDAO() {
-		return sesijaDAO;
+	public SistemSesijeDAO getSistemSesijaDAO() {
+		return sistemSesijaDAO;
 	}
 
 	@Transactional
-	public void setSesijaDAO(SistemSesijeDAO sesijaDAO) {
-		this.sesijaDAO = sesijaDAO;
+	public void setSistemSesijaDAO(SistemSesijeDAO sistemSesijaDAO) {
+		this.sistemSesijaDAO = sistemSesijaDAO;
 	}
 	
 }

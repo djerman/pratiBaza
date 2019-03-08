@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeKorisniciDAO;
 import pratiBaza.tabele.GrupeKorisnici;
 
-@Repository("grupaKorisnik")
+@Repository("grupaKorisnikDAO")
 public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 
 	//mora da se doda i get i set metode za SessionFactory objekat

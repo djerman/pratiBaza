@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemUredjajiProizvodjaciDAO;
 import pratiBaza.tabele.SistemUredjajiProizvodjac;
 
-@Repository("sistemUredjajiProizvodjacDAO")
+@Repository("sistemUredjajProizvodjacDAO")
 public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvodjaciDAO{
 	//mora da se doda i get i set metode za SessionFactory objekat
 	@Autowired

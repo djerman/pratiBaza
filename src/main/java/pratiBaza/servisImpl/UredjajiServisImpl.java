@@ -6,11 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.UredjajiDAO;
+import pratiBaza.servis.UredjajiServis;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Uredjaji;
 
 @Service("uredjajServis")
-public class UredjajiServisImpl implements UredjajiDAO{
+public class UredjajiServisImpl implements UredjajiServis{
 	//mora da se doda i get i set metode za objekat AkcijeDAO jer ne radi spring bez toga
 	UredjajiDAO uredjajDAO;
 

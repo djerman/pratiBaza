@@ -42,6 +42,11 @@ public class ZoneDAOImpl implements ZoneDAO{
 		return null;
 	}
 
+	public ArrayList<Zone> nadjiSveZonePoOrganizaciji(Organizacije organizacija) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -50,9 +55,4 @@ public class ZoneDAOImpl implements ZoneDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	public ArrayList<Zone> nadjiSveZonePoOrganizaciji(Organizacije organizacija) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.ObjektiDetaljiDAO;
 import pratiBaza.tabele.ObjektiDetalji;
 
-@Repository("objektiDetaljiDAO")
+@Repository("objekatDetaljDAO")
 public class ObjektiDetaljiDAOImpl implements ObjektiDetaljiDAO{
 
 	//mora da se doda i get i set metode za SessionFactory objekat

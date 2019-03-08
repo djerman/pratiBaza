@@ -9,7 +9,7 @@ import pratiBaza.tabele.Obd;
 @Service("obdServis")
 public class ObdServisImpl implements ObdServis{
 	//mora da se doda i get i set metode za objekat AkcijeDAO jer ne radi spring bez toga
-	ObdDAO obdDao;
+	ObdDAO obdDAO;
 
 	@Transactional
 	public void unesiObd(Obd obd) {
@@ -30,13 +30,13 @@ public class ObdServisImpl implements ObdServis{
 	}
 
 	@Transactional
-	public ObdDAO getObdDao() {
-		return obdDao;
+	public ObdDAO getObdDAO() {
+		return obdDAO;
 	}
 
 	@Transactional
-	public void setObdDao(ObdDAO obdDao) {
-		this.obdDao = obdDao;
+	public void setObdDAO(ObdDAO obdDAO) {
+		this.obdDAO = obdDAO;
 	}
 	
 }

@@ -28,14 +28,13 @@ public class JavljanjaPoslednjaServisImpl implements JavljanjaPoslednjaServis{
 	}
 
 	@Transactional
-	public JavljanjaPoslednjaDAO getJavljanjePOslednjeDAO() {
+	public JavljanjaPoslednjaDAO getJavljanjePoslednjeDAO() {
 		return javljanjePoslednjeDAO;
 	}
 
 	@Transactional
-	public void setJavljanjePOslednjeDAO(JavljanjaPoslednjaDAO javljanjePOslednjeDAO) {
+	public void setJavljanjePoslednjeDAO(JavljanjaPoslednjaDAO javljanjePOslednjeDAO) {
 		this.javljanjePoslednjeDAO = javljanjePOslednjeDAO;
 	}
 	
-
 }
