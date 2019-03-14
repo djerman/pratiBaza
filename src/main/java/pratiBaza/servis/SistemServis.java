@@ -9,4 +9,6 @@ public interface SistemServis {
 	void azurirajSistem(Sistem sistem);
 	
 	void izbrisiSistem(Sistem sistem);
+	
+	Sistem vratiSistem();
 }

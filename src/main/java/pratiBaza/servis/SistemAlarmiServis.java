@@ -1,5 +1,7 @@
 package pratiBaza.servis;
 
+import java.util.ArrayList;
+
 import pratiBaza.tabele.SistemAlarmi;
 
 public interface SistemAlarmiServis {
@@ -9,4 +11,6 @@ public interface SistemAlarmiServis {
 	void azurirajAlarme(SistemAlarmi alarm);
 	
 	void izbrisiAlarme(SistemAlarmi alarm);
+	
+	ArrayList<SistemAlarmi> vratiSveAlarme();
 }

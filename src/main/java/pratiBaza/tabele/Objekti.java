@@ -5,15 +5,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
-/**
- * The persistent class for the objekti database table.
- * 
- */
 @Entity
 @Table(name="objekti")
 @NamedQuery(name="Objekti.findAll", query="SELECT o FROM Objekti o")
 public class Objekti implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,7 +19,7 @@ public class Objekti implements Serializable {
 
 	private boolean detalji;
 
-	private byte gorivo;
+	//private byte gorivo;
 
 	private Timestamp izmenjeno;
 
@@ -31,13 +27,9 @@ public class Objekti implements Serializable {
 
 	private String oznaka;
 
-	private boolean teretno;
-
-	private byte tip;
+	private boolean tip;
 
 	private int version;
-
-	private float virtualOdo;
 	
 	private boolean izbrisan;
 
@@ -46,16 +38,16 @@ public class Objekti implements Serializable {
 	private List<GrupeObjekti> grupeObjektis;
 
 	//bi-directional many-to-one association to Javljanja
-	@OneToMany(mappedBy="objekti")
-	private List<Javljanja> javljanjas;
+	//@OneToMany(mappedBy="objekti")
+	//private List<Javljanja> javljanjas;
 
 	//bi-directional many-to-one association to JavljanjaPoslednja
 	@OneToMany(mappedBy="objekti")
 	private List<JavljanjaPoslednja> javljanjaPoslednjas;
 
 	//bi-directional many-to-one association to Obd
-	@OneToMany(mappedBy="objekti")
-	private List<Obd> obds;
+	//@OneToMany(mappedBy="objekti")
+	//private List<Obd> obds;
 
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
@@ -91,13 +83,13 @@ public class Objekti implements Serializable {
 		this.id = id;
 	}
 
-	public byte getGorivo() {
+	/*public byte getGorivo() {
 		return this.gorivo;
 	}
 
 	public void setGorivo(byte gorivo) {
 		this.gorivo = gorivo;
-	}
+	}**/
 
 	public Timestamp getIzmenjeno() {
 		return this.izmenjeno;
@@ -123,11 +115,11 @@ public class Objekti implements Serializable {
 		this.oznaka = oznaka;
 	}
 
-	public byte getTip() {
+	public boolean getTip() {
 		return this.tip;
 	}
 
-	public void setTip(byte tip) {
+	public void setTip(boolean tip) {
 		this.tip = tip;
 	}
 
@@ -137,14 +129,6 @@ public class Objekti implements Serializable {
 
 	public void setVersion(int version) {
 		this.version = version;
-	}
-
-	public float getVirtualOdo() {
-		return this.virtualOdo;
-	}
-
-	public void setVirtualOdo(float virtualOdo) {
-		this.virtualOdo = virtualOdo;
 	}
 
 	public List<GrupeObjekti> getGrupeObjektis() {
@@ -169,7 +153,7 @@ public class Objekti implements Serializable {
 		return grupeObjekti;
 	}
 
-	public List<Javljanja> getJavljanjas() {
+	/*public List<Javljanja> getJavljanjas() {
 		return this.javljanjas;
 	}
 
@@ -189,12 +173,12 @@ public class Objekti implements Serializable {
 		javljanja.setObjekti(null);
 
 		return javljanja;
-	}
+	}**/
 
 	public List<JavljanjaPoslednja> getJavljanjaPoslednjas() {
 		return this.javljanjaPoslednjas;
 	}
-
+	
 	public void setJavljanjaPoslednjas(List<JavljanjaPoslednja> javljanjaPoslednjas) {
 		this.javljanjaPoslednjas = javljanjaPoslednjas;
 	}
@@ -213,7 +197,7 @@ public class Objekti implements Serializable {
 		return javljanjaPoslednja;
 	}
 
-	public List<Obd> getObds() {
+	/*public List<Obd> getObds() {
 		return this.obds;
 	}
 
@@ -233,7 +217,7 @@ public class Objekti implements Serializable {
 		obd.setObjekti(null);
 
 		return obd;
-	}
+	}**/
 
 	public Organizacije getOrganizacija() {
 		return this.organizacija;
@@ -317,14 +301,6 @@ public class Objekti implements Serializable {
 
 	public void setDetalji(boolean detalji) {
 		this.detalji = detalji;
-	}
-
-	public boolean isTeretno() {
-		return teretno;
-	}
-
-	public void setTeretno(boolean teretno) {
-		this.teretno = teretno;
 	}
 
 	public boolean isIzbrisan() {

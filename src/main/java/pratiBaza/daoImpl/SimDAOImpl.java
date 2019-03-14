@@ -1,6 +1,10 @@
 package pratiBaza.daoImpl;
 
+import java.util.ArrayList;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SimDAO;
@@ -14,18 +18,16 @@ public class SimDAOImpl implements SimDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiSim(Sim sim) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(sim);
 	}
 
 	public void azurirajSim(Sim sim) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(sim);
 	}
 
 	public void izbrisiSim(Sim sim) {
-		// TODO Auto-generated method stub
-		
+		sim.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(sim);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -34,6 +36,16 @@ public class SimDAOImpl implements SimDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Sim> vratiSveSimKartice() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivno"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Sim> lista = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 	
 }

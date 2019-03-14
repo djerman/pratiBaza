@@ -1,5 +1,7 @@
 package pratiBaza.dao;
 
+import java.util.ArrayList;
+
 import pratiBaza.tabele.SistemAlarmi;
 
 public interface SistemAlarmiDAO {
@@ -9,4 +11,7 @@ public interface SistemAlarmiDAO {
 	void azurirajAlarme(SistemAlarmi alarm);
 	
 	void izbrisiAlarme(SistemAlarmi alarm);
+	
+	ArrayList<SistemAlarmi> vratiSveAlarme();
+	
 }

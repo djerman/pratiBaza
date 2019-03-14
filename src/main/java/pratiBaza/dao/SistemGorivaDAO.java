@@ -1,5 +1,7 @@
 package pratiBaza.dao;
 
+import java.util.ArrayList;
+
 import pratiBaza.tabele.SistemGoriva;
 
 public interface SistemGorivaDAO {
@@ -9,4 +11,6 @@ public interface SistemGorivaDAO {
 	void azurirajGorivo(SistemGoriva gorivo);
 	
 	void izbrisiGorivo(SistemGoriva gorivo);
+	
+	ArrayList<SistemGoriva> vratiSvaGoriva();
 }

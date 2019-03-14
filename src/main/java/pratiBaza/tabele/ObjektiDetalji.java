@@ -39,12 +39,19 @@ public class ObjektiDetalji implements Serializable {
 	private String registracija;
 
 	private int rezervoar;
+	
+	//bi-directional many-to-one association to Uredjaji
+	@ManyToOne
+	@JoinColumn(name="gorivo")
+	private SistemGoriva sistemGoriva;
 
 	private int veliki;
 
 	private int version;
 	
 	private boolean izbrisan;
+	
+	private boolean teretno;
 
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
@@ -126,6 +133,14 @@ public class ObjektiDetalji implements Serializable {
 		this.potrosnja = potrosnja;
 	}
 
+	public SistemGoriva getSistemGoriva() {
+		return sistemGoriva;
+	}
+
+	public void setSistemGoriva(SistemGoriva sistemGoriva) {
+		this.sistemGoriva = sistemGoriva;
+	}
+
 	public int getRedovan() {
 		return this.redovan;
 	}
@@ -172,6 +187,14 @@ public class ObjektiDetalji implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
+	}
+
+	public boolean isTeretno() {
+		return teretno;
+	}
+
+	public void setTeretno(boolean teretno) {
+		this.teretno = teretno;
 	}
 
 	public boolean isIzbrisan() {

@@ -37,7 +37,7 @@ public class Sistem implements Serializable {
 
 	private String sajtVlasnika;
 
-	private byte serverMape;
+	private boolean serverMape;
 
 	private String telVlasnika;
 
@@ -134,11 +134,11 @@ public class Sistem implements Serializable {
 		this.sajtVlasnika = sajtVlasnika;
 	}
 
-	public byte getServerMape() {
-		return this.serverMape;
+	public boolean isServerMape() {
+		return serverMape;
 	}
 
-	public void setServerMape(byte serverMape) {
+	public void setServerMape(boolean serverMape) {
 		this.serverMape = serverMape;
 	}
 

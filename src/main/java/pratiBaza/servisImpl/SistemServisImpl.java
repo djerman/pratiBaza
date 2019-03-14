@@ -35,5 +35,10 @@ public class SistemServisImpl implements SistemServis{
 	public void setSistemDAO(SistemDAO sistemDAO) {
 		this.sistemDAO = sistemDAO;
 	}
+
+	@Transactional
+	public Sistem vratiSistem() {
+		return sistemDAO.vratiSistem();
+	}
 	
 }

@@ -24,6 +24,7 @@ public class SistemGoriva implements Serializable {
 	private boolean izbrisan;
 
 	public SistemGoriva() {
+		
 	}
 
 	public String getId() {

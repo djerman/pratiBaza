@@ -1,5 +1,7 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.SistemGorivaDAO;
@@ -34,6 +36,11 @@ public class SistemGorivoServisImpl implements SistemGorivoServis{
 	@Transactional
 	public void setSistemGorivoDAO(SistemGorivaDAO sistemGorivoDAO) {
 		this.sistemGorivoDAO = sistemGorivoDAO;
+	}
+
+	@Transactional
+	public ArrayList<SistemGoriva> vratiSvaGoriva() {
+		return sistemGorivoDAO.vratiSvaGoriva();
 	}
 	
 }

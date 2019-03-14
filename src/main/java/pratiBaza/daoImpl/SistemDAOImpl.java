@@ -1,6 +1,8 @@
 package pratiBaza.daoImpl;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,18 +17,15 @@ public class SistemDAOImpl implements SistemDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiSistem(Sistem sistem) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(sistem);
 	}
 
 	public void azurirajSistem(Sistem sistem) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(sistem);
 	}
 
 	public void izbrisiSistem(Sistem sistem) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().delete(sistem);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -35,6 +34,14 @@ public class SistemDAOImpl implements SistemDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public Sistem vratiSistem() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sistem.class);
+		criteria.addOrder(Order.asc("id"));
+		criteria.setMaxResults(1);
+		Sistem rezultat = (Sistem)criteria.uniqueResult();
+		return rezultat;
 	}
 	
 }

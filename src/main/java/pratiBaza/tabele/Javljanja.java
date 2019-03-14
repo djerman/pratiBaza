@@ -53,17 +53,23 @@ public class Javljanja implements Serializable {
 	@JoinColumn(name="alarmId")
 	private SistemAlarmi sistemAlarmi;
 
+	//bi-directional many-to-one association to Obd
+	@ManyToOne
+	@JoinColumn(name="obdId")
+	private Obd bd;
+
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 	
 	//bi-directional many-to-one association to Objekti
-		@ManyToOne
-		@JoinColumn(name="korisnikId")
-		private Korisnici korisnik;
+	@ManyToOne
+	@JoinColumn(name="korisnikId")
+	private Korisnici korisnik;
 
 	public Javljanja() {
+		
 	}
 
 	public String getId() {

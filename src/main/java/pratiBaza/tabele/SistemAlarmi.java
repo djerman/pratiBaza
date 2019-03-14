@@ -18,19 +18,19 @@ public class SistemAlarmi implements Serializable {
 	@Id
 	private String id;
 
-	private byte adresa;
+	private boolean adresa;
 
-	private byte aktivan;
+	private boolean aktivan;
 
-	private byte alarmiranje;
+	private boolean alarmiranje;
 
 	private String naziv;
 
 	private String opis;
 
-	private byte pregled;
+	private boolean pregled;
 
-	private byte prikaz;
+	private boolean prikaz;
 
 	private String sifra;
 
@@ -43,12 +43,12 @@ public class SistemAlarmi implements Serializable {
 	private List<AlarmiKorisnik> alarmiKorisniks;
 
 	//bi-directional many-to-one association to Javljanja
-	@OneToMany(mappedBy="sistemAlarmi")
+	/*@OneToMany(mappedBy="sistemAlarmi")
 	private List<Javljanja> javljanjas;
 
 	//bi-directional many-to-one association to JavljanjaPoslednja
 	@OneToMany(mappedBy="sistemAlarmi")
-	private List<JavljanjaPoslednja> javljanjaPoslednjas;
+	private List<JavljanjaPoslednja> javljanjaPoslednjas;**/
 
 	public SistemAlarmi() {
 	}
@@ -59,30 +59,6 @@ public class SistemAlarmi implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public byte getAdresa() {
-		return this.adresa;
-	}
-
-	public void setAdresa(byte adresa) {
-		this.adresa = adresa;
-	}
-
-	public byte getAktivan() {
-		return this.aktivan;
-	}
-
-	public void setAktivan(byte aktivan) {
-		this.aktivan = aktivan;
-	}
-
-	public byte getAlarmiranje() {
-		return this.alarmiranje;
-	}
-
-	public void setAlarmiranje(byte alarmiranje) {
-		this.alarmiranje = alarmiranje;
 	}
 
 	public String getNaziv() {
@@ -99,22 +75,6 @@ public class SistemAlarmi implements Serializable {
 
 	public void setOpis(String opis) {
 		this.opis = opis;
-	}
-
-	public byte getPregled() {
-		return this.pregled;
-	}
-
-	public void setPregled(byte pregled) {
-		this.pregled = pregled;
-	}
-
-	public byte getPrikaz() {
-		return this.prikaz;
-	}
-
-	public void setPrikaz(byte prikaz) {
-		this.prikaz = prikaz;
 	}
 
 	public String getSifra() {
@@ -155,7 +115,7 @@ public class SistemAlarmi implements Serializable {
 		return alarmiKorisnik;
 	}
 
-	public List<Javljanja> getJavljanjas() {
+	/*public List<Javljanja> getJavljanjas() {
 		return this.javljanjas;
 	}
 
@@ -197,6 +157,46 @@ public class SistemAlarmi implements Serializable {
 		javljanjaPoslednja.setSistemAlarmi(null);
 
 		return javljanjaPoslednja;
+	}**/
+
+	public boolean isAdresa() {
+		return adresa;
+	}
+
+	public void setAdresa(boolean adresa) {
+		this.adresa = adresa;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
+	}
+
+	public boolean isAlarmiranje() {
+		return alarmiranje;
+	}
+
+	public void setAlarmiranje(boolean alarmiranje) {
+		this.alarmiranje = alarmiranje;
+	}
+
+	public boolean isPregled() {
+		return pregled;
+	}
+
+	public void setPregled(boolean pregled) {
+		this.pregled = pregled;
+	}
+
+	public boolean isPrikaz() {
+		return prikaz;
+	}
+
+	public void setPrikaz(boolean prikaz) {
+		this.prikaz = prikaz;
 	}
 
 	public boolean isIzbrisan() {

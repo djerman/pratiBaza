@@ -1,6 +1,10 @@
 package pratiBaza.daoImpl;
 
+import java.util.ArrayList;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,18 +19,16 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiGorivo(SistemGoriva gorivo) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(gorivo);
 	}
 
 	public void azurirajGorivo(SistemGoriva gorivo) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(gorivo);
 	}
 
 	public void izbrisiGorivo(SistemGoriva gorivo) {
-		// TODO Auto-generated method stub
-		
+		gorivo.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(gorivo);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -35,6 +37,14 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<SistemGoriva> vratiSvaGoriva() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		criteria.addOrder(Order.asc("id"));
+		ArrayList<SistemGoriva> lista = (ArrayList<SistemGoriva>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 	
 }

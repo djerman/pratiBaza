@@ -3,9 +3,6 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.math.BigInteger;
-
-
 /**
  * The persistent class for the sim database table.
  * 
@@ -19,7 +16,7 @@ public class Sim implements Serializable {
 	@Id
 	private String id;
 
-	private byte aktivno;
+	private boolean aktivno;
 
 	private String broj;
 
@@ -32,8 +29,11 @@ public class Sim implements Serializable {
 	@Lob
 	private String opis;
 
-	private BigInteger pretplatnikId;
-
+	//private BigInteger pretplatnikId;
+	@ManyToOne
+	@JoinColumn(name="pretplatnikId")
+	private SistemPretplatnici sistemPretplatnici;
+	
 	private int version;
 
 	private byte zauzet;
@@ -44,6 +44,11 @@ public class Sim implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="operaterId")
 	private SistemOperateri sistemOperateri;
+	
+	//bi-directional many-to-one association to SistemOperateri
+	@ManyToOne
+	@JoinColumn(name="uredjajId")
+	private Uredjaji uredjaji;
 
 	public Sim() {
 	}
@@ -56,11 +61,11 @@ public class Sim implements Serializable {
 		this.id = id;
 	}
 
-	public byte getAktivno() {
-		return this.aktivno;
+	public boolean isAktivno() {
+		return aktivno;
 	}
 
-	public void setAktivno(byte aktivno) {
+	public void setAktivno(boolean aktivno) {
 		this.aktivno = aktivno;
 	}
 
@@ -104,12 +109,20 @@ public class Sim implements Serializable {
 		this.opis = opis;
 	}
 
-	public BigInteger getPretplatnikId() {
+	/*public BigInteger getPretplatnikId() {
 		return this.pretplatnikId;
 	}
 
 	public void setPretplatnikId(BigInteger pretplatnikId) {
 		this.pretplatnikId = pretplatnikId;
+	}**/
+
+	public SistemPretplatnici getSistemPretplatnici() {
+		return sistemPretplatnici;
+	}
+
+	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
+		this.sistemPretplatnici = sistemPretplatnici;
 	}
 
 	public int getVersion() {
@@ -130,6 +143,15 @@ public class Sim implements Serializable {
 
 	public SistemOperateri getSistemOperateri() {
 		return this.sistemOperateri;
+	}
+	
+
+	public Uredjaji getUredjaji() {
+		return uredjaji;
+	}
+
+	public void setUredjaji(Uredjaji uredjaji) {
+		this.uredjaji = uredjaji;
 	}
 
 	public void setSistemOperateri(SistemOperateri sistemOperateri) {

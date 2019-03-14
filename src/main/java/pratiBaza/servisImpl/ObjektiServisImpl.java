@@ -1,11 +1,16 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.ObjektiDAO;
 import pratiBaza.servis.ObjektiServis;
+import pratiBaza.tabele.Grupe;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("objekatServis")
 public class ObjektiServisImpl implements ObjektiServis{
@@ -35,6 +40,26 @@ public class ObjektiServisImpl implements ObjektiServis{
 	@Transactional
 	public void setObjekatDAO(ObjektiDAO objekatDAO) {
 		this.objekatDAO = objekatDAO;
+	}
+
+	@Transactional
+	public ArrayList<Objekti> vratiSveObjekte() {
+		return objekatDAO.vratiSveObjekte();
+	}
+
+	@Transactional
+	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik) {
+		return objekatDAO.vratiObjektePoPretplatniku(pretplatnik);
+	}
+
+	@Transactional
+	public ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik) {
+		return objekatDAO.vratiObjektePoKorisniku(korisnik);
+	}
+
+	@Transactional
+	public ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa) {
+		return objekatDAO.vratiObjektePoGrupi(grupa);
 	}
 	
 

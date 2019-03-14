@@ -3,9 +3,6 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.math.BigInteger;
-import java.util.List;
-
 
 /**
  * The persistent class for the uredjaji database table.
@@ -32,10 +29,16 @@ public class Uredjaji implements Serializable {
 
 	private String serijskiBr;
 
-	private BigInteger simId;
+	//private BigInteger simId;
+	@ManyToOne
+	@JoinColumn(name="simId")
+	private Sim sim;
 
-	private BigInteger simId2;
-
+	//private BigInteger simId2;
+	@ManyToOne
+	@JoinColumn(name="simId2")
+	private Sim sim2;
+	
 	private int version;
 
 	private byte zauzet;
@@ -43,8 +46,8 @@ public class Uredjaji implements Serializable {
 	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Objekti
-	@OneToMany(mappedBy="uredjaji")
-	private List<Objekti> objektis;
+	//@OneToMany(mappedBy="uredjaji")
+	//private List<Objekti> objektis;
 
 	//bi-directional many-to-one association to SistemUredjajiModeli
 	@ManyToOne
@@ -55,6 +58,11 @@ public class Uredjaji implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
+	
+	//bi-directional many-to-one association to SistemPretplatnici
+	@ManyToOne
+	@JoinColumn(name="objekatId")
+	private Objekti objekti;
 
 	public Uredjaji() {
 	}
@@ -115,7 +123,7 @@ public class Uredjaji implements Serializable {
 		this.serijskiBr = serijskiBr;
 	}
 
-	public BigInteger getSimId() {
+	/*public BigInteger getSimId() {
 		return this.simId;
 	}
 
@@ -129,12 +137,28 @@ public class Uredjaji implements Serializable {
 
 	public void setSimId2(BigInteger simId2) {
 		this.simId2 = simId2;
+	}**/
+
+	public Sim getSim() {
+		return sim;
 	}
 
+	public void setSim(Sim sim) {
+		this.sim = sim;
+	}
+
+	public Sim getSim2() {
+		return sim2;
+	}
+
+	public void setSim2(Sim sim2) {
+		this.sim2 = sim2;
+	}
+	
 	public int getVersion() {
 		return this.version;
 	}
-
+	
 	public void setVersion(int version) {
 		this.version = version;
 	}
@@ -147,7 +171,7 @@ public class Uredjaji implements Serializable {
 		this.zauzet = zauzet;
 	}
 
-	public List<Objekti> getObjektis() {
+	/*public List<Objekti> getObjektis() {
 		return this.objektis;
 	}
 
@@ -167,7 +191,7 @@ public class Uredjaji implements Serializable {
 		objekti.setUredjaji(null);
 
 		return objekti;
-	}
+	}**/
 
 	public SistemUredjajiModeli getSistemUredjajiModeli() {
 		return this.sistemUredjajiModeli;
@@ -191,6 +215,14 @@ public class Uredjaji implements Serializable {
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public Objekti getObjekti() {
+		return objekti;
+	}
+
+	public void setObjekti(Objekti objekti) {
+		this.objekti = objekti;
 	}
 
 }

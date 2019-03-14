@@ -1,5 +1,7 @@
 package pratiBaza.servis;
 
+import java.util.ArrayList;
+
 import pratiBaza.tabele.Sim;
 
 public interface SimServis {
@@ -9,4 +11,6 @@ public interface SimServis {
 	void azurirajSim(Sim sim);
 	
 	void izbrisiSim(Sim sim);
+	
+	ArrayList<Sim> vratiSveSimKartice();
 }

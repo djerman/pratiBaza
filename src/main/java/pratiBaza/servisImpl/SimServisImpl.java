@@ -1,5 +1,7 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,11 @@ public class SimServisImpl implements SimServis{
 	@Transactional
 	public void setSimDAO(SimDAO simDAO) {
 		this.simDAO = simDAO;
+	}
+
+	@Transactional
+	public ArrayList<Sim> vratiSveSimKartice() {
+		return simDAO.vratiSveSimKartice();
 	}
 	
 }

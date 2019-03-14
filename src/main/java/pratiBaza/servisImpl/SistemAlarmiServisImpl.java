@@ -1,5 +1,7 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,20 +16,17 @@ public class SistemAlarmiServisImpl implements SistemAlarmiServis{
 
 	@Transactional
 	public void unesiAlarme(SistemAlarmi alarm) {
-		// TODO Auto-generated method stub
-		
+		sistemAlarmDAO.unesiAlarme(alarm);
 	}
 
 	@Transactional
 	public void azurirajAlarme(SistemAlarmi alarm) {
-		// TODO Auto-generated method stub
-		
+		sistemAlarmDAO.azurirajAlarme(alarm);
 	}
 
 	@Transactional
 	public void izbrisiAlarme(SistemAlarmi alarm) {
-		// TODO Auto-generated method stub
-		
+		sistemAlarmDAO.izbrisiAlarme(alarm);
 	}
 
 	@Transactional
@@ -38,6 +37,11 @@ public class SistemAlarmiServisImpl implements SistemAlarmiServis{
 	@Transactional
 	public void setSistemAlarmDAO(SistemAlarmiDAO sistemAlarmDAO) {
 		this.sistemAlarmDAO = sistemAlarmDAO;
+	}
+
+	@Transactional
+	public ArrayList<SistemAlarmi> vratiSveAlarme() {
+		return sistemAlarmDAO.vratiSveAlarme();
 	}
 	
 }
