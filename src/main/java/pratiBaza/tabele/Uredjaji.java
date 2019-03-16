@@ -17,7 +17,7 @@ public class Uredjaji implements Serializable {
 	@Id
 	private String id;
 
-	private byte aktivno;
+	private boolean aktivno;
 
 	private Timestamp izmenjeno;
 
@@ -75,11 +75,11 @@ public class Uredjaji implements Serializable {
 		this.id = id;
 	}
 
-	public byte getAktivno() {
-		return this.aktivno;
+	public boolean isAktivno() {
+		return aktivno;
 	}
 
-	public void setAktivno(byte aktivno) {
+	public void setAktivno(boolean aktivno) {
 		this.aktivno = aktivno;
 	}
 

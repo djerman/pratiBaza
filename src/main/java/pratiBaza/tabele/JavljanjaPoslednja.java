@@ -61,7 +61,13 @@ public class JavljanjaPoslednja implements Serializable {
 	//bi-directional many-to-one association to Obd
 	@ManyToOne
 	@JoinColumn(name="obdId")
-	private Obd bd;
+	private Obd obd;
+	
+	//bi-directional many-to-one association to Obd
+	@ManyToOne
+	@JoinColumn(name="zona")
+	private Zone zona;
+
 	
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
@@ -214,6 +220,22 @@ public class JavljanjaPoslednja implements Serializable {
 
 	public void setKorisnik(Korisnici korisnik) {
 		this.korisnik = korisnik;
+	}
+
+	public Obd getObd() {
+		return obd;
+	}
+
+	public void setObd(Obd obd) {
+		this.obd = obd;
+	}
+
+	public Zone getZona() {
+		return zona;
+	}
+
+	public void setZona(Zone zona) {
+		this.zona = zona;
 	}
 
 }

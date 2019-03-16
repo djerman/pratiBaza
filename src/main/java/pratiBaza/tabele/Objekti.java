@@ -64,15 +64,22 @@ public class Objekti implements Serializable {
 	@JoinColumn(name="uredjajId")
 	private Uredjaji uredjaji;
 
-	//bi-directional many-to-one association to ObjektiDetalji
-	@OneToMany(mappedBy="objekti")
-	private List<ObjektiDetalji> objektiDetaljis;
+
+	//bi-directional many-to-one association to Objekti
+	@ManyToOne
+	@JoinColumn(name="detaljiId")
+	private ObjektiDetalji objektiDetalji;
 
 	//bi-directional many-to-one association to ZoneObjekti
 	@OneToMany(mappedBy="objekti")
 	private List<ZoneObjekti> zoneObjektis;
+	
+	//bi-directional many-to-one association to ZoneObjekti
+	@OneToMany(mappedBy="objekti")
+	private List<AlarmiKorisnik> alarmiKorisniks;
 
 	public Objekti() {
+		
 	}
 
 	public String getId() {
@@ -243,26 +250,12 @@ public class Objekti implements Serializable {
 		this.uredjaji = uredjaji;
 	}
 
-	public List<ObjektiDetalji> getObjektiDetaljis() {
-		return this.objektiDetaljis;
-	}
-
-	public void setObjektiDetaljis(List<ObjektiDetalji> objektiDetaljis) {
-		this.objektiDetaljis = objektiDetaljis;
-	}
-
-	public ObjektiDetalji addObjektiDetalji(ObjektiDetalji objektiDetalji) {
-		getObjektiDetaljis().add(objektiDetalji);
-		objektiDetalji.setObjekti(this);
-
+	public ObjektiDetalji getObjektiDetalji() {
 		return objektiDetalji;
 	}
 
-	public ObjektiDetalji removeObjektiDetalji(ObjektiDetalji objektiDetalji) {
-		getObjektiDetaljis().remove(objektiDetalji);
-		objektiDetalji.setObjekti(null);
-
-		return objektiDetalji;
+	public void setObjektiDetalji(ObjektiDetalji objektiDetalji) {
+		this.objektiDetalji = objektiDetalji;
 	}
 
 	public List<ZoneObjekti> getZoneObjektis() {
@@ -287,6 +280,28 @@ public class Objekti implements Serializable {
 		return zoneObjekti;
 	}
 
+	public List<AlarmiKorisnik> getAlarmiKorisniks() {
+		return alarmiKorisniks;
+	}
+
+	public void setAlarmiKorisniks(List<AlarmiKorisnik> alarmiKorisniks) {
+		this.alarmiKorisniks = alarmiKorisniks;
+	}
+
+	public AlarmiKorisnik addAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
+		getAlarmiKorisniks().add(alarmKorisnik);
+		alarmKorisnik.setObjekti(this);
+		
+		return alarmKorisnik;
+	}
+	
+	public AlarmiKorisnik removeAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
+		getAlarmiKorisniks().remove(alarmKorisnik);
+		alarmKorisnik.setObjekti(null);
+		
+		return alarmKorisnik;
+	}
+	
 	public boolean isAktivan() {
 		return aktivan;
 	}

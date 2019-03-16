@@ -18,7 +18,7 @@ public class AlarmiKorisnik implements Serializable {
 	@Id
 	private String id;
 
-	private byte alarmiranje;
+	private boolean alarmiranje;
 
 	private Timestamp izmenjeno;
 
@@ -44,6 +44,12 @@ public class AlarmiKorisnik implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="alarmId")
 	private SistemAlarmi sistemAlarm;
+	
+	//bi-directional many-to-one association to SistemAlarmi
+	@ManyToOne
+	@JoinColumn(name="objekatId")
+	private Objekti objekti;
+
 
 	public AlarmiKorisnik() {
 	}
@@ -56,11 +62,11 @@ public class AlarmiKorisnik implements Serializable {
 		this.id = id;
 	}
 
-	public byte getAlarmiranje() {
+	public boolean getAlarmiranje() {
 		return this.alarmiranje;
 	}
 
-	public void setAlarmiranje(byte alarmiranje) {
+	public void setAlarmiranje(boolean alarmiranje) {
 		this.alarmiranje = alarmiranje;
 	}
 
@@ -110,6 +116,14 @@ public class AlarmiKorisnik implements Serializable {
 
 	public void setKorisnik(Korisnici korisnik) {
 		this.korisnik = korisnik;
+	}
+
+	public Objekti getObjekti() {
+		return objekti;
+	}
+
+	public void setObjekti(Objekti objekti) {
+		this.objekti = objekti;
 	}
 
 	public SistemAlarmi getSistemAlarm() {

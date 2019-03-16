@@ -53,11 +53,6 @@ public class ObjektiDetalji implements Serializable {
 	
 	private boolean teretno;
 
-	//bi-directional many-to-one association to Objekti
-	@ManyToOne
-	@JoinColumn(name="objektiId")
-	private Objekti objekti;
-
 	public ObjektiDetalji() {
 	}
 
@@ -179,14 +174,6 @@ public class ObjektiDetalji implements Serializable {
 
 	public void setVersion(int version) {
 		this.version = version;
-	}
-
-	public Objekti getObjekti() {
-		return this.objekti;
-	}
-
-	public void setObjekti(Objekti objekti) {
-		this.objekti = objekti;
 	}
 
 	public boolean isTeretno() {
