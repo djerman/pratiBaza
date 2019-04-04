@@ -1,7 +1,10 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemUredjajiModeliDAO;
@@ -14,23 +17,25 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiUredjajModel(SistemUredjajiModeli model) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(model);
 	}
 
 	public void izmeniUredjajModel(SistemUredjajiModeli model) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(model);
 	}
 
 	public void izbrisiUredjajModel(SistemUredjajiModeli model) {
-		// TODO Auto-generated method stub
-		
+		model.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(model);
 	}
 
 	public ArrayList<SistemUredjajiModeli> nadjiSveUredjajModele() {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiModeli.class);
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		@SuppressWarnings("unchecked")
+		ArrayList<SistemUredjajiModeli> lista = (ArrayList<SistemUredjajiModeli>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {

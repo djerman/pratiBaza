@@ -17,4 +17,6 @@ public interface KorisniciDAO {
 	public ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik);
 	
 	public Korisnici nadjiKorisnikaPoIButton(String iButton);
+	
+	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik);
 }

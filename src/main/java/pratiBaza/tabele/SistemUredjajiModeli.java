@@ -2,13 +2,7 @@ package pratiBaza.tabele;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
-
-/**
- * The persistent class for the sistemUredjajiModeli database table.
- * 
- */
 @Entity
 @Table(name="sistemUredjajiModeli")
 @NamedQuery(name="SistemUredjajiModeli.findAll", query="SELECT s FROM SistemUredjajiModeli s")
@@ -20,7 +14,7 @@ public class SistemUredjajiModeli implements Serializable {
 
 	private String naziv;
 
-	private byte obd;
+	private boolean obd;
 
 	private byte obracun;
 
@@ -38,11 +32,12 @@ public class SistemUredjajiModeli implements Serializable {
 	@JoinColumn(name="proizvodjacId")
 	private SistemUredjajiProizvodjac sistemUredjajiProizvodjac;
 
-	//bi-directional many-to-one association to Uredjaji
+	/*//bi-directional many-to-one association to Uredjaji
 	@OneToMany(mappedBy="sistemUredjajiModeli")
-	private List<Uredjaji> uredjajis;
+	private List<Uredjaji> uredjajis;**/
 
 	public SistemUredjajiModeli() {
+		
 	}
 
 	public String getId() {
@@ -61,11 +56,11 @@ public class SistemUredjajiModeli implements Serializable {
 		this.naziv = naziv;
 	}
 
-	public byte getObd() {
-		return this.obd;
+	public boolean isObd() {
+		return obd;
 	}
 
-	public void setObd(byte obd) {
+	public void setObd(boolean obd) {
 		this.obd = obd;
 	}
 
@@ -109,7 +104,7 @@ public class SistemUredjajiModeli implements Serializable {
 		this.sistemUredjajiProizvodjac = sistemUredjajiProizvodjac;
 	}
 
-	public List<Uredjaji> getUredjajis() {
+	/*public List<Uredjaji> getUredjajis() {
 		return this.uredjajis;
 	}
 
@@ -129,7 +124,7 @@ public class SistemUredjajiModeli implements Serializable {
 		uredjaji.setSistemUredjajiModeli(null);
 
 		return uredjaji;
-	}
+	}**/
 
 	public boolean isIzbrisan() {
 		return izbrisan;

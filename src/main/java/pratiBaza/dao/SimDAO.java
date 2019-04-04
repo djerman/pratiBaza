@@ -1,7 +1,7 @@
 package pratiBaza.dao;
 
 import java.util.ArrayList;
-
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Sim;
 
 public interface SimDAO {
@@ -12,5 +12,5 @@ public interface SimDAO {
 	
 	void izbrisiSim(Sim sim);
 	
-	ArrayList<Sim> vratiSveSimKartice();
+	ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik);
 }

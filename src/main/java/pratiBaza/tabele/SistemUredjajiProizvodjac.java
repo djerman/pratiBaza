@@ -31,10 +31,11 @@ public class SistemUredjajiProizvodjac implements Serializable {
 	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemUredjajiModeli
-	@OneToMany(mappedBy="sistemUredjajiProizvodjac")
-	private List<SistemUredjajiModeli> sistemUredjajiModelis;
+	/*@OneToMany(mappedBy="sistemUredjajiProizvodjac")
+	private List<SistemUredjajiModeli> sistemUredjajiModelis;**/
 
 	public SistemUredjajiProizvodjac() {
+		
 	}
 
 	public String getId() {
@@ -77,7 +78,7 @@ public class SistemUredjajiProizvodjac implements Serializable {
 		this.version = version;
 	}
 
-	public List<SistemUredjajiModeli> getSistemUredjajiModelis() {
+	/*public List<SistemUredjajiModeli> getSistemUredjajiModelis() {
 		return this.sistemUredjajiModelis;
 	}
 
@@ -97,7 +98,7 @@ public class SistemUredjajiProizvodjac implements Serializable {
 		sistemUredjajiModeli.setSistemUredjajiProizvodjac(null);
 
 		return sistemUredjajiModeli;
-	}
+	}**/
 
 	public boolean isIzbrisan() {
 		return izbrisan;

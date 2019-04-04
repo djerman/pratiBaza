@@ -1,9 +1,9 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -57,6 +57,22 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			if(korisnik.getOrganizacija() != null) {
+				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		}
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Korisnici> lista = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
 }

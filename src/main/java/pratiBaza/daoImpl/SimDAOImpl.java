@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SimDAO;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Sim;
 
 @Repository("simDAO")
@@ -39,8 +41,11 @@ public class SimDAOImpl implements SimDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<Sim> vratiSveSimKartice() {
+	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+		}
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivno"));
 		criteria.addOrder(Order.desc("id"));

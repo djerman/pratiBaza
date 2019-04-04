@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.SimDAO;
 import pratiBaza.servis.SimServis;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Sim;
 
 @Service("simServis")
@@ -40,8 +41,8 @@ public class SimServisImpl implements SimServis{
 	}
 
 	@Transactional
-	public ArrayList<Sim> vratiSveSimKartice() {
-		return simDAO.vratiSveSimKartice();
+	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik) {
+		return simDAO.vratiSveSimKartice(korisnik);
 	}
 	
 }

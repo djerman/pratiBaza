@@ -2,7 +2,9 @@ package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,23 +18,25 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiPretplatnika(SistemPretplatnici pretplatnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(pretplatnik);
 	}
 
 	public void izmeniPretplatnika(SistemPretplatnici pretplatnik) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(pretplatnik);
 	}
 
 	public void izbrisiPretplatnika(SistemPretplatnici pretplatnik) {
-		// TODO Auto-generated method stub
-		
+		pretplatnik.setIzbrisan(true);
 	}
 
 	public ArrayList<SistemPretplatnici> nadjiSvePretplatnike() {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivan"));
+		criteria.addOrder(Order.desc("id"));
+		@SuppressWarnings("unchecked")
+		ArrayList<SistemPretplatnici> lista = (ArrayList<SistemPretplatnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {

@@ -43,8 +43,14 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	public ArrayList<Objekti> vratiSveObjekte() {
+	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			if(korisnik.getOrganizacija() != null) {
+				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		}
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));

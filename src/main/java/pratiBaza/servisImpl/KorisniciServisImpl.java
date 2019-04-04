@@ -53,5 +53,10 @@ public class KorisniciServisImpl implements KorisniciServis{
 	public void setKorisnikDAO(KorisniciDAO korisnikDAO) {
 		this.korisnikDAO = korisnikDAO;
 	}
+
+	@Transactional
+	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik) {
+		return korisnikDAO.nadjiSveKorisnike(korisnik);
+	}
 	
 }

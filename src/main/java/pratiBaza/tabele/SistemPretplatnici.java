@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @Table(name="sistemPretplatnici")
@@ -14,7 +13,7 @@ public class SistemPretplatnici implements Serializable {
 	@Id
 	private String id;
 
-	private byte aktivan;
+	private boolean aktivan;
 
 	@Temporal(TemporalType.DATE)
 	private Date aktivanDo;
@@ -37,7 +36,7 @@ public class SistemPretplatnici implements Serializable {
 	
 	private boolean izbrisan;
 
-	//bi-directional many-to-one association to AlarmiKorisnik
+	/*//bi-directional many-to-one association to AlarmiKorisnik
 	@OneToMany(mappedBy="sistemPretplatnici")
 	private List<AlarmiKorisnik> alarmiKorisniks;
 
@@ -59,14 +58,14 @@ public class SistemPretplatnici implements Serializable {
 
 	//bi-directional many-to-one association to Objekti
 	@OneToMany(mappedBy="sistemPretplatnici")
-	private List<Objekti> objektis;
+	private List<Objekti> objektis;**/
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
 	@JoinColumn(name="nadzorId")
 	private SistemPretplatnici sistemPretplatnici;
 
-	//bi-directional many-to-one association to SistemPretplatnici
+	/*//bi-directional many-to-one association to SistemPretplatnici
 	@OneToMany(mappedBy="sistemPretplatnici")
 	private List<SistemPretplatnici> sistemPretplatnicis;
 
@@ -76,9 +75,10 @@ public class SistemPretplatnici implements Serializable {
 
 	//bi-directional many-to-one association to Zone
 	@OneToMany(mappedBy="sistemPretplatnici")
-	private List<Zone> zones;
+	private List<Zone> zones;**/
 
 	public SistemPretplatnici() {
+		
 	}
 
 	public String getId() {
@@ -89,11 +89,11 @@ public class SistemPretplatnici implements Serializable {
 		this.id = id;
 	}
 
-	public byte getAktivan() {
-		return this.aktivan;
+	public boolean isAktivan() {
+		return aktivan;
 	}
 
-	public void setAktivan(byte aktivan) {
+	public void setAktivan(boolean aktivan) {
 		this.aktivan = aktivan;
 	}
 
@@ -153,7 +153,7 @@ public class SistemPretplatnici implements Serializable {
 		this.version = version;
 	}
 
-	public List<AlarmiKorisnik> getAlarmiKorisniks() {
+	/*public List<AlarmiKorisnik> getAlarmiKorisniks() {
 		return this.alarmiKorisniks;
 	}
 
@@ -283,7 +283,7 @@ public class SistemPretplatnici implements Serializable {
 		objekti.setSistemPretplatnici(null);
 
 		return objekti;
-	}
+	}**/
 
 	public SistemPretplatnici getSistemPretplatnici() {
 		return this.sistemPretplatnici;
@@ -293,7 +293,7 @@ public class SistemPretplatnici implements Serializable {
 		this.sistemPretplatnici = sistemPretplatnici;
 	}
 
-	public List<SistemPretplatnici> getSistemPretplatnicis() {
+	/*public List<SistemPretplatnici> getSistemPretplatnicis() {
 		return this.sistemPretplatnicis;
 	}
 
@@ -357,7 +357,7 @@ public class SistemPretplatnici implements Serializable {
 		zone.setSistemPretplatnici(null);
 
 		return zone;
-	}
+	}**/
 
 	public boolean isIzbrisan() {
 		return izbrisan;

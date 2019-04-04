@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.UredjajiDAO;
 import pratiBaza.servis.UredjajiServis;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Uredjaji;
 
@@ -31,8 +32,8 @@ public class UredjajiServisImpl implements UredjajiServis{
 	}
 
 	@Transactional
-	public ArrayList<Uredjaji> nadjiSveUredjaje() {
-		return uredjajDAO.nadjiSveUredjaje();
+	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik) {
+		return uredjajDAO.nadjiSveUredjaje(korisnik);
 	}
 
 	@Transactional

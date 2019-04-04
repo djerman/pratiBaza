@@ -1,6 +1,8 @@
 package pratiBaza.dao;
 
 import java.util.ArrayList;
+
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Uredjaji;
 
@@ -12,7 +14,7 @@ public interface UredjajiDAO {
 	
 	void izbrisiUredjaj(Uredjaji uredjaj);
 	
-	ArrayList<Uredjaji> nadjiSveUredjaje();
+	ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik);
 	
 	ArrayList<Uredjaji> nadjiSveUredjajePoPretplatniku(SistemPretplatnici pretplatnik);
 	

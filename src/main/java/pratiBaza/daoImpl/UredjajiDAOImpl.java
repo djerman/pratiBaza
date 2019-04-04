@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.UredjajiDAO;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Uredjaji;
 
@@ -31,8 +32,11 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		sessionFactory.getCurrentSession().update(uredjaj);
 	}
 
-	public ArrayList<Uredjaji> nadjiSveUredjaje() {
+	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+		}
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivno"));
 		criteria.addOrder(Order.desc("id"));
