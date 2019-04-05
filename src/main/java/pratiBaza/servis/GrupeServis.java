@@ -1,6 +1,8 @@
 package pratiBaza.servis;
 
+import java.util.ArrayList;
 import pratiBaza.tabele.Grupe;
+import pratiBaza.tabele.Korisnici;
 
 public interface GrupeServis {
 	
@@ -9,4 +11,7 @@ public interface GrupeServis {
 	void azurirajGrupu(Grupe grupa);
 	
 	void izbrisiGrupu(Grupe grupa);
+	
+	ArrayList<Grupe> vratiGrupe(Korisnici korisnik);
+
 }

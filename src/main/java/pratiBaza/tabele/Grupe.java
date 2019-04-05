@@ -5,15 +5,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
-/**
- * The persistent class for the grupe database table.
- * 
- */
 @Entity
 @Table(name="grupe")
 @NamedQuery(name="Grupe.findAll", query="SELECT g FROM Grupe g")
 public class Grupe implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,11 +27,18 @@ public class Grupe implements Serializable {
 	private int version;
 	
 	private boolean izbrisan;
+	
+	private boolean aktivan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
+	
+	//bi-directional many-to-one association to Organizacija
+	@ManyToOne
+	@JoinColumn(name="organizacijaId")
+	private Organizacije organizacija;
 
 	//bi-directional many-to-one association to GrupeObjekti
 	@OneToMany(mappedBy="grupe")
@@ -104,6 +107,14 @@ public class Grupe implements Serializable {
 		this.sistemPretplatnici = sistemPretplatnici;
 	}
 
+	public Organizacije getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
+	}
+
 	public List<GrupeObjekti> getGrupeObjektis() {
 		return this.grupeObjektis;
 	}
@@ -154,6 +165,14 @@ public class Grupe implements Serializable {
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
 	}
 
 }

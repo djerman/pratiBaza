@@ -1,11 +1,14 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.GrupeDAO;
 import pratiBaza.servis.GrupeServis;
 import pratiBaza.tabele.Grupe;
+import pratiBaza.tabele.Korisnici;
 
 @Service("grupaServis")
 public class GrupeServisImpl implements GrupeServis{
@@ -35,6 +38,11 @@ public class GrupeServisImpl implements GrupeServis{
 	@Transactional
 	public void setGrupaDAO(GrupeDAO grupaDAO) {
 		this.grupaDAO = grupaDAO;
+	}
+
+	@Transactional
+	public ArrayList<Grupe> vratiGrupe(Korisnici korisnik) {
+		return grupaDAO.vratiGrupe(korisnik);
 	}
 	
 }

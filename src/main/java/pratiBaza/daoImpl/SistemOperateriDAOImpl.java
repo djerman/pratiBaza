@@ -1,7 +1,10 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemOperateriDAO;
@@ -14,23 +17,25 @@ public class SistemOperateriDAOImpl implements SistemOperateriDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiOperatera(SistemOperateri operater) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(operater);
 	}
 
 	public void azurirajOperatera(SistemOperateri operater) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(operater);
 	}
 
 	public void izbrisiOperatera(SistemOperateri operater) {
-		// TODO Auto-generated method stub
-		
+		operater.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(operater);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<SistemOperateri> nadjiSveOperatere() {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemOperateri.class);
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<SistemOperateri> lista = (ArrayList<SistemOperateri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {

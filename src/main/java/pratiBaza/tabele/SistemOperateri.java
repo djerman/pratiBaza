@@ -2,13 +2,7 @@ package pratiBaza.tabele;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
-
-/**
- * The persistent class for the sistemOperateri database table.
- * 
- */
 @Entity
 @Table(name="sistemOperateri")
 @NamedQuery(name="SistemOperateri.findAll", query="SELECT s FROM SistemOperateri s")
@@ -25,8 +19,8 @@ public class SistemOperateri implements Serializable {
 	private boolean izbrisan;
 
 	//bi-directional many-to-one association to Sim
-	@OneToMany(mappedBy="sistemOperateri")
-	private List<Sim> sims;
+	/*@OneToMany(mappedBy="sistemOperateri")
+	private List<Sim> sims;**/
 
 	public SistemOperateri() {
 	}
@@ -54,7 +48,7 @@ public class SistemOperateri implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-
+/*
 	public List<Sim> getSims() {
 		return this.sims;
 	}
@@ -76,7 +70,7 @@ public class SistemOperateri implements Serializable {
 
 		return sim;
 	}
-
+**/
 	public boolean isIzbrisan() {
 		return izbrisan;
 	}
