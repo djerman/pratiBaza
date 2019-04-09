@@ -23,6 +23,7 @@ public class SistemOperateri implements Serializable {
 	private List<Sim> sims;**/
 
 	public SistemOperateri() {
+		
 	}
 
 	public String getId() {

@@ -1,9 +1,12 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.OrganizacijeDAO;
 import pratiBaza.servis.OrganizacijeServis;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 
 @Service("organizacijaServis")
@@ -34,6 +37,11 @@ public class OrganizacijeServisImpl implements OrganizacijeServis{
 	@Transactional
 	public void setOrganizacijaDAO(OrganizacijeDAO organizacijaDAO) {
 		this.organizacijaDAO = organizacijaDAO;
+	}
+
+	@Transactional
+	public ArrayList<Organizacije> nadjiSveOrganizacije(Korisnici korisnik) {
+		return organizacijaDAO.nadjiSveOrganizacije(korisnik);
 	}
 	
 }

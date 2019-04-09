@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.ZoneDAO;
 import pratiBaza.servis.ZoneServis;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Zone;
@@ -30,8 +31,8 @@ public class ZoneServisImpl implements ZoneServis{
 	}
 
 	@Transactional
-	public ArrayList<Zone> nadjiSveZone() {
-		return zonaDAO.nadjiSveZone();
+	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik) {
+		return zonaDAO.nadjiSveZone(korisnik);
 	}
 
 	@Transactional

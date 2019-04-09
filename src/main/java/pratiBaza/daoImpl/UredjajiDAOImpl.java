@@ -39,6 +39,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivno"));
+		criteria.addOrder(Order.asc("objekti"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Uredjaji> lista = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();

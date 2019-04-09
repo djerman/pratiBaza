@@ -3,13 +3,7 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
-
-/**
- * The persistent class for the zone database table.
- * 
- */
 @Entity
 @Table(name="zone")
 @NamedQuery(name="Zone.findAll", query="SELECT z FROM Zone z")
@@ -20,6 +14,8 @@ public class Zone implements Serializable {
 	private String id;
 
 	private Timestamp kreirano;
+	
+	private String naziv;
 
 	private double lon;
 
@@ -29,7 +25,7 @@ public class Zone implements Serializable {
 
 	private double lat;
 
-	private Timestamp izmenjen;
+	private Timestamp izmenjeno;
 	
 	private boolean izbrisan;
 
@@ -44,10 +40,11 @@ public class Zone implements Serializable {
 	private Organizacije organizacija;
 
 	//bi-directional many-to-one association to ZoneObjekti
-	@OneToMany(mappedBy="zone")
-	private List<ZoneObjekti> zoneObjektis;
+	/*@OneToMany(mappedBy="zone")
+	private List<ZoneObjekti> zoneObjektis;**/
 
 	public Zone() {
+		
 	}
 
 	public String getId() {
@@ -56,6 +53,14 @@ public class Zone implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
 	}
 
 	public Timestamp getKreirano() {
@@ -99,11 +104,11 @@ public class Zone implements Serializable {
 	}
 
 	public Timestamp getIzmenjen() {
-		return this.izmenjen;
+		return this.izmenjeno;
 	}
 
 	public void setIzmenjen(Timestamp izmenjen) {
-		this.izmenjen = izmenjen;
+		this.izmenjeno = izmenjen;
 	}
 
 	public SistemPretplatnici getSistemPretplatnici() {
@@ -122,7 +127,7 @@ public class Zone implements Serializable {
 		this.organizacija = organizacija;
 	}
 
-	public List<ZoneObjekti> getZoneObjektis() {
+	/*public List<ZoneObjekti> getZoneObjektis() {
 		return this.zoneObjektis;
 	}
 
@@ -142,7 +147,7 @@ public class Zone implements Serializable {
 		zoneObjekti.setZone(null);
 
 		return zoneObjekti;
-	}
+	}**/
 
 	public boolean isIzbrisan() {
 		return izbrisan;

@@ -3,14 +3,7 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.math.BigInteger;
-import java.util.List;
 
-
-/**
- * The persistent class for the organizacija database table.
- * 
- */
 @Entity
 @Table(name="organizacije")
 @NamedQuery(name="Organizacije.findAll", query="SELECT o FROM Organizacije o")
@@ -28,7 +21,10 @@ public class Organizacije implements Serializable {
 
 	private String opis;
 
-	private BigInteger pretplatnikId;
+	//bi-directional many-to-one association to SistemPretplatnici
+	@ManyToOne
+	@JoinColumn(name="pretplatnikId")
+	private SistemPretplatnici sistemPretplatnici;
 	
 	private boolean izbrisan;
 	/*
@@ -95,20 +91,20 @@ public class Organizacije implements Serializable {
 		this.opis = opis;
 	}
 
-	public BigInteger getPretplatnikId() {
-		return this.pretplatnikId;
-	}
-
-	public void setPretplatnikId(BigInteger pretplatnikId) {
-		this.pretplatnikId = pretplatnikId;
-	}
-
 	public boolean isIzbrisan() {
 		return izbrisan;
 	}
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public SistemPretplatnici getSistemPretplatnici() {
+		return sistemPretplatnici;
+	}
+
+	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
+		this.sistemPretplatnici = sistemPretplatnici;
 	}
 	
 	/*

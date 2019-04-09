@@ -1,6 +1,8 @@
 package pratiBaza.dao;
 
 import java.util.ArrayList;
+
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Zone;
@@ -13,7 +15,7 @@ public interface ZoneDAO {
 	
 	void izbrisiZonu(Zone zona);
 	
-	ArrayList<Zone> nadjiSveZone();
+	ArrayList<Zone> nadjiSveZone(Korisnici korisnik);
 	
 	ArrayList<Zone> nadjiSveZonePoPretplatniku(SistemPretplatnici pretplatnik);
 	

@@ -49,8 +49,14 @@ public class Sim implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="uredjajId")
 	private Uredjaji uredjaji;
+	
+	//bi-directional many-to-one association to Organizacija
+	@ManyToOne
+	@JoinColumn(name="organizacijaId")
+	private Organizacije organizacija;
 
 	public Sim() {
+		
 	}
 
 	public String getId() {
@@ -123,6 +129,14 @@ public class Sim implements Serializable {
 
 	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
 		this.sistemPretplatnici = sistemPretplatnici;
+	}
+
+	public Organizacije getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
 	}
 
 	public int getVersion() {

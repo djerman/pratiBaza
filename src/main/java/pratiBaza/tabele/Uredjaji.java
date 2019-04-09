@@ -63,8 +63,14 @@ public class Uredjaji implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
+	
+	//bi-directional many-to-one association to Organizacija
+	@ManyToOne
+	@JoinColumn(name="organizacijaId")
+	private Organizacije organizacija;
 
 	public Uredjaji() {
+		
 	}
 
 	public String getId() {
@@ -223,6 +229,14 @@ public class Uredjaji implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
+	}
+
+	public Organizacije getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
 	}
 
 }
