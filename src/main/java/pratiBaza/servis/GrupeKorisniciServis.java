@@ -9,4 +9,6 @@ public interface GrupeKorisniciServis {
 	void azurirajGrupaZaposleni(GrupeKorisnici grupaKorisnik);
 	
 	void izbrisiGrupaZaposleni(GrupeKorisnici grupaKorisnik);
+	
+	GrupeKorisnici nadjiGrupaKorisnikPoId(int id);
 }

@@ -29,7 +29,8 @@ public class GrupeDAOImpl implements GrupeDAO{
 	}
 
 	public void izbrisiGrupu(Grupe grupa) {
-		
+		grupa.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(grupa);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -54,6 +55,13 @@ public class GrupeDAOImpl implements GrupeDAO{
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<Grupe> lista = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
+	}
+
+	public Grupe nadjiGrupuPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
+		criteria.add(Restrictions.eq("id", id));
+		Grupe grupa = (Grupe)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return grupa;
 	}
 	
 }

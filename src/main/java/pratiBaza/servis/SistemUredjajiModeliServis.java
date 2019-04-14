@@ -12,4 +12,6 @@ public interface SistemUredjajiModeliServis {
 	void izbrisiUredjajModel(SistemUredjajiModeli model);
 	
 	ArrayList<SistemUredjajiModeli> nadjiSveUredjajModele();
+	
+	SistemUredjajiModeli nadjiModelPoId(int id);
 }

@@ -19,15 +19,18 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiKorisnika(Korisnici korisnik) {
+		korisnik.setVersion(0);
 		sessionFactory.getCurrentSession().persist(korisnik);
 	}
 
 	public void azurirajKorisnika(Korisnici korisnik) {
+		korisnik.setVersion(korisnik.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(korisnik);
 	}
 
 	public void izbrisiKorisnika(Korisnici korisnik) {
-		sessionFactory.getCurrentSession().delete(korisnik);
+		korisnik.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(korisnik);
 	}
 
 	public Korisnici nadjiKorisnikaPoKorisnickom(String email, String lozinka) {
@@ -73,6 +76,13 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<Korisnici> lista = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
+	}
+
+	public Korisnici nadjiKorisnikaPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
+		criteria.add(Restrictions.eq("id", id));
+		Korisnici korisnik = (Korisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return korisnik;
 	}
 
 }

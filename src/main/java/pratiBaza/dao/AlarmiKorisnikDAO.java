@@ -14,5 +14,7 @@ public interface AlarmiKorisnikDAO {
 	void azurirajAlarmiKorisnik(AlarmiKorisnik alarmKorisnik);
 	
 	void izbrisiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik);
+	
+	AlarmiKorisnik nadjiAlarmKorisnikPoId(int id);
 
 }

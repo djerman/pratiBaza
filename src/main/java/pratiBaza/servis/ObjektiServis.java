@@ -21,4 +21,6 @@ public interface ObjektiServis {
 	ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik);
 	
 	ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa);
+	
+	Objekti nadjiObjekatPoId(int id);
 }

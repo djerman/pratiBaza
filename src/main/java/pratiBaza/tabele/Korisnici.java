@@ -18,7 +18,8 @@ public class Korisnici implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private boolean admin;
 
@@ -82,11 +83,11 @@ public class Korisnici implements Serializable {
 	public Korisnici() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

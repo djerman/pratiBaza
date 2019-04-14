@@ -10,4 +10,5 @@ public interface GrupeObjektiDAO {
 	
 	void izbrisiGrupaObjekat(GrupeObjekti grupaObjekat);
 
+	GrupeObjekti nadjiGrupaObjekatPoId(int id);
 }

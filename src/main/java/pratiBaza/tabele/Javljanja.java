@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the javljanja database table.
- * 
- */
 @Entity
 @Table(name="javljanja")
 @NamedQuery(name="Javljanja.findAll", query="SELECT j FROM Javljanja j")
@@ -17,7 +12,8 @@ public class Javljanja implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private int brzina;
 
@@ -77,11 +73,11 @@ public class Javljanja implements Serializable {
 		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

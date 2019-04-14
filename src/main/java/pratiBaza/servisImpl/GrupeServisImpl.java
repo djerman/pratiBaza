@@ -44,5 +44,10 @@ public class GrupeServisImpl implements GrupeServis{
 	public ArrayList<Grupe> vratiGrupe(Korisnici korisnik) {
 		return grupaDAO.vratiGrupe(korisnik);
 	}
+
+	@Transactional
+	public Grupe nadjiGrupuPoId(int id) {
+		return grupaDAO.nadjiGrupuPoId(id);
+	}
 	
 }

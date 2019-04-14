@@ -36,5 +36,10 @@ public class GrupeKorisniciServisImpl implements GrupeKorisniciServis{
 	public void setGrupaKorisnikDAO(GrupeKorisniciDAO grupaKorisnikDAO) {
 		this.grupaKorisnikDAO = grupaKorisnikDAO;
 	}
+
+	@Transactional
+	public GrupeKorisnici nadjiGrupaKorisnikPoId(int id) {
+		return grupaKorisnikDAO.nadjiGrupaKorisnikPoId(id);
+	}
 	
 }

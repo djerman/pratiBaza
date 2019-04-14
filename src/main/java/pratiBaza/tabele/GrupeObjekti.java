@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the grupeObjekti database table.
- * 
- */
 @Entity
 @Table(name="grupeObjekti")
 @NamedQuery(name="GrupeObjekti.findAll", query="SELECT g FROM GrupeObjekti g")
@@ -18,6 +13,8 @@ public class GrupeObjekti implements Serializable {
 	@EmbeddedId
 	private GrupeObjektiPK id;
 
+	private int version;
+	
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
@@ -45,7 +42,18 @@ public class GrupeObjekti implements Serializable {
 	private Objekti objekti;
 
 	public GrupeObjekti() {
+		
 	}
+
+	public int getVersion() {
+		return version;
+	}
+
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 
 	public GrupeObjektiPK getId() {
 		return this.id;

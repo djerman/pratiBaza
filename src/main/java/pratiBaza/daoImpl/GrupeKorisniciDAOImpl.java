@@ -1,6 +1,8 @@
 package pratiBaza.daoImpl;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeKorisniciDAO;
@@ -31,6 +33,13 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public GrupeKorisnici nadjiGrupaKorisnikPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
+		criteria.add(Restrictions.eq("id", id));
+		GrupeKorisnici grupaKorisnik = (GrupeKorisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return grupaKorisnik;
 	}
 	
 	

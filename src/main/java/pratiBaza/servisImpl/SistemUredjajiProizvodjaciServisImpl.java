@@ -41,5 +41,10 @@ public class SistemUredjajiProizvodjaciServisImpl implements SistemUredjajiProiz
 	public void setSistemUredjajProizvodjacDAO(SistemUredjajiProizvodjaciDAO sistemUredjajProizvodjacDAO) {
 		this.sistemUredjajProizvodjacDAO = sistemUredjajProizvodjacDAO;
 	}
+
+	@Transactional
+	public SistemUredjajiProizvodjac nadjiProizvodjacaPoId(int id) {
+		return sistemUredjajProizvodjacDAO.nadjiProizvodjacaPoId(id);
+	}
 	
 }

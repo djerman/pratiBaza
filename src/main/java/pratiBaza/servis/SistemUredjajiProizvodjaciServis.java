@@ -12,4 +12,6 @@ public interface SistemUredjajiProizvodjaciServis {
 	void izbrisiSistemUredjajProizvodjaca(SistemUredjajiProizvodjac proizvodjac);
 	
 	ArrayList<SistemUredjajiProizvodjac> nadjiSveSistemUredjajeProizvodjace();
+	
+	SistemUredjajiProizvodjac nadjiProizvodjacaPoId(int id);
 }

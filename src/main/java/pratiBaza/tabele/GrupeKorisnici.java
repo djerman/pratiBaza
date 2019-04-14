@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the grupeZaposleni database table.
- * 
- */
 @Entity
 @Table(name="grupeKorisnici")
 @NamedQuery(name="GrupeKorisnici.findAll", query="SELECT g FROM GrupeKorisnici g")

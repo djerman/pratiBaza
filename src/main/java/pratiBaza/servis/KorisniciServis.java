@@ -13,11 +13,13 @@ public interface KorisniciServis {
 	
 	void izbrisiKorisnika(Korisnici korisnik);
 	
-	public Korisnici nadjiKorisnikaPoKorisnickom(String email, String lozinka);
+	Korisnici nadjiKorisnikaPoKorisnickom(String email, String lozinka);
 	
-	public ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik);
+	ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik);
 	
-	public Korisnici nadjiKorisnikaPoIButton(String iButton);
+	Korisnici nadjiKorisnikaPoIButton(String iButton);
 	
-	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik);
+	ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik);
+	
+	Korisnici nadjiKorisnikaPoId(int id);
 }

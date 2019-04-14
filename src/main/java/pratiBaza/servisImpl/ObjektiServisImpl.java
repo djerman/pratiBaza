@@ -61,6 +61,11 @@ public class ObjektiServisImpl implements ObjektiServis{
 	public ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa) {
 		return objekatDAO.vratiObjektePoGrupi(grupa);
 	}
+
+	@Transactional
+	public Objekti nadjiObjekatPoId(int id) {
+		return objekatDAO.nadjiObjekatPoId(id);
+	}
 	
 
 }

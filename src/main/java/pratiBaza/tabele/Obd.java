@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the obd database table.
- * 
- */
 @Entity
 @Table(name="obd")
 @NamedQuery(name="Obd.findAll", query="SELECT o FROM Obd o")
@@ -17,7 +12,8 @@ public class Obd implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private float akumulator;
 
@@ -62,11 +58,11 @@ public class Obd implements Serializable {
 	public Obd() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

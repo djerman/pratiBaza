@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemUredjajiModeliDAO;
@@ -17,10 +18,12 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiUredjajModel(SistemUredjajiModeli model) {
+		model.setVersion(0);
 		sessionFactory.getCurrentSession().persist(model);
 	}
 
 	public void izmeniUredjajModel(SistemUredjajiModeli model) {
+		model.setVersion(model.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(model);
 	}
 
@@ -44,6 +47,13 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public SistemUredjajiModeli nadjiModelPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiModeli.class);
+		criteria.add(Restrictions.eq("id", id));
+		SistemUredjajiModeli model = (SistemUredjajiModeli)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return model;
 	}
 	
 }

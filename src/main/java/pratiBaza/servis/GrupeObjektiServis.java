@@ -10,4 +10,5 @@ public interface GrupeObjektiServis {
 	
 	void izbrisiGrupaObjekat(GrupeObjekti grupaObjekat);
 
+	GrupeObjekti nadjiGrupaObjekatPoId(int id);
 }

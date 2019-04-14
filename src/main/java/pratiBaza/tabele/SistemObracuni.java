@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the sistemObracuni database table.
- * 
- */
 @Entity
 @Table(name="sistemObracuni")
 @NamedQuery(name="SistemObracuni.findAll", query="SELECT s FROM SistemObracuni s")
@@ -17,7 +12,8 @@ public class SistemObracuni implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private int brzinaMaks;
 
@@ -61,11 +57,11 @@ public class SistemObracuni implements Serializable {
 	public SistemObracuni() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

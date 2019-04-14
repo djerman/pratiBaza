@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the zoneObjekti database table.
- * 
- */
 @Entity
 @Table(name="zoneObjekti")
 @NamedQuery(name="ZoneObjekti.findAll", query="SELECT z FROM ZoneObjekti z")
@@ -16,9 +11,10 @@ public class ZoneObjekti implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
-	private byte izlaz;
+	private boolean izlaz;
 
 	private Timestamp izmenjeno;
 
@@ -41,19 +37,19 @@ public class ZoneObjekti implements Serializable {
 	public ZoneObjekti() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public byte getIzlaz() {
-		return this.izlaz;
+	public boolean isIzlaz() {
+		return izlaz;
 	}
 
-	public void setIzlaz(byte izlaz) {
+	public void setIzlaz(boolean izlaz) {
 		this.izlaz = izlaz;
 	}
 

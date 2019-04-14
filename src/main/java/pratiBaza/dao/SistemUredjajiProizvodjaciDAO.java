@@ -13,4 +13,6 @@ public interface SistemUredjajiProizvodjaciDAO {
 	void izbrisiSistemUredjajProizvodjaca(SistemUredjajiProizvodjac proizvodjac);
 	
 	ArrayList<SistemUredjajiProizvodjac> nadjiSveSistemUredjajeProizvodjace();
+	
+	SistemUredjajiProizvodjac nadjiProizvodjacaPoId(int id);
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemUredjajiProizvodjaciDAO;
@@ -17,10 +18,12 @@ public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvod
 	private SessionFactory sessionFactory;
 
 	public void unesiSistemUredjajProizvodjaca(SistemUredjajiProizvodjac proizvodjac) {
+		proizvodjac.setVersion(0);
 		sessionFactory.getCurrentSession().persist(proizvodjac);
 	}
 
 	public void izmeniSistemUredjajProizvodjaca(SistemUredjajiProizvodjac proizvodjac) {
+		proizvodjac.setVersion(proizvodjac.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(proizvodjac);
 	}
 
@@ -44,6 +47,13 @@ public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvod
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public SistemUredjajiProizvodjac nadjiProizvodjacaPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiProizvodjac.class);
+		criteria.add(Restrictions.eq("id", id));
+		SistemUredjajiProizvodjac proizvodjac = (SistemUredjajiProizvodjac)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return proizvodjac;
 	}
 	
 }

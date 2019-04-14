@@ -43,5 +43,10 @@ public class SistemUredjajiModeliServisImpl implements SistemUredjajiModeliServi
 	public void setSistemUredjajModelDAO(SistemUredjajiModeliDAO sistemUredjajModelDAO) {
 		this.sistemUredjajModelDAO = sistemUredjajModelDAO;
 	}
+
+	@Transactional
+	public SistemUredjajiModeli nadjiModelPoId(int id) {
+		return sistemUredjajModelDAO.nadjiModelPoId(id);
+	}
 	
 }

@@ -23,10 +23,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiObjekte(Objekti objekat) {
+		objekat.setVersion(0);
 		sessionFactory.getCurrentSession().persist(objekat);
 	}
 
 	public void azurirajObjekte(Objekti objekat) {
+		objekat.setVersion(objekat.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(objekat);
 	}
 
@@ -68,13 +70,20 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	}
 
 	public ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	public ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Objekti nadjiObjekatPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("id", id));
+		Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return objekat;
 	}
 	
 }

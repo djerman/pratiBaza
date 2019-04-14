@@ -3,11 +3,6 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the sistem database table.
- * 
- */
 @Entity
 @Table(name="sistem")
 @NamedQuery(name="Sistem.findAll", query="SELECT s FROM Sistem s")
@@ -15,7 +10,8 @@ public class Sistem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private String adresaServeraMape;
 
@@ -44,13 +40,14 @@ public class Sistem implements Serializable {
 	private String vlasnik;
 
 	public Sistem() {
+		
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -27,12 +27,19 @@ public class GrupeObjektiServisImpl implements GrupeObjektiServis{
 		grupaObjekatDAO.izbrisiGrupaObjekat(grupaObjekat);
 	}
 
+	@Transactional
 	public GrupeObjektiDAO getGrupaObjekatDAO() {
 		return grupaObjekatDAO;
 	}
 
+	@Transactional
 	public void setGrupaObjekatDAO(GrupeObjektiDAO grupaObjekatDAO) {
 		this.grupaObjekatDAO = grupaObjekatDAO;
+	}
+
+	@Transactional
+	public GrupeObjekti nadjiGrupaObjekatPoId(int id) {
+		return grupaObjekatDAO.nadjiGrupaObjekatPoId(id);
 	}
 	
 

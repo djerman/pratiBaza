@@ -10,4 +10,5 @@ public interface GrupeKorisniciDAO {
 	
 	void izbrisiGrupaZaposleni(GrupeKorisnici grupaKorisnik);
 
+	GrupeKorisnici nadjiGrupaKorisnikPoId(int id);
 }

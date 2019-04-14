@@ -3,16 +3,12 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 
-/**
- * The primary key class for the grupeObjekti database table.
- * 
- */
 @Embeddable
 public class GrupeObjektiPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	private Long id;
 
 	@Column(insertable=false, updatable=false)
 	private String grupaId;
@@ -22,10 +18,10 @@ public class GrupeObjektiPK implements Serializable {
 
 	public GrupeObjektiPK() {
 	}
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getGrupaId() {

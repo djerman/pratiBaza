@@ -21,6 +21,7 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
+		alarmKorisnik.setVersion(0);
 		sessionFactory.getCurrentSession().persist(alarmKorisnik);
 	}
 
@@ -33,6 +34,7 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 	}
 	
 	public void azurirajAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
+		alarmKorisnik.setVersion(alarmKorisnik.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(alarmKorisnik);
 	}
 
@@ -46,6 +48,13 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public AlarmiKorisnik nadjiAlarmKorisnikPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
+		criteria.add(Restrictions.eq("id", id));
+		AlarmiKorisnik alarm = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return alarm;
 	}
 	
 }

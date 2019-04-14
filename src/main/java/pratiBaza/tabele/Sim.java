@@ -3,10 +3,7 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-/**
- * The persistent class for the sim database table.
- * 
- */
+
 @Entity
 @Table(name="sim")
 @NamedQuery(name="Sim.findAll", query="SELECT s FROM Sim s")
@@ -14,7 +11,8 @@ public class Sim implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private boolean aktivno;
 
@@ -59,11 +57,11 @@ public class Sim implements Serializable {
 		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

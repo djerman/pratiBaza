@@ -1,6 +1,8 @@
 package pratiBaza.daoImpl;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeObjektiDAO;
@@ -14,18 +16,17 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiGrupaObjekat(GrupeObjekti grupaObjekat) {
-		// TODO Auto-generated method stub
-		
+		grupaObjekat.setVersion(0);
+		sessionFactory.getCurrentSession().persist(grupaObjekat);
 	}
 
 	public void azurirajGrupaObjekat(GrupeObjekti grupaObjekat) {
-		// TODO Auto-generated method stub
-		
+		grupaObjekat.setVersion(grupaObjekat.getVersion() + 1);
+		sessionFactory.getCurrentSession().update(grupaObjekat);
 	}
 
 	public void izbrisiGrupaObjekat(GrupeObjekti grupaObjekat) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().delete(grupaObjekat);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -34,6 +35,13 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public GrupeObjekti nadjiGrupaObjekatPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
+		criteria.add(Restrictions.eq("id", id));
+		GrupeObjekti grupaObjekat = (GrupeObjekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return grupaObjekat;
 	}
 	
 }

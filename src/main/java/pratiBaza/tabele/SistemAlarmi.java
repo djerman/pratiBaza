@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the sistemAlarmi database table.
- * 
- */
 @Entity
 @Table(name="sistemAlarmi")
 @NamedQuery(name="SistemAlarmi.findAll", query="SELECT s FROM SistemAlarmi s")
@@ -16,7 +11,8 @@ public class SistemAlarmi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private boolean adresa;
 
@@ -53,11 +49,11 @@ public class SistemAlarmi implements Serializable {
 	public SistemAlarmi() {
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

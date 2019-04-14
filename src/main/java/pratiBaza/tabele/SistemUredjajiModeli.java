@@ -10,7 +10,8 @@ public class SistemUredjajiModeli implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private String naziv;
 
@@ -40,11 +41,11 @@ public class SistemUredjajiModeli implements Serializable {
 		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

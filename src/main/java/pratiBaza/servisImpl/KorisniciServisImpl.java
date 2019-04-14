@@ -58,5 +58,10 @@ public class KorisniciServisImpl implements KorisniciServis{
 	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik) {
 		return korisnikDAO.nadjiSveKorisnike(korisnik);
 	}
+
+	@Transactional
+	public Korisnici nadjiKorisnikaPoId(int id) {
+		return korisnikDAO.nadjiKorisnikaPoId(id);
+	}
 	
 }

@@ -3,11 +3,6 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the sistemGoriva database table.
- * 
- */
 @Entity
 @Table(name="sistemGoriva")
 @NamedQuery(name="SistemGoriva.findAll", query="SELECT s FROM SistemGoriva s")
@@ -15,7 +10,8 @@ public class SistemGoriva implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private String naziv;
 
@@ -27,11 +23,11 @@ public class SistemGoriva implements Serializable {
 		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

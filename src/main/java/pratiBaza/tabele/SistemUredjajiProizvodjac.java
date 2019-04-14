@@ -2,14 +2,7 @@ package pratiBaza.tabele;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
-import java.util.List;
 
-
-/**
- * The persistent class for the sistemUredjajiProizvodjac database table.
- * 
- */
 @Entity
 @Table(name="sistemUredjajiProizvodjac")
 @NamedQuery(name="SistemUredjajiProizvodjac.findAll", query="SELECT s FROM SistemUredjajiProizvodjac s")
@@ -17,7 +10,8 @@ public class SistemUredjajiProizvodjac implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private String adresa;
 
@@ -26,7 +20,7 @@ public class SistemUredjajiProizvodjac implements Serializable {
 	@Lob
 	private String opis;
 
-	private BigInteger version;
+	private Integer version;
 	
 	private boolean izbrisan;
 
@@ -38,11 +32,11 @@ public class SistemUredjajiProizvodjac implements Serializable {
 		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -70,11 +64,11 @@ public class SistemUredjajiProizvodjac implements Serializable {
 		this.opis = opis;
 	}
 
-	public BigInteger getVersion() {
+	public Integer getVersion() {
 		return this.version;
 	}
 
-	public void setVersion(BigInteger version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 

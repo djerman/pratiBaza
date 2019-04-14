@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the alarmiKorisnik database table.
- * 
- */
 @Entity
 @Table(name="alarmiKorisnik")
 @NamedQuery(name="AlarmiKorisnik.findAll", query="SELECT a FROM AlarmiKorisnik a")
@@ -16,8 +11,11 @@ public class AlarmiKorisnik implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
+	private int version;
+	
 	private boolean alarmiranje;
 
 	private Timestamp izmenjeno;
@@ -52,14 +50,23 @@ public class AlarmiKorisnik implements Serializable {
 
 
 	public AlarmiKorisnik() {
+		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public boolean getAlarmiranje() {

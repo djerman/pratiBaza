@@ -4,18 +4,16 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-/**
- * The persistent class for the uredjaji database table.
- * 
- */
 @Entity
 @Table(name="uredjaji")
 @NamedQuery(name="Uredjaji.findAll", query="SELECT u FROM Uredjaji u")
 public class Uredjaji implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private boolean aktivno;
 
@@ -73,11 +71,11 @@ public class Uredjaji implements Serializable {
 		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

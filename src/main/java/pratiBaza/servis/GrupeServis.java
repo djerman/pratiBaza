@@ -13,5 +13,7 @@ public interface GrupeServis {
 	void izbrisiGrupu(Grupe grupa);
 	
 	ArrayList<Grupe> vratiGrupe(Korisnici korisnik);
+	
+	Grupe nadjiGrupuPoId(int id);
 
 }

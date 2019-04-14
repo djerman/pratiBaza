@@ -12,7 +12,7 @@ public class GrupeKorisniciPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	private Long id;
 
 	@Column(insertable=false, updatable=false)
 	private String pretplatnikId;
@@ -25,10 +25,10 @@ public class GrupeKorisniciPK implements Serializable {
 
 	public GrupeKorisniciPK() {
 	}
-	public String getId() {
+	public Long getId() {
 		return this.id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getPretplatnikId() {

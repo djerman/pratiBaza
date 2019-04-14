@@ -43,5 +43,10 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 	public void setAlarmKorisnikDAO(AlarmiKorisnikDAO alarmKorisnikDAO) {
 		this.alarmKorisnikDAO = alarmKorisnikDAO;
 	}
+
+	@Transactional
+	public AlarmiKorisnik nadjiAlarmKorisnikPoId(int id) {
+		return alarmKorisnikDAO.nadjiAlarmKorisnikPoId(id);
+	}
 	
 }
