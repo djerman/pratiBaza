@@ -11,4 +11,6 @@ public interface SistemServis {
 	void izbrisiSistem(Sistem sistem);
 	
 	Sistem vratiSistem();
+	
+	Sistem nadjiSistemPoId(int id);
 }

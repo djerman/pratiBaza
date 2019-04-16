@@ -3,6 +3,7 @@ package pratiBaza.daoImpl;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,13 @@ public class SistemDAOImpl implements SistemDAO{
 		criteria.setMaxResults(1);
 		Sistem rezultat = (Sistem)criteria.uniqueResult();
 		return rezultat;
+	}
+
+	public Sistem nadjiSistemPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sistem.class);
+		criteria.add(Restrictions.eq("id", id));
+		Sistem sistem = (Sistem)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return sistem;
 	}
 	
 }

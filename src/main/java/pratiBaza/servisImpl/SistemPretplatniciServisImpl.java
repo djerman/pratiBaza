@@ -42,5 +42,10 @@ public class SistemPretplatniciServisImpl implements SistemPretplatniciServis{
 	public void setSistemPretplatnikDAO(SistemPretplatniciDAO sistemPretplatnikDAO) {
 		this.sistemPretplatnikDAO = sistemPretplatnikDAO;
 	}
+
+	@Transactional
+	public SistemPretplatnici nadjiPretplatnikaPoId(int id) {
+		return sistemPretplatnikDAO.nadjiPretplatnikaPoId(id);
+	}
 	
 }

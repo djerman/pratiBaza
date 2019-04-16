@@ -12,4 +12,6 @@ public interface SistemPretplatniciServis {
 	void izbrisiPretplatnika(SistemPretplatnici pretplatnik);
 	
 	ArrayList<SistemPretplatnici> nadjiSvePretplatnike();
+	
+	SistemPretplatnici nadjiPretplatnikaPoId(int id);
 }

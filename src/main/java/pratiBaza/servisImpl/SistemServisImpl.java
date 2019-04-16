@@ -40,5 +40,10 @@ public class SistemServisImpl implements SistemServis{
 	public Sistem vratiSistem() {
 		return sistemDAO.vratiSistem();
 	}
+
+	@Transactional
+	public Sistem nadjiSistemPoId(int id) {
+		return sistemDAO.nadjiSistemPoId(id);
+	}
 	
 }

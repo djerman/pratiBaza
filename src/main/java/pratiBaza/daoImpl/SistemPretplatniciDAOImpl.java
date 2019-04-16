@@ -1,10 +1,13 @@
 package pratiBaza.daoImpl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +21,13 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiPretplatnika(SistemPretplatnici pretplatnik) {
+		pretplatnik.setKreirano(new Timestamp((new Date()).getTime()));
+		pretplatnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().persist(pretplatnik);
 	}
 
 	public void izmeniPretplatnika(SistemPretplatnici pretplatnik) {
+		pretplatnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(pretplatnik);
 	}
 
@@ -45,6 +51,13 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public SistemPretplatnici nadjiPretplatnikaPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
+		criteria.add(Restrictions.eq("id", id));
+		SistemPretplatnici pretplatnik = (SistemPretplatnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return pretplatnik;
 	}
 	
 }
