@@ -37,7 +37,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 		}
-		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivno"));
 		criteria.addOrder(Order.asc("objekti"));
 		criteria.addOrder(Order.desc("id"));

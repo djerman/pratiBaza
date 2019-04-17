@@ -23,16 +23,20 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 	public void unesiPretplatnika(SistemPretplatnici pretplatnik) {
 		pretplatnik.setKreirano(new Timestamp((new Date()).getTime()));
 		pretplatnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		pretplatnik.setVersion(0);
 		sessionFactory.getCurrentSession().persist(pretplatnik);
 	}
 
 	public void izmeniPretplatnika(SistemPretplatnici pretplatnik) {
 		pretplatnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		pretplatnik.setVersion(pretplatnik.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(pretplatnik);
 	}
 
 	public void izbrisiPretplatnika(SistemPretplatnici pretplatnik) {
 		pretplatnik.setIzbrisan(true);
+		pretplatnik.setVersion(pretplatnik.getVersion() + 1);
+		sessionFactory.getCurrentSession().update(pretplatnik);
 	}
 
 	public ArrayList<SistemPretplatnici> nadjiSvePretplatnike() {

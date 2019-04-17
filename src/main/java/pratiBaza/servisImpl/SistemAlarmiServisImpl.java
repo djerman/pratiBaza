@@ -43,5 +43,10 @@ public class SistemAlarmiServisImpl implements SistemAlarmiServis{
 	public ArrayList<SistemAlarmi> vratiSveAlarme() {
 		return sistemAlarmDAO.vratiSveAlarme();
 	}
+
+	@Transactional
+	public SistemAlarmi nadjiAlaramPoId(int id) {
+		return sistemAlarmDAO.nadjiAlaramPoId(id);
+	}
 	
 }

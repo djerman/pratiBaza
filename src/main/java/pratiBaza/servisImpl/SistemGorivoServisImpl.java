@@ -42,5 +42,10 @@ public class SistemGorivoServisImpl implements SistemGorivoServis{
 	public ArrayList<SistemGoriva> vratiSvaGoriva() {
 		return sistemGorivoDAO.vratiSvaGoriva();
 	}
+
+	@Transactional
+	public SistemGoriva nadjiGorivoPoId(int id) {
+		return sistemGorivoDAO.nadjiGorivoPoId(id);
+	}
 	
 }

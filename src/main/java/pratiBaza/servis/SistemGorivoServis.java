@@ -13,4 +13,6 @@ public interface SistemGorivoServis {
 	void izbrisiGorivo(SistemGoriva gorivo);
 	
 	ArrayList<SistemGoriva> vratiSvaGoriva();
+	
+	SistemGoriva nadjiGorivoPoId(int id);
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +20,12 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiAlarme(SistemAlarmi alarm) {
+		alarm.setVersion(0);
 		sessionFactory.getCurrentSession().persist(alarm);
 	}
 
 	public void azurirajAlarme(SistemAlarmi alarm) {
+		alarm.setVersion(alarm.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(alarm);
 	}
 
@@ -41,11 +44,18 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 
 	public ArrayList<SistemAlarmi> vratiSveAlarme() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
-		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<SistemAlarmi> lista = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
+	}
+
+	public SistemAlarmi nadjiAlaramPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
+		criteria.add(Restrictions.eq("id", id));
+		SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return alarm;
 	}
 	
 }

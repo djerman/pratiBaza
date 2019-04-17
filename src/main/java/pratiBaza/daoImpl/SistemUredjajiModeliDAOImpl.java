@@ -29,6 +29,7 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 
 	public void izbrisiUredjajModel(SistemUredjajiModeli model) {
 		model.setIzbrisan(true);
+		model.setVersion(model.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(model);
 	}
 

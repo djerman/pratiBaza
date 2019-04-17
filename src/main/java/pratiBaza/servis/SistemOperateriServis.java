@@ -12,4 +12,6 @@ public interface SistemOperateriServis {
 	void izbrisiOperatera(SistemOperateri operater);
 	
 	ArrayList<SistemOperateri> nadjiSveOperatere();
+	
+	SistemOperateri nadjiOperateraPoId(int id);
 }

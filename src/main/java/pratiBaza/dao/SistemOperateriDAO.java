@@ -14,4 +14,5 @@ public interface SistemOperateriDAO {
 	
 	ArrayList<SistemOperateri> nadjiSveOperatere();
 	
+	SistemOperateri nadjiOperateraPoId(int id);
 }

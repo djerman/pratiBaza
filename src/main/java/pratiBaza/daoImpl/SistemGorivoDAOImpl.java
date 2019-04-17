@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +20,12 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiGorivo(SistemGoriva gorivo) {
+		gorivo.setVersion(0);
 		sessionFactory.getCurrentSession().persist(gorivo);
 	}
 
 	public void azurirajGorivo(SistemGoriva gorivo) {
+		gorivo.setVersion(gorivo.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(gorivo);
 	}
 
@@ -42,9 +45,17 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 	@SuppressWarnings("unchecked")
 	public ArrayList<SistemGoriva> vratiSvaGoriva() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
-		criteria.addOrder(Order.asc("id"));
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
 		ArrayList<SistemGoriva> lista = (ArrayList<SistemGoriva>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
+	}
+
+	public SistemGoriva nadjiGorivoPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		criteria.add(Restrictions.eq("id", id));
+		SistemGoriva gorivo = (SistemGoriva)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return gorivo;
 	}
 	
 }

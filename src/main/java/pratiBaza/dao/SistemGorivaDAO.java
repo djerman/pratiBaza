@@ -13,4 +13,6 @@ public interface SistemGorivaDAO {
 	void izbrisiGorivo(SistemGoriva gorivo);
 	
 	ArrayList<SistemGoriva> vratiSvaGoriva();
+	
+	SistemGoriva nadjiGorivoPoId(int id);
 }

@@ -34,7 +34,7 @@ public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvod
 
 	public ArrayList<SistemUredjajiProizvodjac> nadjiSveSistemUredjajeProizvodjace() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiProizvodjac.class);
-		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<SistemUredjajiProizvodjac> lista = (ArrayList<SistemUredjajiProizvodjac>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();

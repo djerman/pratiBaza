@@ -14,4 +14,6 @@ public interface SistemAlarmiDAO {
 	
 	ArrayList<SistemAlarmi> vratiSveAlarme();
 	
+	SistemAlarmi nadjiAlaramPoId(int id);
+	
 }

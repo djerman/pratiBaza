@@ -13,4 +13,6 @@ public interface SistemAlarmiServis {
 	void izbrisiAlarme(SistemAlarmi alarm);
 	
 	ArrayList<SistemAlarmi> vratiSveAlarme();
+	
+	SistemAlarmi nadjiAlaramPoId(int id);
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemOperateriDAO;
@@ -17,15 +18,18 @@ public class SistemOperateriDAOImpl implements SistemOperateriDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiOperatera(SistemOperateri operater) {
+		operater.setVersion(0);
 		sessionFactory.getCurrentSession().persist(operater);
 	}
 
 	public void azurirajOperatera(SistemOperateri operater) {
+		operater.setVersion(operater.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(operater);
 	}
 
 	public void izbrisiOperatera(SistemOperateri operater) {
 		operater.setIzbrisan(true);
+		operater.setVersion(operater.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(operater);
 	}
 
@@ -44,6 +48,13 @@ public class SistemOperateriDAOImpl implements SistemOperateriDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public SistemOperateri nadjiOperateraPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemOperateri.class);
+		criteria.add(Restrictions.eq("id", id));
+		SistemOperateri operater = (SistemOperateri)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return operater;
 	}
 	
 }

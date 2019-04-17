@@ -41,5 +41,10 @@ public class SistemOperateriServisImpl implements SistemOperateriServis{
 	public void setSistemOperaterDAO(SistemOperateriDAO sistemOperaterDAO) {
 		this.sistemOperaterDAO = sistemOperaterDAO;
 	}
+
+	@Transactional
+	public SistemOperateri nadjiOperateraPoId(int id) {
+		return sistemOperaterDAO.nadjiOperateraPoId(id);
+	}
 	
 }
