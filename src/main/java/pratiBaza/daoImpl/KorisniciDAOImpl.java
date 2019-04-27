@@ -1,6 +1,9 @@
 package pratiBaza.daoImpl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -20,11 +23,14 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 
 	public void unesiKorisnika(Korisnici korisnik) {
 		korisnik.setVersion(0);
+		korisnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		korisnik.setKreirano(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().persist(korisnik);
 	}
 
 	public void azurirajKorisnika(Korisnici korisnik) {
 		korisnik.setVersion(korisnik.getVersion() + 1);
+		korisnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(korisnik);
 	}
 
@@ -63,15 +69,20 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik) {
+	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik, boolean aktivan) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			if(aktivan) {
+				criteria.add(Restrictions.eq("aktivan", true));
+			}
 			if(korisnik.getOrganizacija() != null) {
 				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 			}
 		}
-		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<Korisnici> lista = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
@@ -83,6 +94,11 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		criteria.add(Restrictions.eq("id", id));
 		Korisnici korisnik = (Korisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return korisnik;
+	}
+
+	public ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -9,6 +9,8 @@ import pratiBaza.dao.GrupeDAO;
 import pratiBaza.servis.GrupeServis;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("grupaServis")
 public class GrupeServisImpl implements GrupeServis{
@@ -48,6 +50,11 @@ public class GrupeServisImpl implements GrupeServis{
 	@Transactional
 	public Grupe nadjiGrupuPoId(int id) {
 		return grupaDAO.nadjiGrupuPoId(id);
+	}
+
+	@Transactional
+	public ArrayList<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return grupaDAO.vratiGrupeAktivne(pretplatnik, organizacija);
 	}
 	
 }

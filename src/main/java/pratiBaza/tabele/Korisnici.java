@@ -81,8 +81,13 @@ public class Korisnici implements Serializable {
 	private List<SistemSesije> sistemSesijes;
 
 	public Korisnici() {
+		
 	}
 
+	public String toString() {
+		return this.ime + " " + this.getPrezime();
+	}
+	
 	public Long getId() {
 		return this.id;
 	}

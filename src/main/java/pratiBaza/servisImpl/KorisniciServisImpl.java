@@ -55,13 +55,18 @@ public class KorisniciServisImpl implements KorisniciServis{
 	}
 
 	@Transactional
-	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik) {
-		return korisnikDAO.nadjiSveKorisnike(korisnik);
+	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik, boolean aktivan) {
+		return korisnikDAO.nadjiSveKorisnike(korisnik, aktivan);
 	}
 
 	@Transactional
 	public Korisnici nadjiKorisnikaPoId(int id) {
 		return korisnikDAO.nadjiKorisnikaPoId(id);
+	}
+
+	@Transactional
+	public ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan) {
+		return korisnikDAO.nadjiKorisnikeAktivneIzbrisane(aktivan, izbrisan);
 	}
 	
 }

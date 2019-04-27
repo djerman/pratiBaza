@@ -10,6 +10,7 @@ import pratiBaza.servis.ObjektiServis;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("objekatServis")
@@ -65,6 +66,11 @@ public class ObjektiServisImpl implements ObjektiServis{
 	@Transactional
 	public Objekti nadjiObjekatPoId(int id) {
 		return objekatDAO.nadjiObjekatPoId(id);
+	}
+
+	@Transactional
+	public ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return objekatDAO.vratiSveObjekte(pretplatnik, organizacija);
 	}
 	
 

@@ -49,7 +49,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	public ArrayList<Uredjaji> nadjiSveUredjajePoPretplatniku(SistemPretplatnici pretplatnik) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivno"));
 		criteria.addOrder(Order.desc("id"));
 		return null;

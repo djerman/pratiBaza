@@ -1,10 +1,13 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.GrupeObjektiDAO;
 import pratiBaza.servis.GrupeObjektiServis;
+import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeObjekti;
 
 @Service("grupaObjekatServis")
@@ -40,6 +43,16 @@ public class GrupeObjektiServisImpl implements GrupeObjektiServis{
 	@Transactional
 	public GrupeObjekti nadjiGrupaObjekatPoId(int id) {
 		return grupaObjekatDAO.nadjiGrupaObjekatPoId(id);
+	}
+
+	@Transactional
+	public void izbrisiSveGrupaObjekti(Grupe grupa) {
+		grupaObjekatDAO.izbrisiSveGrupaObjekti(grupa);
+	}
+
+	@Transactional
+	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa) {
+		return grupaObjekatDAO.nadjiSveGrupaObjektePoGrupi(grupa);
 	}
 	
 

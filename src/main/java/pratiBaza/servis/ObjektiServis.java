@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 public interface ObjektiServis {
@@ -23,4 +24,6 @@ public interface ObjektiServis {
 	ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa);
 	
 	Objekti nadjiObjekatPoId(int id);
+	
+	ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

@@ -10,16 +10,17 @@ import java.sql.Timestamp;
 public class GrupeObjekti implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private GrupeObjektiPK id;
-
+	//@EmbeddedId
+	//private GrupeObjektiPK id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
 	private int version;
 	
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
-	
-	private boolean izbrisan;
 	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
@@ -54,12 +55,19 @@ public class GrupeObjekti implements Serializable {
 		this.version = version;
 	}
 
-
-	public GrupeObjektiPK getId() {
+	/*public GrupeObjektiPK getId() {
 		return this.id;
 	}
 
 	public void setId(GrupeObjektiPK id) {
+		this.id = id;
+	}**/
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -109,14 +117,6 @@ public class GrupeObjekti implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
-	}
-
-	public boolean isIzbrisan() {
-		return izbrisan;
-	}
-
-	public void setIzbrisan(boolean izbrisan) {
-		this.izbrisan = izbrisan;
 	}
 
 }

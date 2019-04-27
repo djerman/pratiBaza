@@ -11,10 +11,10 @@ public class GrupeObjektiPK implements Serializable {
 	private Long id;
 
 	@Column(insertable=false, updatable=false)
-	private String grupaId;
+	private Long grupaId;
 
 	@Column(insertable=false, updatable=false)
-	private String objekatId;
+	private Long objekatId;
 
 	public GrupeObjektiPK() {
 	}
@@ -24,16 +24,16 @@ public class GrupeObjektiPK implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getGrupaId() {
+	public Long getGrupaId() {
 		return this.grupaId;
 	}
-	public void setGrupaId(String grupaId) {
+	public void setGrupaId(Long grupaId) {
 		this.grupaId = grupaId;
 	}
-	public String getObjekatId() {
+	public long getObjekatId() {
 		return this.objekatId;
 	}
-	public void setObjekatId(String objekatId) {
+	public void setObjekatId(Long objekatId) {
 		this.objekatId = objekatId;
 	}
 

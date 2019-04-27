@@ -8,6 +8,7 @@ import pratiBaza.dao.OrganizacijeDAO;
 import pratiBaza.servis.OrganizacijeServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("organizacijaServis")
 public class OrganizacijeServisImpl implements OrganizacijeServis{
@@ -40,8 +41,18 @@ public class OrganizacijeServisImpl implements OrganizacijeServis{
 	}
 
 	@Transactional
-	public ArrayList<Organizacije> nadjiSveOrganizacije(Korisnici korisnik) {
-		return organizacijaDAO.nadjiSveOrganizacije(korisnik);
+	public ArrayList<Organizacije> nadjiSveOrganizacije(Korisnici korisnik,  boolean aktivan) {
+		return organizacijaDAO.nadjiSveOrganizacije(korisnik, aktivan);
+	}
+
+	@Transactional
+	public Organizacije nadjiOrganizacijuPoId(int id) {
+		return organizacijaDAO.nadjiOrganizacijuPoId(id);
+	}
+
+	@Transactional
+	public ArrayList<Organizacije> nadjiSveOrganizacije(SistemPretplatnici pretplatnik, boolean aktivan) {
+		return organizacijaDAO.nadjiSveOrganizacije(pretplatnik, aktivan);
 	}
 	
 }

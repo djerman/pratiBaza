@@ -47,5 +47,10 @@ public class SistemPretplatniciServisImpl implements SistemPretplatniciServis{
 	public SistemPretplatnici nadjiPretplatnikaPoId(int id) {
 		return sistemPretplatnikDAO.nadjiPretplatnikaPoId(id);
 	}
+
+	@Transactional
+	public ArrayList<SistemPretplatnici> nadjiSveAktivnePretplatnike() {
+		return sistemPretplatnikDAO.nadjiSveAktivnePretplatnike();
+	}
 	
 }

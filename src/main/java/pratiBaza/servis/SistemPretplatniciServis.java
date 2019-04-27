@@ -14,4 +14,6 @@ public interface SistemPretplatniciServis {
 	ArrayList<SistemPretplatnici> nadjiSvePretplatnike();
 	
 	SistemPretplatnici nadjiPretplatnikaPoId(int id);
+	
+	ArrayList<SistemPretplatnici> nadjiSveAktivnePretplatnike();
 }

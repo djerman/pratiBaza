@@ -13,6 +13,7 @@ import pratiBaza.dao.ObjektiDAO;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 @Repository("objekatDAO")
@@ -49,10 +50,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
 			if(korisnik.getOrganizacija() != null) {
 				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 			}
 		}
+		criteria.addOrder(Order.desc("sistemPretplatnici"));
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
@@ -84,6 +87,22 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		criteria.add(Restrictions.eq("id", id));
 		Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return objekat;
+	}
+
+	public ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.eq("aktivan", true));
+		if(pretplatnik != null) {
+			criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
+		}
+		if(organizacija != null) {
+			criteria.add(Restrictions.eq("organizacija", organizacija));
+		}
+		criteria.addOrder(Order.desc("id"));
+		@SuppressWarnings("unchecked")
+		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 	
 }

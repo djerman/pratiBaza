@@ -19,7 +19,9 @@ public interface KorisniciServis {
 	
 	Korisnici nadjiKorisnikaPoIButton(String iButton);
 	
-	ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik);
+	ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik, boolean aktivan);
 	
 	Korisnici nadjiKorisnikaPoId(int id);
+	
+	ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan);
 }

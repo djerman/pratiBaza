@@ -14,6 +14,8 @@ public class Organizacije implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	private int version;
+	
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
@@ -26,6 +28,8 @@ public class Organizacije implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
+	
+	private boolean aktivan;
 	
 	private boolean izbrisan;
 	/*
@@ -59,6 +63,14 @@ public class Organizacije implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public Timestamp getIzmenjeno() {
@@ -99,6 +111,14 @@ public class Organizacije implements Serializable {
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
 	}
 
 	public SistemPretplatnici getSistemPretplatnici() {
