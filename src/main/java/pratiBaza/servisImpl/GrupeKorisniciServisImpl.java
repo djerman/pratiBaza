@@ -1,11 +1,14 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.GrupeKorisniciDAO;
 import pratiBaza.servis.GrupeKorisniciServis;
 import pratiBaza.tabele.GrupeKorisnici;
+import pratiBaza.tabele.Korisnici;
 
 @Service("grupaKorisnikServis")
 public class GrupeKorisniciServisImpl implements GrupeKorisniciServis{
@@ -40,6 +43,11 @@ public class GrupeKorisniciServisImpl implements GrupeKorisniciServis{
 	@Transactional
 	public GrupeKorisnici nadjiGrupaKorisnikPoId(int id) {
 		return grupaKorisnikDAO.nadjiGrupaKorisnikPoId(id);
+	}
+
+	@Transactional
+	public ArrayList<GrupeKorisnici> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+		return grupaKorisnikDAO.vratiSveGrupePoKorisniku(korisnik);
 	}
 	
 }

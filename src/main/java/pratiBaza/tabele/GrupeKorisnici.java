@@ -10,14 +10,15 @@ import java.sql.Timestamp;
 public class GrupeKorisnici implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private GrupeKorisniciPK id;
+	//@EmbeddedId
+	//private GrupeKorisniciPK id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
-	
-	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
@@ -40,15 +41,26 @@ public class GrupeKorisnici implements Serializable {
 	private Korisnici korisnici;
 
 	public GrupeKorisnici() {
+		
 	}
 
-	public GrupeKorisniciPK getId() {
+	/*public GrupeKorisniciPK getId() {
 		return this.id;
 	}
 
 	public void setId(GrupeKorisniciPK id) {
 		this.id = id;
+	}**/
+
+	public Long getId() {
+		return id;
 	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
 	public Timestamp getIzmenjeno() {
 		return this.izmenjeno;
@@ -96,14 +108,6 @@ public class GrupeKorisnici implements Serializable {
 
 	public void setKorisnici(Korisnici korisnici) {
 		this.korisnici = korisnici;
-	}
-
-	public boolean isIzbrisan() {
-		return izbrisan;
-	}
-
-	public void setIzbrisan(boolean izbrisan) {
-		this.izbrisan = izbrisan;
 	}
 
 }

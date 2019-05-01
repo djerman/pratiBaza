@@ -1,5 +1,8 @@
 package pratiBaza.daoImpl;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeKorisniciDAO;
 import pratiBaza.tabele.GrupeKorisnici;
+import pratiBaza.tabele.Korisnici;
 
 @Repository("grupaKorisnikDAO")
 public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
@@ -16,10 +20,13 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiGrupaZaposleni(GrupeKorisnici grupaKorisnik) {
+		grupaKorisnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		grupaKorisnik.setKreirano(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().persist(grupaKorisnik);
 	}
 
 	public void azurirajGrupaZaposleni(GrupeKorisnici grupaKorisnik) {
+		grupaKorisnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(grupaKorisnik);
 	}
 
@@ -40,6 +47,14 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 		criteria.add(Restrictions.eq("id", id));
 		GrupeKorisnici grupaKorisnik = (GrupeKorisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return grupaKorisnik;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<GrupeKorisnici> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
+		criteria.add(Restrictions.eq("korisnici", korisnik));
+		ArrayList<GrupeKorisnici> grupeKorisnik = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return grupeKorisnik;
 	}
 	
 	
