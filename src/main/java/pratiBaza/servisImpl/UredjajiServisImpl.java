@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.UredjajiDAO;
 import pratiBaza.servis.UredjajiServis;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Uredjaji;
 
@@ -32,13 +33,13 @@ public class UredjajiServisImpl implements UredjajiServis{
 	}
 
 	@Transactional
-	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik) {
-		return uredjajDAO.nadjiSveUredjaje(korisnik);
+	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan) {
+		return uredjajDAO.nadjiSveUredjaje(korisnik, aktivan);
 	}
 
 	@Transactional
-	public ArrayList<Uredjaji> nadjiSveUredjajePoPretplatniku(SistemPretplatnici pretplatnik) {
-		return uredjajDAO.nadjiSveUredjajePoPretplatniku(pretplatnik);
+	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, Uredjaji uredjaj) {
+		return uredjajDAO.nadjiSveAktivneSlobodneUredjajePoPretplatniku(pretplatnik, organizacija, uredjaj);
 	}
 
 	@Transactional
@@ -49,6 +50,16 @@ public class UredjajiServisImpl implements UredjajiServis{
 	@Transactional
 	public void setUredjajDAO(UredjajiDAO uredjajDAO) {
 		this.uredjajDAO = uredjajDAO;
+	}
+
+	@Transactional
+	public ArrayList<Uredjaji> nadjiSveAktivneUredjaje(Korisnici korisnik, Uredjaji uredjaj) {
+		return uredjajDAO.nadjiSveAktivneUredjaje(korisnik, uredjaj);
+	}
+
+	@Transactional
+	public Uredjaji nadjiUredjajPoId(int id) {
+		return uredjajDAO.nadjiUredjajPoId(id);
 	}
 	
 }

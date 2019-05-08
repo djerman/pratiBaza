@@ -15,7 +15,7 @@ public class Uredjaji implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	private boolean aktivno;
+	private boolean aktivan;
 
 	private Timestamp izmenjeno;
 
@@ -39,7 +39,7 @@ public class Uredjaji implements Serializable {
 	
 	private int version;
 
-	private byte zauzet;
+	private boolean zauzet;
 	
 	private boolean izbrisan;
 
@@ -80,11 +80,11 @@ public class Uredjaji implements Serializable {
 	}
 
 	public boolean isAktivno() {
-		return aktivno;
+		return aktivan;
 	}
 
 	public void setAktivno(boolean aktivno) {
-		this.aktivno = aktivno;
+		this.aktivan = aktivno;
 	}
 
 	public Timestamp getIzmenjeno() {
@@ -167,14 +167,6 @@ public class Uredjaji implements Serializable {
 		this.version = version;
 	}
 
-	public byte getZauzet() {
-		return this.zauzet;
-	}
-
-	public void setZauzet(byte zauzet) {
-		this.zauzet = zauzet;
-	}
-
 	/*public List<Objekti> getObjektis() {
 		return this.objektis;
 	}
@@ -196,6 +188,14 @@ public class Uredjaji implements Serializable {
 
 		return objekti;
 	}**/
+
+	public boolean isZauzet() {
+		return zauzet;
+	}
+
+	public void setZauzet(boolean zauzet) {
+		this.zauzet = zauzet;
+	}
 
 	public SistemUredjajiModeli getSistemUredjajiModeli() {
 		return this.sistemUredjajiModeli;

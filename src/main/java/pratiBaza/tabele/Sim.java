@@ -14,7 +14,7 @@ public class Sim implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	private boolean aktivno;
+	private boolean aktivan;
 
 	private String broj;
 
@@ -66,11 +66,11 @@ public class Sim implements Serializable {
 	}
 
 	public boolean isAktivno() {
-		return aktivno;
+		return aktivan;
 	}
 
 	public void setAktivno(boolean aktivno) {
-		this.aktivno = aktivno;
+		this.aktivan = aktivno;
 	}
 
 	public String getBroj() {

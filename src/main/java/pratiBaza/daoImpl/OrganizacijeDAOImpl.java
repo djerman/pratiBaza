@@ -37,8 +37,9 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 	}
 
 	public void izbrisiOrganizacije(Organizacije organizacija) {
+		organizacija.setAktivan(false);
 		organizacija.setIzbrisan(true);
-		sessionFactory.getCurrentSession().update(organizacija);
+		azurirajOrganizacije(organizacija);
 	}
 
 	public SessionFactory getSessionFactory() {

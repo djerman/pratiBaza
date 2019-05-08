@@ -36,7 +36,7 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 
 	public void izbrisiKorisnika(Korisnici korisnik) {
 		korisnik.setIzbrisan(true);
-		sessionFactory.getCurrentSession().update(korisnik);
+		azurirajKorisnika(korisnik);
 	}
 
 	public Korisnici nadjiKorisnikaPoKorisnickom(String email, String lozinka) {
@@ -76,6 +76,7 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			if(aktivan) {
 				criteria.add(Restrictions.eq("aktivan", true));
+				criteria.add(Restrictions.eq("izbrisan", false));
 			}
 			if(korisnik.getOrganizacija() != null) {
 				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));

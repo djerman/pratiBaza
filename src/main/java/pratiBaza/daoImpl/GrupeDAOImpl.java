@@ -39,7 +39,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 
 	public void izbrisiGrupu(Grupe grupa) {
 		grupa.setIzbrisan(true);
-		sessionFactory.getCurrentSession().update(grupa);
+		azurirajGrupu(grupa);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -55,6 +55,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
 			if(korisnik.getOrganizacija() != null) {
 				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 			}

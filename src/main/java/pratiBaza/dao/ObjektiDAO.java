@@ -16,7 +16,7 @@ public interface ObjektiDAO {
 	
 	void izbrisiObjekte(Objekti objekat);
 	
-	ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik);
+	ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan);
 	
 	ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik);
 	

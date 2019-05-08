@@ -54,5 +54,10 @@ public class ZoneServisImpl implements ZoneServis{
 	public void setZonaDAO(ZoneDAO zonaDAO) {
 		this.zonaDAO = zonaDAO;
 	}
+
+	@Transactional
+	public Zone nadjiZonuPoId(int id) {
+		return zonaDAO.nadjiZonuPoId(id);
+	}
 	
 }

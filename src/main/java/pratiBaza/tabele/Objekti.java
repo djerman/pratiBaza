@@ -35,16 +35,16 @@ public class Objekti implements Serializable {
 	private boolean izbrisan;
 
 	//bi-directional many-to-one association to GrupeObjekti
-	@OneToMany(mappedBy="objekti")
-	private List<GrupeObjekti> grupeObjektis;
+	/*@OneToMany(mappedBy="objekti")
+	private List<GrupeObjekti> grupeObjektis;**/
 
 	//bi-directional many-to-one association to Javljanja
 	//@OneToMany(mappedBy="objekti")
 	//private List<Javljanja> javljanjas;
 
 	//bi-directional many-to-one association to JavljanjaPoslednja
-	@OneToMany(mappedBy="objekti")
-	private List<JavljanjaPoslednja> javljanjaPoslednjas;
+	/*@OneToMany(mappedBy="objekti")
+	private List<JavljanjaPoslednja> javljanjaPoslednjas;**/
 
 	//bi-directional many-to-one association to Obd
 	//@OneToMany(mappedBy="objekti")
@@ -139,7 +139,7 @@ public class Objekti implements Serializable {
 		this.version = version;
 	}
 
-	public List<GrupeObjekti> getGrupeObjektis() {
+	/*public List<GrupeObjekti> getGrupeObjektis() {
 		return this.grupeObjektis;
 	}
 
@@ -159,7 +159,7 @@ public class Objekti implements Serializable {
 		grupeObjekti.setObjekti(null);
 
 		return grupeObjekti;
-	}
+	}**/
 
 	/*public List<Javljanja> getJavljanjas() {
 		return this.javljanjas;
@@ -183,7 +183,7 @@ public class Objekti implements Serializable {
 		return javljanja;
 	}**/
 
-	public List<JavljanjaPoslednja> getJavljanjaPoslednjas() {
+	/*public List<JavljanjaPoslednja> getJavljanjaPoslednjas() {
 		return this.javljanjaPoslednjas;
 	}
 	
@@ -203,7 +203,7 @@ public class Objekti implements Serializable {
 		javljanjaPoslednja.setObjekti(null);
 
 		return javljanjaPoslednja;
-	}
+	}**/
 
 	/*public List<Obd> getObds() {
 		return this.obds;

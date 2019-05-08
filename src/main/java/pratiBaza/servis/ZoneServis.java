@@ -20,4 +20,6 @@ public interface ZoneServis {
 	ArrayList<Zone> nadjiSveZonePoPretplatniku(SistemPretplatnici pretplatnik);
 	
 	ArrayList<Zone> nadjiSveZonePoOrganizaciji(Organizacije organizacija);
+	
+	Zone nadjiZonuPoId(int id);
 }

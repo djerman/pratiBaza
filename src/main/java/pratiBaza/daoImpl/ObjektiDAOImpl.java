@@ -1,14 +1,14 @@
 package pratiBaza.daoImpl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-
+import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import pratiBaza.dao.ObjektiDAO;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
@@ -25,17 +25,25 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 
 	public void unesiObjekte(Objekti objekat) {
 		objekat.setVersion(0);
+		objekat.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		objekat.setKreirano(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().persist(objekat);
 	}
 
 	public void azurirajObjekte(Objekti objekat) {
 		objekat.setVersion(objekat.getVersion() + 1);
+		objekat.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(objekat);
 	}
 
 	public void izbrisiObjekte(Objekti objekat) {
+		if(objekat.getUredjaji() != null) {
+			objekat.getUredjaji().setObjekti(null);
+		}
+		objekat.setUredjaji(null);
+		objekat.setAktivan(false);
 		objekat.setIzbrisan(true);
-		sessionFactory.getCurrentSession().update(objekat);
+		azurirajObjekte(objekat);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -46,14 +54,19 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik) {
+	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			if(korisnik.getOrganizacija() != null) {
-				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			if(aktivan) {
+				criteria.add(Restrictions.eq("aktivan", true));
 			}
+		}else {
+			
+		}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 		}
 		criteria.addOrder(Order.desc("sistemPretplatnici"));
 		criteria.addOrder(Order.desc("izbrisan"));

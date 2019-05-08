@@ -14,6 +14,8 @@ public class Zone implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	private int version;
+	
 	private Timestamp kreirano;
 	
 	private String naziv;
@@ -23,6 +25,8 @@ public class Zone implements Serializable {
 	private String opis;
 
 	private int precnik;
+	
+	private boolean aktivan;
 
 	private double lat;
 
@@ -54,6 +58,22 @@ public class Zone implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public Timestamp getIzmenjeno() {
+		return izmenjeno;
+	}
+
+	public void setIzmenjeno(Timestamp izmenjeno) {
+		this.izmenjeno = izmenjeno;
 	}
 
 	public String getNaziv() {
@@ -88,6 +108,14 @@ public class Zone implements Serializable {
 		this.opis = opis;
 	}
 
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
+	}
+
 	public int getPrecnik() {
 		return this.precnik;
 	}
@@ -102,14 +130,6 @@ public class Zone implements Serializable {
 
 	public void setLat(double lat) {
 		this.lat = lat;
-	}
-
-	public Timestamp getIzmenjen() {
-		return this.izmenjeno;
-	}
-
-	public void setIzmenjen(Timestamp izmenjen) {
-		this.izmenjeno = izmenjen;
 	}
 
 	public SistemPretplatnici getSistemPretplatnici() {

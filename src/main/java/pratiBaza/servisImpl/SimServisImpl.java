@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.SimDAO;
 import pratiBaza.servis.SimServis;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.Sim;
+import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("simServis")
 public class SimServisImpl implements SimServis{
@@ -41,8 +43,18 @@ public class SimServisImpl implements SimServis{
 	}
 
 	@Transactional
-	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik) {
-		return simDAO.vratiSveSimKartice(korisnik);
+	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik, boolean aktivan) {
+		return simDAO.vratiSveSimKartice(korisnik, aktivan);
+	}
+
+	@Transactional
+	public Sim nadjiSimPoID(int id) {
+		return simDAO.nadjiSimPoID(id);
+	}
+
+	@Transactional
+	public ArrayList<Sim> vratiSveAktivneSimKartice(SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
+		return simDAO.vratiSveAktivneSimKartice(pretplatnici, organizacija, sim);
 	}
 	
 }

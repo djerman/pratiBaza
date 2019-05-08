@@ -34,6 +34,7 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 	}
 
 	public void izbrisiPretplatnika(SistemPretplatnici pretplatnik) {
+		pretplatnik.setAktivan(false);
 		pretplatnik.setIzbrisan(true);
 		pretplatnik.setVersion(pretplatnik.getVersion() + 1);
 		sessionFactory.getCurrentSession().update(pretplatnik);
