@@ -38,6 +38,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 	}
 
 	public void izbrisiGrupu(Grupe grupa) {
+		grupa.setAktivan(false);
 		grupa.setIzbrisan(true);
 		azurirajGrupu(grupa);
 	}
@@ -56,9 +57,9 @@ public class GrupeDAOImpl implements GrupeDAO{
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			if(korisnik.getOrganizacija() != null) {
-				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 			}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 		}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.desc("izbrisan"));
@@ -81,7 +82,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		if(organizacija != null) {
 			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
+			}
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.addOrder(Order.asc("naziv"));

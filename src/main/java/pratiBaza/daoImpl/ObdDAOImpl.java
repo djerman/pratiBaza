@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.ObdDAO;
 import pratiBaza.tabele.Obd;
+import pratiBaza.tabele.Objekti;
 
 @Repository("obdDAO")
 public class ObdDAOImpl implements ObdDAO{
@@ -35,6 +36,12 @@ public class ObdDAOImpl implements ObdDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public Obd nadjiObdPoslednji(Objekti objekat) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeObjekti;
+import pratiBaza.tabele.Objekti;
 
 public interface GrupeObjektiDAO {
 	
@@ -18,4 +19,8 @@ public interface GrupeObjektiDAO {
 	void izbrisiSveGrupaObjekti(Grupe grupa);
 	
 	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa);
+	
+	void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat);
+	
+	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat);
 }

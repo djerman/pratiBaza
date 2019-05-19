@@ -54,25 +54,24 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			if(aktivan) {
-				criteria.add(Restrictions.eq("aktivan", true));
 			}
-		}else {
-			
-		}
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-		}
+			}
 		criteria.addOrder(Order.desc("sistemPretplatnici"));
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
 		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
 	}

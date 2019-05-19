@@ -2,7 +2,6 @@ package pratiBaza.servisImpl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pratiBaza.dao.JavljanjaDAO;
 import pratiBaza.servis.JavljanjaServis;
 import pratiBaza.tabele.Javljanja;

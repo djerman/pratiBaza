@@ -64,15 +64,14 @@ public class SimDAOImpl implements SimDAO{
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			if(aktivan) {
-				criteria.add(Restrictions.eq("aktivan", true));
-				criteria.add(Restrictions.eq("izbrisan", false));
 			}
-		}
-		
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-		}
+			}
 		criteria.addOrder(Order.desc("sistemPretplatnici"));
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));

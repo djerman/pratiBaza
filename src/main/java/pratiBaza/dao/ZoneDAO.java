@@ -15,7 +15,7 @@ public interface ZoneDAO {
 	
 	void izbrisiZonu(Zone zona);
 	
-	ArrayList<Zone> nadjiSveZone(Korisnici korisnik);
+	ArrayList<Zone> nadjiSveZone(Korisnici korisnik, boolean aktivan);
 	
 	ArrayList<Zone> nadjiSveZonePoPretplatniku(SistemPretplatnici pretplatnik);
 	

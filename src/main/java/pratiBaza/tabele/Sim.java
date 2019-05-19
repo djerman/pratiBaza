@@ -34,7 +34,7 @@ public class Sim implements Serializable {
 	
 	private int version;
 
-	private byte zauzet;
+	private boolean zauzet;
 	
 	private boolean izbrisan;
 
@@ -145,11 +145,11 @@ public class Sim implements Serializable {
 		this.version = version;
 	}
 
-	public byte getZauzet() {
-		return this.zauzet;
+	public boolean isZauzet() {
+		return zauzet;
 	}
 
-	public void setZauzet(byte zauzet) {
+	public void setZauzet(boolean zauzet) {
 		this.zauzet = zauzet;
 	}
 

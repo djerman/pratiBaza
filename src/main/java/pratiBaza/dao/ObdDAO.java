@@ -1,6 +1,7 @@
 package pratiBaza.dao;
 
 import pratiBaza.tabele.Obd;
+import pratiBaza.tabele.Objekti;
 
 public interface ObdDAO {
 	
@@ -9,4 +10,6 @@ public interface ObdDAO {
 	void azurirajObd(Obd obd);
 	
 	void izbrisiObd(Obd obd);
+	
+	Obd nadjiObdPoslednji(Objekti objekat);
 }

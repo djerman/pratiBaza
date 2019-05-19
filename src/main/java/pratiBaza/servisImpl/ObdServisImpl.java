@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.ObdDAO;
 import pratiBaza.servis.ObdServis;
 import pratiBaza.tabele.Obd;
+import pratiBaza.tabele.Objekti;
 
 @Service("obdServis")
 public class ObdServisImpl implements ObdServis{
@@ -13,20 +14,17 @@ public class ObdServisImpl implements ObdServis{
 
 	@Transactional
 	public void unesiObd(Obd obd) {
-		// TODO Auto-generated method stub
-		
+		obdDAO.unesiObd(obd);
 	}
 
 	@Transactional
 	public void azurirajObd(Obd obd) {
-		// TODO Auto-generated method stub
-		
+		obdDAO.azurirajObd(obd);
 	}
 
 	@Transactional
 	public void izbrisiObd(Obd obd) {
-		// TODO Auto-generated method stub
-		
+		obdDAO.izbrisiObd(obd);
 	}
 
 	@Transactional
@@ -37,6 +35,11 @@ public class ObdServisImpl implements ObdServis{
 	@Transactional
 	public void setObdDAO(ObdDAO obdDAO) {
 		this.obdDAO = obdDAO;
+	}
+
+	@Transactional
+	public Obd nadjiObdPoslednji(Objekti objekat) {
+		return obdDAO.nadjiObdPoslednji(objekat);
 	}
 	
 }

@@ -31,8 +31,8 @@ public class ZoneServisImpl implements ZoneServis{
 	}
 
 	@Transactional
-	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik) {
-		return zonaDAO.nadjiSveZone(korisnik);
+	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik, boolean aktivan) {
+		return zonaDAO.nadjiSveZone(korisnik, aktivan);
 	}
 
 	@Transactional

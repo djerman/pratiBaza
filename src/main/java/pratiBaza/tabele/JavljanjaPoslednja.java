@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.sql.Timestamp;
 
-
-/**
- * The persistent class for the javljanjaPoslednja database table.
- * 
- */
 @Entity
 @Table(name="javljanjaPoslednja")
 @NamedQuery(name="JavljanjaPoslednja.findAll", query="SELECT j FROM JavljanjaPoslednja j")
@@ -31,7 +26,7 @@ public class JavljanjaPoslednja implements Serializable {
 
 	private Timestamp izmenjeno;
 
-	private byte kontakt;
+	private boolean kontakt;
 
 	private Timestamp kreirano;
 
@@ -41,7 +36,7 @@ public class JavljanjaPoslednja implements Serializable {
 
 	private float pravac;
 
-	private byte valid;
+	private boolean valid;
 
 	private int version;
 
@@ -127,14 +122,6 @@ public class JavljanjaPoslednja implements Serializable {
 		this.izmenjeno = izmenjeno;
 	}
 
-	public byte getKontakt() {
-		return this.kontakt;
-	}
-
-	public void setKontakt(byte kontakt) {
-		this.kontakt = kontakt;
-	}
-
 	public Timestamp getKreirano() {
 		return this.kreirano;
 	}
@@ -167,11 +154,19 @@ public class JavljanjaPoslednja implements Serializable {
 		this.pravac = pravac;
 	}
 
-	public byte getValid() {
-		return this.valid;
+	public boolean isKontakt() {
+		return kontakt;
 	}
 
-	public void setValid(byte valid) {
+	public void setKontakt(boolean kontakt) {
+		this.kontakt = kontakt;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
 

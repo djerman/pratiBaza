@@ -1,6 +1,8 @@
 package pratiBaza.dao;
 
+import java.util.ArrayList;
 import pratiBaza.tabele.JavljanjaPoslednja;
+import pratiBaza.tabele.Objekti;
 
 public interface JavljanjaPoslednjaDAO {
 
@@ -9,4 +11,6 @@ public interface JavljanjaPoslednjaDAO {
 	void azurirajJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje);
 	
 	void izbrisiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje);
+	
+	ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti);
 }

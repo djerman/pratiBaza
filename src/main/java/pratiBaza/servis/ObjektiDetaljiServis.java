@@ -1,5 +1,6 @@
 package pratiBaza.servis;
 
+import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.ObjektiDetalji;
 
 public interface ObjektiDetaljiServis {
@@ -9,4 +10,6 @@ public interface ObjektiDetaljiServis {
 	void azurirajObjektiDetalji(ObjektiDetalji objekatDetalj);
 	
 	void izbrisiObjektiDetalji(ObjektiDetalji objekatDetalj);
+	
+	ObjektiDetalji nadjiObjekatDetaljePoObjektu(Objekti objekti);
 }

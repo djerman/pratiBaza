@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.ObjektiDetaljiDAO;
 import pratiBaza.servis.ObjektiDetaljiServis;
+import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.ObjektiDetalji;
 
 @Service("objekatDetaljServis")
@@ -37,6 +38,12 @@ public class ObjektiDetaljiServisImpl implements ObjektiDetaljiServis{
 	@Transactional
 	public void setObjekatDetaljDAO(ObjektiDetaljiDAO objekatDetaljDAO) {
 		this.objekatDetaljDAO = objekatDetaljDAO;
+	}
+
+	@Transactional
+	public ObjektiDetalji nadjiObjekatDetaljePoObjektu(Objekti objekti) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

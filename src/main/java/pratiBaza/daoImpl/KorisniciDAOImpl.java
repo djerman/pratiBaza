@@ -35,6 +35,7 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	}
 
 	public void izbrisiKorisnika(Korisnici korisnik) {
+		korisnik.setAktivan(false);
 		korisnik.setIzbrisan(true);
 		azurirajKorisnika(korisnik);
 	}
@@ -74,14 +75,14 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			if(aktivan) {
-				criteria.add(Restrictions.eq("aktivan", true));
-				criteria.add(Restrictions.eq("izbrisan", false));
 			}
-			if(korisnik.getOrganizacija() != null) {
-				criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
 			}
-		}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));

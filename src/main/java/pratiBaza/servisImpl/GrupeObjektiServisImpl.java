@@ -9,6 +9,7 @@ import pratiBaza.dao.GrupeObjektiDAO;
 import pratiBaza.servis.GrupeObjektiServis;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeObjekti;
+import pratiBaza.tabele.Objekti;
 
 @Service("grupaObjekatServis")
 public class GrupeObjektiServisImpl implements GrupeObjektiServis{
@@ -53,6 +54,16 @@ public class GrupeObjektiServisImpl implements GrupeObjektiServis{
 	@Transactional
 	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa) {
 		return grupaObjekatDAO.nadjiSveGrupaObjektePoGrupi(grupa);
+	}
+
+	@Transactional
+	public void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat) {
+		grupaObjekatDAO.izbrisiSveGrupeObjekatPoObjektu(objekat);
+	}
+
+	@Transactional
+	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat) {
+		return grupaObjekatDAO.nadjiSveGrupaObjektePoObjektu(objekat);
 	}
 	
 

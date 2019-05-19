@@ -62,6 +62,7 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
 		}
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));

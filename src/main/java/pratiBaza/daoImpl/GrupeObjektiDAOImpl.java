@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeObjektiDAO;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeObjekti;
+import pratiBaza.tabele.Objekti;
 
 @Repository("grupaObjekatDAO")
 public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
@@ -64,6 +65,24 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
 		criteria.add(Restrictions.eq("grupe", grupa));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return grupaObjekti;
+	}
+
+	@Override
+	public void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat) {
+		ArrayList<GrupeObjekti> grupaObjekti = nadjiSveGrupaObjektePoObjektu(objekat);
+		for(GrupeObjekti grupaObjekat : grupaObjekti) {
+			izbrisiGrupaObjekat(grupaObjekat);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return grupaObjekti;

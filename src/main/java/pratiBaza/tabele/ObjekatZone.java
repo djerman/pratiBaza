@@ -6,21 +6,23 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name="zoneObjekti")
-@NamedQuery(name="ZoneObjekti.findAll", query="SELECT z FROM ZoneObjekti z")
-public class ZoneObjekti implements Serializable {
+@NamedQuery(name="ObjekatZone.findAll", query="SELECT z FROM ObjekatZone z")
+public class ObjekatZone implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	private boolean aktivan;
+	
 	private boolean izlaz;
 
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
 
-	private byte ulaz;
+	private boolean ulaz;
 	
 	private boolean izbrisan;
 
@@ -29,16 +31,33 @@ public class ZoneObjekti implements Serializable {
 	@JoinColumn(name="zonaId")
 	private Zone zone;
 
-	//bi-directional many-to-one association to Objekti
+	//bi-directional many-to-one association to Objekti zopretplatnikId
+	@ManyToOne
+	@JoinColumn(name="zopretplatnikId")
+	private SistemPretplatnici sistemPretplatnici;
+	
+	@ManyToOne
+	@JoinColumn(name="zoorganizacijaId")
+	private Organizacije organizacija;
+	
 	@ManyToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 
-	public ZoneObjekti() {
+	public ObjekatZone() {
+		
 	}
 
 	public Long getId() {
 		return this.id;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
 	}
 
 	public void setId(Long id) {
@@ -69,11 +88,11 @@ public class ZoneObjekti implements Serializable {
 		this.kreirano = kreirano;
 	}
 
-	public byte getUlaz() {
+	public boolean isUlaz() {
 		return this.ulaz;
 	}
 
-	public void setUlaz(byte ulaz) {
+	public void setUlaz(boolean ulaz) {
 		this.ulaz = ulaz;
 	}
 
@@ -99,6 +118,22 @@ public class ZoneObjekti implements Serializable {
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public SistemPretplatnici getSistemPretplatnici() {
+		return sistemPretplatnici;
+	}
+
+	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
+		this.sistemPretplatnici = sistemPretplatnici;
+	}
+
+	public Organizacije getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
 	}
 
 }

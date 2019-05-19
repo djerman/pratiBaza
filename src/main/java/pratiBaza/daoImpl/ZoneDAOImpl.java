@@ -35,31 +35,47 @@ public class ZoneDAOImpl implements ZoneDAO{
 	}
 
 	public void izbrisiZonu(Zone zona) {
+		zona.setAktivan(false);
 		zona.setIzbrisan(true);
 		izmeniZonu(zona);
 	}
 
-	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik) {
+	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik, boolean aktivan) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
-		criteria.addOrder(Order.desc("izbrisan"));
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		criteria.addOrder(Order.desc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Zone> lista = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Zone> nadjiSveZonePoPretplatniku(SistemPretplatnici pretplatnik) {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		ArrayList<Zone> lista = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Zone> nadjiSveZonePoOrganizaciji(Organizacije organizacija) {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
+		criteria.add(Restrictions.eq("organizacija", organizacija));
+		ArrayList<Zone> lista = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {

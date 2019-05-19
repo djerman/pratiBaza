@@ -14,6 +14,11 @@ public class ObjektiDetalji implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	//bi-directional many-to-one association to SistemPretplatnici
+	@ManyToOne
+	@JoinColumn(name="objekatId")
+	private Objekti objekti;
+	
 	private int brzina;
 
 	private int godina;
@@ -50,6 +55,7 @@ public class ObjektiDetalji implements Serializable {
 	private boolean teretno;
 
 	public ObjektiDetalji() {
+		
 	}
 
 	public Long getId() {
@@ -58,6 +64,14 @@ public class ObjektiDetalji implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Objekti getObjekti() {
+		return objekti;
+	}
+
+	public void setObjekti(Objekti objekti) {
+		this.objekti = objekti;
 	}
 
 	public int getBrzina() {

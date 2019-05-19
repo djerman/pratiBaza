@@ -1,5 +1,6 @@
 package pratiBaza.dao;
 
+import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.ObjektiDetalji;
 
 public interface ObjektiDetaljiDAO {
@@ -9,4 +10,6 @@ public interface ObjektiDetaljiDAO {
 	void azurirajObjektiDetalji(ObjektiDetalji objekatDetalj);
 	
 	void izbrisiObjektiDetalji(ObjektiDetalji objekatDetalj);
+	
+	ObjektiDetalji nadjiObjekatDetaljePoObjektu(Objekti objekti);
 }

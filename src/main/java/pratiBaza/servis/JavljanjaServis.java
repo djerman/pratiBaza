@@ -9,4 +9,5 @@ public interface JavljanjaServis {
 	void azurirajJavljanja(Javljanja javljanje);
 	
 	void izbrisiJavljanja(Javljanja javljanje);
+
 }

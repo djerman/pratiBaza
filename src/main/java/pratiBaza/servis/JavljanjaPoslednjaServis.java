@@ -1,6 +1,8 @@
 package pratiBaza.servis;
 
+import java.util.ArrayList;
 import pratiBaza.tabele.JavljanjaPoslednja;
+import pratiBaza.tabele.Objekti;
 
 public interface JavljanjaPoslednjaServis {
 
@@ -9,4 +11,6 @@ public interface JavljanjaPoslednjaServis {
 	void azurirajJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje);
 	
 	void izbrisiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje);
+	
+	ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti);
 }

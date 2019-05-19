@@ -17,12 +17,12 @@ public class SistemUredjajiModeli implements Serializable {
 
 	private boolean obd;
 
-	private byte obracun;
+	private boolean obracun;
 
 	@Lob
 	private String opis;
 
-	private byte sim2;
+	private boolean sim2;
 
 	private int version;
 	
@@ -65,12 +65,20 @@ public class SistemUredjajiModeli implements Serializable {
 		this.obd = obd;
 	}
 
-	public byte getObracun() {
-		return this.obracun;
+	public boolean isObracun() {
+		return obracun;
 	}
 
-	public void setObracun(byte obracun) {
+	public void setObracun(boolean obracun) {
 		this.obracun = obracun;
+	}
+
+	public boolean isSim2() {
+		return sim2;
+	}
+
+	public void setSim2(boolean sim2) {
+		this.sim2 = sim2;
 	}
 
 	public String getOpis() {
@@ -79,14 +87,6 @@ public class SistemUredjajiModeli implements Serializable {
 
 	public void setOpis(String opis) {
 		this.opis = opis;
-	}
-
-	public byte getSim2() {
-		return this.sim2;
-	}
-
-	public void setSim2(byte sim2) {
-		this.sim2 = sim2;
 	}
 
 	public int getVersion() {
