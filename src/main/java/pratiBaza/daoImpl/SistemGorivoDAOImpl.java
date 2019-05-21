@@ -43,8 +43,11 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<SistemGoriva> vratiSvaGoriva() {
+	public ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		if(!izbrisan) {
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<SistemGoriva> lista = (ArrayList<SistemGoriva>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();

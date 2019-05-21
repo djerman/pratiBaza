@@ -1,15 +1,18 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.ObjektiDetaljiDAO;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.ObjektiDetalji;
 
@@ -28,7 +31,7 @@ public class ObjektiDetaljiDAOImpl implements ObjektiDetaljiDAO{
 	}
 
 	public void azurirajObjektiDetalji(ObjektiDetalji objekatDetalj) {
-		objekatDetalj.setVersion(0);
+		objekatDetalj.setVersion(objekatDetalj.getVersion() + 1);
 		objekatDetalj.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(objekatDetalj);
 	}
@@ -51,6 +54,36 @@ public class ObjektiDetaljiDAOImpl implements ObjektiDetaljiDAO{
 		criteria.add(Restrictions.eq("objekti", objekti));
 		ObjektiDetalji objekatDetalj = (ObjektiDetalji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return objekatDetalj;
+	}
+
+	@Override
+	public ObjektiDetalji nadjiObjektiDetaljiPoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiDetalji.class);
+		criteria.add(Restrictions.eq("objekti", id));
+		ObjektiDetalji objekatDetalj = (ObjektiDetalji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return objekatDetalj;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<ObjektiDetalji> vratisveObjekatDetalje(Korisnici korisnik, boolean aktivan) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiDetalji.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		if(aktivan) {
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		criteria.addOrder(Order.desc("sistemPretplatnici"));
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("objekti"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<ObjektiDetalji> lista = (ArrayList<ObjektiDetalji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 	
 }

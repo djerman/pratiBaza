@@ -1,9 +1,12 @@
 package pratiBaza.servisImpl;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.ObjektiDetaljiDAO;
 import pratiBaza.servis.ObjektiDetaljiServis;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.ObjektiDetalji;
 
@@ -14,20 +17,17 @@ public class ObjektiDetaljiServisImpl implements ObjektiDetaljiServis{
 
 	@Transactional
 	public void unesiObjektiDetalji(ObjektiDetalji objekatDetalj) {
-		// TODO Auto-generated method stub
-		
+		objekatDetaljDAO.unesiObjektiDetalji(objekatDetalj);
 	}
 
 	@Transactional
 	public void azurirajObjektiDetalji(ObjektiDetalji objekatDetalj) {
-		// TODO Auto-generated method stub
-		
+		objekatDetaljDAO.azurirajObjektiDetalji(objekatDetalj);
 	}
 
 	@Transactional
 	public void izbrisiObjektiDetalji(ObjektiDetalji objekatDetalj) {
-		// TODO Auto-generated method stub
-		
+		objekatDetaljDAO.izbrisiObjektiDetalji(objekatDetalj);
 	}
 
 	@Transactional
@@ -42,8 +42,19 @@ public class ObjektiDetaljiServisImpl implements ObjektiDetaljiServis{
 
 	@Transactional
 	public ObjektiDetalji nadjiObjekatDetaljePoObjektu(Objekti objekti) {
-		// TODO Auto-generated method stub
-		return null;
+		return objekatDetaljDAO.nadjiObjekatDetaljePoObjektu(objekti);
+	}
+
+	@Override
+	@Transactional
+	public ObjektiDetalji nadjiObjektiDetaljiPoId(int id) {
+		return objekatDetaljDAO.nadjiObjektiDetaljiPoId(id);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<ObjektiDetalji> vratisveObjekatDetalje(Korisnici korisnik, boolean aktivan) {
+		return objekatDetaljDAO.vratisveObjekatDetalje(korisnik, aktivan);
 	}
 	
 }

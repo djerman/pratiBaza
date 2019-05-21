@@ -39,8 +39,8 @@ public class SistemGorivoServisImpl implements SistemGorivoServis{
 	}
 
 	@Transactional
-	public ArrayList<SistemGoriva> vratiSvaGoriva() {
-		return sistemGorivoDAO.vratiSvaGoriva();
+	public ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan) {
+		return sistemGorivoDAO.vratiSvaGoriva(izbrisan);
 	}
 
 	@Transactional

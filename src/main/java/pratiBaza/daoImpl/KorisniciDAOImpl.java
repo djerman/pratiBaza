@@ -44,7 +44,10 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
 		criteria.add(Restrictions.eq("email", email));
 		criteria.add(Restrictions.eq("lozinka", lozinka));
-		return (Korisnici) criteria.uniqueResult();
+		Korisnici korisnik = (Korisnici) criteria.uniqueResult();
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
+		return korisnik;
 	}
 
 	@SuppressWarnings("unchecked")

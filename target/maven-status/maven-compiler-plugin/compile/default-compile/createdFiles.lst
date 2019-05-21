@@ -1,6 +1,7 @@
 pratiBaza/servis/ObjektiServis.class
 pratiBaza/dao/AlarmiKorisnikDAO.class
 pratiBaza/tabele/Obd.class
+pratiBaza/daoImpl/ObjektiPoslednjeDAOImpl.class
 pratiBaza/dao/ObjekatZoneDAO.class
 pratiBaza/dao/ObjektiDAO.class
 pratiBaza/daoImpl/GrupeObjektiDAOImpl.class
@@ -9,6 +10,7 @@ pratiBaza/servisImpl/ObjektiDetaljiServisImpl.class
 pratiBaza/dao/JavljanjaDAO.class
 pratiBaza/daoImpl/SistemGorivoDAOImpl.class
 pratiBaza/daoImpl/JavljanjaPoslednjaDAOImpl.class
+pratiBaza/tabele/ObjektiPoslednje.class
 pratiBaza/servis/GrupeServis.class
 pratiBaza/servisImpl/ObjekatZoneServisImpl.class
 pratiBaza/dao/ObdDAO.class
@@ -36,6 +38,7 @@ pratiBaza/tabele/JavljanjaPoslednja.class
 pratiBaza/servisImpl/UredjajiServisImpl.class
 pratiBaza/daoImpl/SistemPretplatniciDAOImpl.class
 pratiBaza/servis/ObdServis.class
+pratiBaza/servisImpl/ObjektiPoslednjeServisImpl.class
 pratiBaza/servis/SistemGorivoServis.class
 pratiBaza/daoImpl/ObjektiDetaljiDAOImpl.class
 pratiBaza/dao/UredjajiDAO.class
@@ -93,6 +96,7 @@ pratiBaza/tabele/SistemAlarmi.class
 pratiBaza/servis/ObjektiDetaljiServis.class
 pratiBaza/servisImpl/ObjektiServisImpl.class
 pratiBaza/dao/GrupeKorisniciDAO.class
+pratiBaza/servis/ObjektiPoslednjeServis.class
 pratiBaza/dao/SistemGorivaDAO.class
 pratiBaza/tabele/Uredjaji.class
 pratiBaza/daoImpl/JavljanjaDAOImpl.class
@@ -105,6 +109,7 @@ pratiBaza/daoImpl/SistemSesijeDAOImpl.class
 pratiBaza/servis/OrganizacijeServis.class
 pratiBaza/tabele/Korisnici.class
 pratiBaza/tabele/Organizacije.class
+pratiBaza/dao/ObjektiPoslednjeDAO.class
 pratiBaza/servis/JavljanjaServis.class
 pratiBaza/servisImpl/JavljanjaPoslednjaServisImpl.class
 pratiBaza/dao/OrganizacijeDAO.class

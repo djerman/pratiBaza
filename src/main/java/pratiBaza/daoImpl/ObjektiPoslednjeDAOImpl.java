@@ -1,0 +1,67 @@
+package pratiBaza.daoImpl;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import pratiBaza.dao.ObjektiPoslednjeDAO;
+import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.ObjektiPoslednje;
+
+@Repository("objekatPoslednjeDAO")
+public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
+
+	//mora da se doda i get i set metode za SessionFactory objekat
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@Override
+	public void unesiObjekatPoslednje(ObjektiPoslednje objekatPoslednje) {
+		objekatPoslednje.setVersion(0);
+		objekatPoslednje.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		objekatPoslednje.setKreirano(new Timestamp((new Date()).getTime()));
+		sessionFactory.getCurrentSession().persist(objekatPoslednje);
+	}
+
+	@Override
+	public void azurirajObjektiPoslednje(ObjektiPoslednje objekatPoslednje) {
+		objekatPoslednje.setVersion(objekatPoslednje.getVersion() + 1);
+		objekatPoslednje.setKreirano(new Timestamp((new Date()).getTime()));
+		sessionFactory.getCurrentSession().update(objekatPoslednje);
+	}
+
+	@Override
+	public void izbrisiObjekatPoslednje(ObjektiPoslednje objekatPoslednje) {
+		sessionFactory.getCurrentSession().delete(objekatPoslednje);
+	}
+
+	@Override
+	public ObjektiPoslednje nadjiObjekatPoslednjePoObjektu(Objekti objekat) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiPoslednje.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		ObjektiPoslednje objekatPoslednje = (ObjektiPoslednje)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return objekatPoslednje;
+	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public ObjektiPoslednje nadjiObjektiPoslednjePoId(int id) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiPoslednje.class);
+		criteria.add(Restrictions.eq("id", id));
+		ObjektiPoslednje objekatPoslednje = (ObjektiPoslednje)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return objekatPoslednje;
+	}
+
+}

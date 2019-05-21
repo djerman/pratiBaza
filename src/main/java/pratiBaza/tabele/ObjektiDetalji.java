@@ -2,6 +2,7 @@ package pratiBaza.tabele;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -13,13 +14,21 @@ public class ObjektiDetalji implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
+	//bi-directional many-to-one association to Organizacija
+	@ManyToOne
+	@JoinColumn(name="organizacijaId")
+	private Organizacije organizacija;
+
+	//bi-directional many-to-one association to SistemPretplatnici
+	@ManyToOne
+	@JoinColumn(name="pretplatnikId")
+	private SistemPretplatnici sistemPretplatnici;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
-	
-	private int brzina;
 
 	private int godina;
 
@@ -29,13 +38,11 @@ public class ObjektiDetalji implements Serializable {
 
 	private String model;
 
-	private int neaktivan;
-
-	private String opis;
-
+	private String marka;
+	
+	private String tip;
+	
 	private float potrosnja;
-
-	private int redovan;
 
 	private String registracija;
 
@@ -46,11 +53,15 @@ public class ObjektiDetalji implements Serializable {
 	@JoinColumn(name="gorivo")
 	private SistemGoriva sistemGoriva;
 
-	private int veliki;
-
 	private int version;
 	
 	private boolean izbrisan;
+	
+	private String brojSaobracajne;
+	
+	private String serijskiBroj;
+	
+	private Date datumRegistracije;
 	
 	private boolean teretno;
 
@@ -60,6 +71,30 @@ public class ObjektiDetalji implements Serializable {
 
 	public Long getId() {
 		return this.id;
+	}
+
+	public Organizacije getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
+	}
+
+	public SistemPretplatnici getSistemPretplatnici() {
+		return sistemPretplatnici;
+	}
+
+	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
+		this.sistemPretplatnici = sistemPretplatnici;
+	}
+
+	public Date getDatumRegistracije() {
+		return datumRegistracije;
+	}
+
+	public void setDatumRegistracije(Date datumRegistracije) {
+		this.datumRegistracije = datumRegistracije;
 	}
 
 	public void setId(Long id) {
@@ -73,15 +108,7 @@ public class ObjektiDetalji implements Serializable {
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
 	}
-
-	public int getBrzina() {
-		return this.brzina;
-	}
-
-	public void setBrzina(int brzina) {
-		this.brzina = brzina;
-	}
-
+	
 	public int getGodina() {
 		return this.godina;
 	}
@@ -114,22 +141,6 @@ public class ObjektiDetalji implements Serializable {
 		this.model = model;
 	}
 
-	public int getNeaktivan() {
-		return this.neaktivan;
-	}
-
-	public void setNeaktivan(int neaktivan) {
-		this.neaktivan = neaktivan;
-	}
-
-	public String getOpis() {
-		return this.opis;
-	}
-
-	public void setOpis(String opis) {
-		this.opis = opis;
-	}
-
 	public float getPotrosnja() {
 		return this.potrosnja;
 	}
@@ -144,14 +155,6 @@ public class ObjektiDetalji implements Serializable {
 
 	public void setSistemGoriva(SistemGoriva sistemGoriva) {
 		this.sistemGoriva = sistemGoriva;
-	}
-
-	public int getRedovan() {
-		return this.redovan;
-	}
-
-	public void setRedovan(int redovan) {
-		this.redovan = redovan;
 	}
 
 	public String getRegistracija() {
@@ -170,14 +173,6 @@ public class ObjektiDetalji implements Serializable {
 		this.rezervoar = rezervoar;
 	}
 
-	public int getVeliki() {
-		return this.veliki;
-	}
-
-	public void setVeliki(int veliki) {
-		this.veliki = veliki;
-	}
-
 	public int getVersion() {
 		return this.version;
 	}
@@ -192,6 +187,38 @@ public class ObjektiDetalji implements Serializable {
 
 	public void setTeretno(boolean teretno) {
 		this.teretno = teretno;
+	}
+
+	public String getMarka() {
+		return marka;
+	}
+
+	public void setMarka(String marka) {
+		this.marka = marka;
+	}
+
+	public String getTip() {
+		return tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
+	}
+
+	public String getBrojSaobracajne() {
+		return brojSaobracajne;
+	}
+
+	public void setBrojSaobracajne(String brojSaobracajne) {
+		this.brojSaobracajne = brojSaobracajne;
+	}
+
+	public String getSerijskiBroj() {
+		return serijskiBroj;
+	}
+
+	public void setSerijskiBroj(String serijskiBroj) {
+		this.serijskiBroj = serijskiBroj;
 	}
 
 	public boolean isIzbrisan() {
