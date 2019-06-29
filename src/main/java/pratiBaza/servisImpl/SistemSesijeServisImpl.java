@@ -32,8 +32,8 @@ public class SistemSesijeServisImpl implements SistemSesijeServis{
 	}
 
 	@Transactional
-	public ArrayList<SistemSesije> nadjiSveSesije() {
-		return sistemSesijaDAO.nadjiSveSesije();
+	public ArrayList<SistemSesije> nadjiSveSesije(Korisnici korisnik) {
+		return sistemSesijaDAO.nadjiSveSesije(korisnik);
 	}
 
 	@Transactional

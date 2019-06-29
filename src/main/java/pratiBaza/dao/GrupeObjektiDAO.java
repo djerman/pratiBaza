@@ -23,4 +23,10 @@ public interface GrupeObjektiDAO {
 	void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat);
 	
 	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat);
+	
+	ArrayList<GrupeObjekti> nadjiSveGrupeObjektePoGrupama(ArrayList<Grupe> grupe);
+	
+	ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa);
+	
+	ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe);
 }

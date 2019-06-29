@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeKorisniciDAO;
+import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeKorisnici;
 import pratiBaza.tabele.Korisnici;
 
@@ -50,11 +51,26 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<GrupeKorisnici> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+	public ArrayList<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("korisnici", korisnik));
 		ArrayList<GrupeKorisnici> grupeKorisnik = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return grupeKorisnik;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Grupe> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
+		criteria.add(Restrictions.eq("korisnici", korisnik));
+		ArrayList<GrupeKorisnici> grupeKorisnik = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		ArrayList<Grupe> grupe = new ArrayList<Grupe>();
+		for(GrupeKorisnici grupaKorisnik: grupeKorisnik) {
+			if(!grupe.contains(grupaKorisnik.getGrupe())) {
+				grupe.add(grupaKorisnik.getGrupe());
+			}
+		}
+		return grupe;
 	}
 	
 	

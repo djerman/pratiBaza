@@ -131,5 +131,13 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		Uredjaji uredjaj = (Uredjaji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return uredjaj;
 	}
+
+	@Override
+	public Uredjaji nadjiUredjajPoKodu(String kod) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
+		criteria.add(Restrictions.eq("kod", kod));
+		Uredjaji uredjaj = (Uredjaji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return uredjaj;
+	}
 	
 }

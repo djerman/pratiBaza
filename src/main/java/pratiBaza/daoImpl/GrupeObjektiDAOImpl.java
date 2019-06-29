@@ -87,5 +87,44 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return grupaObjekti;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<GrupeObjekti> nadjiSveGrupeObjektePoGrupama(ArrayList<Grupe> grupe) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
+		criteria.add(Restrictions.in("grupe", grupe));
+		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return grupaObjekti;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
+		criteria.add(Restrictions.in("grupe", grupa));
+		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
+		for(GrupeObjekti grupaObjekat : grupaObjekti) {
+			if(!objekti.contains(grupaObjekat.getObjekti())) {
+				objekti.add(grupaObjekat.getObjekti());			
+				}
+			}
+		return objekti;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
+		criteria.add(Restrictions.in("grupe", grupe));
+		ArrayList<GrupeObjekti> grupeObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
+		for(GrupeObjekti grupaObjekat : grupeObjekti) {
+			if(!objekti.contains(grupaObjekat.getObjekti())) {
+				objekti.add(grupaObjekat.getObjekti());
+			}
+		}
+		return objekti;
+	}
 	
 }

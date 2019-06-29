@@ -1,4 +1,5 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Grupe.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/IzvestajTip.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/KorisniciDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/ObjektiPoslednjeDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/GrupeServisImpl.java
@@ -19,6 +20,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Obd.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/OrganizacijeServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/GrupeKorisniciPK.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/PredjeniPut.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/JavljanjaServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/GrupeKorisniciDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Javljanja.java

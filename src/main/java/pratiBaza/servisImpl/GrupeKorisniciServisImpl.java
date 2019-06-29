@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pratiBaza.dao.GrupeKorisniciDAO;
 import pratiBaza.servis.GrupeKorisniciServis;
+import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeKorisnici;
 import pratiBaza.tabele.Korisnici;
 
@@ -46,7 +47,13 @@ public class GrupeKorisniciServisImpl implements GrupeKorisniciServis{
 	}
 
 	@Transactional
-	public ArrayList<GrupeKorisnici> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+	public ArrayList<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik) {
+		return grupaKorisnikDAO.vratiSveGrupeKorisnikPoKorisniku(korisnik);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Grupe> vratiSveGrupePoKorisniku(Korisnici korisnik) {
 		return grupaKorisnikDAO.vratiSveGrupePoKorisniku(korisnik);
 	}
 	

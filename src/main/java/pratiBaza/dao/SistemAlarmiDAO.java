@@ -16,4 +16,5 @@ public interface SistemAlarmiDAO {
 	
 	SistemAlarmi nadjiAlaramPoId(int id);
 	
+	SistemAlarmi nadjiAlarmPoSifri(String sifra);
 }

@@ -31,7 +31,18 @@ public class SistemSesije implements Serializable {
 	@JoinColumn(name="korisnikId")
 	private Korisnici korisnici;
 
+	//bi-directional many-to-one association to Organizacija
+	@ManyToOne
+	@JoinColumn(name="organizacijaId")
+	private Organizacije organizacija;
+
+	//bi-directional many-to-one association to SistemPretplatnici
+	@ManyToOne
+	@JoinColumn(name="pretplatnikId")
+	private SistemPretplatnici sistemPretplatnici;
+	
 	public SistemSesije() {
+		
 	}
 
 	public Long getId() {
@@ -40,6 +51,22 @@ public class SistemSesije implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Organizacije getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
+	}
+
+	public SistemPretplatnici getSistemPretplatnici() {
+		return sistemPretplatnici;
+	}
+
+	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
+		this.sistemPretplatnici = sistemPretplatnici;
 	}
 
 	public Date getDatumKraj() {

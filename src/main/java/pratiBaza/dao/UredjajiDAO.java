@@ -22,4 +22,6 @@ public interface UredjajiDAO {
 	ArrayList<Uredjaji> nadjiSveAktivneUredjaje(Korisnici korisnik, Uredjaji uredjaj);
 	
 	Uredjaji nadjiUredjajPoId(int id);
+	
+	Uredjaji nadjiUredjajPoKodu(String kod);
 }

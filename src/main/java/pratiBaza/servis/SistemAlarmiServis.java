@@ -15,4 +15,6 @@ public interface SistemAlarmiServis {
 	ArrayList<SistemAlarmi> vratiSveAlarme();
 	
 	SistemAlarmi nadjiAlaramPoId(int id);
+	
+	SistemAlarmi nadjiAlarmPoSifri(String sifra);
 }

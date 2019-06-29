@@ -44,5 +44,11 @@ public class JavljanjaPoslednjaServisImpl implements JavljanjaPoslednjaServis{
 	public ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
 		return javljanjePoslednjeDAO.vratiListuJavljanjaPoslednjih(objekti);
 	}
+
+	@Override
+	@Transactional
+	public JavljanjaPoslednja nadjiJavljanjaPoslednjaPoObjektu(Objekti objekat) {
+		return javljanjePoslednjeDAO.nadjiJavljanjaPoslednjaPoObjektu(objekat);
+	}
 	
 }

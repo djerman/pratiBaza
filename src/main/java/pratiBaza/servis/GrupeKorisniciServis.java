@@ -2,6 +2,7 @@ package pratiBaza.servis;
 
 import java.util.ArrayList;
 
+import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeKorisnici;
 import pratiBaza.tabele.Korisnici;
 
@@ -15,5 +16,7 @@ public interface GrupeKorisniciServis {
 	
 	GrupeKorisnici nadjiGrupaKorisnikPoId(int id);
 	
-	ArrayList<GrupeKorisnici> vratiSveGrupePoKorisniku(Korisnici korisnik);
+	ArrayList<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik);
+	
+	ArrayList<Grupe> vratiSveGrupePoKorisniku(Korisnici korisnik);
 }

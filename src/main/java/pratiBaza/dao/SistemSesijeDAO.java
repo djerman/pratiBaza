@@ -14,7 +14,7 @@ public interface SistemSesijeDAO {
 	
 	void izbrisiSesiju(SistemSesije sesija);
 	
-	ArrayList<SistemSesije> nadjiSveSesije();
+	ArrayList<SistemSesije> nadjiSveSesije(Korisnici korisnik);
 	
 	ArrayList<SistemSesije> nadjiSveSesijeKorisnika(Korisnici korisnik);
 	

@@ -49,6 +49,10 @@ public class SistemAlarmi implements Serializable {
 	public SistemAlarmi() {
 	}
 
+	public String toString() {
+		return this.naziv;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}

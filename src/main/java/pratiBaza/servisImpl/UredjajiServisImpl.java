@@ -61,5 +61,11 @@ public class UredjajiServisImpl implements UredjajiServis{
 	public Uredjaji nadjiUredjajPoId(int id) {
 		return uredjajDAO.nadjiUredjajPoId(id);
 	}
+
+	@Override
+	@Transactional
+	public Uredjaji nadjiUredjajPoKodu(String kod) {
+		return uredjajDAO.nadjiUredjajPoKodu(kod);
+	}
 	
 }

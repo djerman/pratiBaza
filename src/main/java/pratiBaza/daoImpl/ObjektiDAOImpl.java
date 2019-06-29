@@ -15,6 +15,7 @@ import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
+import pratiBaza.tabele.Uredjaji;
 
 @Repository("objekatDAO")
 public class ObjektiDAOImpl implements ObjektiDAO{
@@ -76,10 +77,17 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		return lista;
 	}
 
-	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik) {
+	@SuppressWarnings("unchecked")
+	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		@SuppressWarnings("unchecked")
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
+		if(organizacija != null) {
+			criteria.add(Restrictions.eq("organizacije", organizacija));
+		}
 		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
 	}
@@ -115,6 +123,14 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		@SuppressWarnings("unchecked")
 		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
+	}
+
+	@Override
+	public Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("uredjaji", uredjaj));
+		Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return objekat;
 	}
 	
 }

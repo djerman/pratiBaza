@@ -2,7 +2,9 @@ package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,18 +20,15 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().persist(javljanjePoslednje);
 	}
 
 	public void azurirajJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().update(javljanjePoslednje);
 	}
 
 	public void izbrisiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje) {
-		// TODO Auto-generated method stub
-		
+		sessionFactory.getCurrentSession().delete(javljanjePoslednje);
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -40,9 +39,19 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
+		criteria.add(Restrictions.in("objekti", objekti));
+		ArrayList<JavljanjaPoslednja> lista = (ArrayList<JavljanjaPoslednja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
+	}
+
+	@Override
+	public JavljanjaPoslednja nadjiJavljanjaPoslednjaPoObjektu(Objekti objekat) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		return (JavljanjaPoslednja)criteria.uniqueResult();
 	}
 }

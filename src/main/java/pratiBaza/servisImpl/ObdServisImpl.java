@@ -1,5 +1,8 @@
 package pratiBaza.servisImpl;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.ObdDAO;
@@ -40,6 +43,18 @@ public class ObdServisImpl implements ObdServis{
 	@Transactional
 	public Obd nadjiObdPoslednji(Objekti objekat) {
 		return obdDAO.nadjiObdPoslednji(objekat);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Obd> nadjiObdPoObjektuOdDo(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
+		return obdDAO.nadjiObdPoObjektuOdDo(objekat, datumVremeOd, datumVremeDo);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
+		return obdDAO.nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, datumVremeOd, datumVremeDo);
 	}
 	
 }

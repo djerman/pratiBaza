@@ -48,5 +48,11 @@ public class SistemAlarmiServisImpl implements SistemAlarmiServis{
 	public SistemAlarmi nadjiAlaramPoId(int id) {
 		return sistemAlarmDAO.nadjiAlaramPoId(id);
 	}
+
+	@Override
+	@Transactional
+	public SistemAlarmi nadjiAlarmPoSifri(String sifra) {
+		return sistemAlarmDAO.nadjiAlarmPoSifri(sifra);
+	}
 	
 }

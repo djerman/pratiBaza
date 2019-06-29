@@ -12,6 +12,7 @@ import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
+import pratiBaza.tabele.Uredjaji;
 
 @Service("objekatServis")
 public class ObjektiServisImpl implements ObjektiServis{
@@ -49,8 +50,8 @@ public class ObjektiServisImpl implements ObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik) {
-		return objekatDAO.vratiObjektePoPretplatniku(pretplatnik);
+	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
+		return objekatDAO.vratiObjektePoPretplatniku(pretplatnik, organizacija, aktivan);
 	}
 
 	@Transactional
@@ -71,6 +72,12 @@ public class ObjektiServisImpl implements ObjektiServis{
 	@Transactional
 	public ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return objekatDAO.vratiSveObjekte(pretplatnik, organizacija);
+	}
+
+	@Override
+	@Transactional
+	public Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj) {
+		return objekatDAO.nadjiObjekatPoUredjaju(uredjaj);
 	}
 	
 

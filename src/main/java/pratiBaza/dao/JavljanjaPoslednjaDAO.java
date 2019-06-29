@@ -13,4 +13,6 @@ public interface JavljanjaPoslednjaDAO {
 	void izbrisiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje);
 	
 	ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti);
+	
+	JavljanjaPoslednja nadjiJavljanjaPoslednjaPoObjektu(Objekti objekat);
 }

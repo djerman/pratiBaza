@@ -26,7 +26,7 @@ public class Javljanja implements Serializable {
 
 	private Timestamp izmenjeno;
 
-	private byte kontakt;
+	private boolean kontakt;
 
 	private Timestamp kreirano;
 
@@ -36,7 +36,7 @@ public class Javljanja implements Serializable {
 
 	private float pravac;
 
-	private byte valid;
+	private boolean valid;
 
 	private int version;
 
@@ -71,6 +71,10 @@ public class Javljanja implements Serializable {
 
 	public Javljanja() {
 		
+	}
+
+	public String getNazivAlarma() {
+		return sistemAlarmi.getNaziv();
 	}
 
 	public Long getId() {
@@ -121,11 +125,11 @@ public class Javljanja implements Serializable {
 		this.izmenjeno = izmenjeno;
 	}
 
-	public byte getKontakt() {
-		return this.kontakt;
+	public boolean isKontakt() {
+		return kontakt;
 	}
 
-	public void setKontakt(byte kontakt) {
+	public void setKontakt(boolean kontakt) {
 		this.kontakt = kontakt;
 	}
 
@@ -160,12 +164,12 @@ public class Javljanja implements Serializable {
 	public void setPravac(float pravac) {
 		this.pravac = pravac;
 	}
-
-	public byte getValid() {
-		return this.valid;
+	
+	public boolean isValid() {
+		return valid;
 	}
 
-	public void setValid(byte valid) {
+	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
 

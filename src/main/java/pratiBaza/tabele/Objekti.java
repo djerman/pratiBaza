@@ -18,9 +18,9 @@ public class Objekti implements Serializable {
 
 	private boolean aktivan;
 
-	private boolean detalji;
-
-	//private byte gorivo;
+	private int vremeStajanja;
+	
+	private int prekoracenjeBrzine;
 
 	private Timestamp izmenjeno;
 
@@ -303,20 +303,28 @@ public class Objekti implements Serializable {
 		return alarmKorisnik;
 	}
 	
+	public int getVremeStajanja() {
+		return vremeStajanja;
+	}
+
+	public void setVremeStajanja(int vremeStajanja) {
+		this.vremeStajanja = vremeStajanja;
+	}
+
+	public int getPrekoracenjeBrzine() {
+		return prekoracenjeBrzine;
+	}
+
+	public void setPrekoracenjeBrzine(int prekoracenjeBrzine) {
+		this.prekoracenjeBrzine = prekoracenjeBrzine;
+	}
+
 	public boolean isAktivan() {
 		return aktivan;
 	}
 
 	public void setAktivan(boolean aktivan) {
 		this.aktivan = aktivan;
-	}
-
-	public boolean isDetalji() {
-		return detalji;
-	}
-
-	public void setDetalji(boolean detalji) {
-		this.detalji = detalji;
 	}
 
 	public boolean isIzbrisan() {

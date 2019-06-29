@@ -5,7 +5,6 @@ import pratiBaza.tabele.ObjektiPoslednje;
 
 public interface ObjektiPoslednjeServis {
 
-
 	void unesiObjekatPoslednje(ObjektiPoslednje objekatPoslednje);
 	
 	void azurirajObjektiPoslednje(ObjektiPoslednje objekatPoslednje);

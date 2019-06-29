@@ -2,7 +2,11 @@ package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemSesijeDAO;
@@ -17,23 +21,35 @@ public class SistemSesijeDAOImpl implements SistemSesijeDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiSesiju(SistemSesije sesija) {
-		// TODO Auto-generated method stub
-		
+		sesija.setVersion(0);
+		sessionFactory.getCurrentSession().persist(sesija);
 	}
 
 	public void izmeniSesiju(SistemSesije sesija) {
-		// TODO Auto-generated method stub
-		
+		sesija.setVersion(sesija.getVersion() + 1);
+		sessionFactory.getCurrentSession().update(sesija);
 	}
 
 	public void izbrisiSesiju(SistemSesije sesija) {
-		// TODO Auto-generated method stub
-		
+		sesija.setIzbrisan(true);
+		sessionFactory.getCurrentSession().update(sesija);
 	}
 
-	public ArrayList<SistemSesije> nadjiSveSesije() {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public ArrayList<SistemSesije> nadjiSveSesije(Korisnici korisnik) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemSesije.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<SistemSesije> lista = (ArrayList<SistemSesije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 
 	public ArrayList<SistemSesije> nadjiSveSesijeKorisnika(Korisnici korisnik) {

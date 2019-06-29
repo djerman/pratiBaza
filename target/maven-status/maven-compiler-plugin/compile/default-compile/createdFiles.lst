@@ -33,6 +33,7 @@ pratiBaza/servisImpl/GrupeKorisniciServisImpl.class
 pratiBaza/tabele/GrupeKorisniciPK.class
 pratiBaza/tabele/GrupeObjekti.class
 pratiBaza/servis/AlarmiKorisnikServis.class
+pratiBaza/pomocne/IzvestajTip.class
 pratiBaza/dao/JavljanjaPoslednjaDAO.class
 pratiBaza/tabele/JavljanjaPoslednja.class
 pratiBaza/servisImpl/UredjajiServisImpl.class
@@ -40,6 +41,7 @@ pratiBaza/daoImpl/SistemPretplatniciDAOImpl.class
 pratiBaza/servis/ObdServis.class
 pratiBaza/servisImpl/ObjektiPoslednjeServisImpl.class
 pratiBaza/servis/SistemGorivoServis.class
+pratiBaza/pomocne/PredjeniPut.class
 pratiBaza/daoImpl/ObjektiDetaljiDAOImpl.class
 pratiBaza/dao/UredjajiDAO.class
 pratiBaza/servisImpl/JavljanjaServisImpl.class

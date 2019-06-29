@@ -57,5 +57,13 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return alarm;
 	}
+
+	@Override
+	public SistemAlarmi nadjiAlarmPoSifri(String sifra) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
+		criteria.add(Restrictions.eq("sifra", sifra));
+		SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return alarm;
+	}
 	
 }
