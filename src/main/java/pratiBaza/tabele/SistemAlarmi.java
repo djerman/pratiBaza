@@ -2,7 +2,6 @@ package pratiBaza.tabele;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name="sistemAlarmi")
@@ -25,6 +24,8 @@ public class SistemAlarmi implements Serializable {
 	private String opis;
 
 	private boolean pregled;
+	
+	private boolean email;
 
 	private boolean prikaz;
 
@@ -35,8 +36,8 @@ public class SistemAlarmi implements Serializable {
 	private boolean izbrisan;
 
 	//bi-directional many-to-one association to AlarmiKorisnik
-	@OneToMany(mappedBy="sistemAlarm")
-	private List<AlarmiKorisnik> alarmiKorisniks;
+	/*@OneToMany(mappedBy="sistemAlarm")
+	private List<AlarmiKorisnik> alarmiKorisniks;**/
 
 	//bi-directional many-to-one association to Javljanja
 	/*@OneToMany(mappedBy="sistemAlarmi")
@@ -47,6 +48,7 @@ public class SistemAlarmi implements Serializable {
 	private List<JavljanjaPoslednja> javljanjaPoslednjas;**/
 
 	public SistemAlarmi() {
+		
 	}
 
 	public String toString() {
@@ -93,7 +95,7 @@ public class SistemAlarmi implements Serializable {
 		this.version = version;
 	}
 
-	public List<AlarmiKorisnik> getAlarmiKorisniks() {
+	/*public List<AlarmiKorisnik> getAlarmiKorisniks() {
 		return this.alarmiKorisniks;
 	}
 
@@ -113,7 +115,7 @@ public class SistemAlarmi implements Serializable {
 		alarmiKorisnik.setSistemAlarmi(null);
 
 		return alarmiKorisnik;
-	}
+	}**/
 
 	/*public List<Javljanja> getJavljanjas() {
 		return this.javljanjas;
@@ -189,6 +191,14 @@ public class SistemAlarmi implements Serializable {
 
 	public void setPregled(boolean pregled) {
 		this.pregled = pregled;
+	}
+
+	public boolean isEmail() {
+		return email;
+	}
+
+	public void setEmail(boolean email) {
+		this.email = email;
 	}
 
 	public boolean isPrikaz() {

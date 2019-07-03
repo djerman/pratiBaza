@@ -7,6 +7,7 @@ import pratiBaza.dao.AlarmiKorisnikDAO;
 import pratiBaza.servis.AlarmiKorisnikServis;
 import pratiBaza.tabele.AlarmiKorisnik;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
 
 @Service("alarmKorisnikServis")
@@ -47,6 +48,24 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 	@Transactional
 	public AlarmiKorisnik nadjiAlarmKorisnikPoId(int id) {
 		return alarmKorisnikDAO.nadjiAlarmKorisnikPoId(id);
+	}
+
+	@Override
+	@Transactional
+	public AlarmiKorisnik nadjiAlarmePoKorisnikObjekatAlarm(Korisnici korisnik, Objekti objekat, SistemAlarmi alarm) {
+		return alarmKorisnikDAO.nadjiAlarmePoKorisnikObjekatAlarm(korisnik, objekat, alarm);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno) {
+		return alarmKorisnikDAO.nadjiSveAlarmePoKorisniku(korisnik, aktivno);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat) {
+		return alarmKorisnikDAO.nadjiSveAlarmeKorisnikePoObjektu(objekat);
 	}
 	
 }

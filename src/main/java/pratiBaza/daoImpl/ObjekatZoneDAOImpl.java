@@ -107,4 +107,13 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		ArrayList<ObjekatZone> lista = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
 	}
+
+	@Override
+	public ArrayList<Zone> nadjiZonePoObjektu(Objekti objekat) {
+		ArrayList<Zone> lista = new ArrayList<Zone>();
+		for(ObjekatZone objekatZona : nadjiZoneObjektePoObjektu(objekat)) {
+			lista.add(objekatZona.getZone());
+		}
+		return lista;
+	}
 }

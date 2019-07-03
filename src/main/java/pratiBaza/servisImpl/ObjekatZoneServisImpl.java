@@ -69,5 +69,11 @@ public class ObjekatZoneServisImpl implements ObjekatZoneServis{
 	public ArrayList<ObjekatZone> vratiSveObjekatZone(Korisnici korisnik, boolean aktivan) {
 		return zonaObjekatDAO.vratiSveObjekatZone(korisnik, aktivan);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Zone> nadjiZonePoObjektu(Objekti objekat) {
+		return zonaObjekatDAO.nadjiZonePoObjektu(objekat);
+	}
 	
 }

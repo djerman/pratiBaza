@@ -59,6 +59,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/OrganizacijeDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Uredjaji.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/AlarmiKorisnikServisImpl.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/Obracuni.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/JavljanjaPoslednjaDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/SistemUredjajiModeli.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/SistemUredjajiProizvodjaciServisImpl.java
@@ -93,6 +94,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/SimDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/SistemSesijeDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/ObjekatZoneDAO.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/Mail.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/GrupeObjekti.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/SistemDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/GrupeServis.java

@@ -1,6 +1,8 @@
 package pratiBaza.daoImpl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.AlarmiKorisnikDAO;
 import pratiBaza.tabele.AlarmiKorisnik;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
 
 @Repository("alarmKorisnikDAO")
@@ -22,6 +25,8 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 
 	public void unesiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik) {
 		alarmKorisnik.setVersion(0);
+		alarmKorisnik.setIzmenjeno(new Timestamp((new Date()).getTime()));
+		alarmKorisnik.setKreirano(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().persist(alarmKorisnik);
 	}
 
@@ -55,6 +60,46 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 		criteria.add(Restrictions.eq("id", id));
 		AlarmiKorisnik alarm = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return alarm;
+	}
+
+	@Override
+	public AlarmiKorisnik nadjiAlarmePoKorisnikObjekatAlarm(Korisnici korisnik, Objekti objekat, SistemAlarmi alarm) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
+		criteria.add(Restrictions.eq("korisnik", korisnik));
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.eq("sistemAlarm", alarm));
+		AlarmiKorisnik alarmKorisnik = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return alarmKorisnik;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+		}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+		}
+		if(!korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("korisnik", korisnik));
+		}
+		if(aktivno) {
+			criteria.add(Restrictions.eq("aktivan", aktivno));
+		}
+		ArrayList<AlarmiKorisnik> lista = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.eq("aktivan", true));
+		ArrayList<AlarmiKorisnik> lista = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 	
 }

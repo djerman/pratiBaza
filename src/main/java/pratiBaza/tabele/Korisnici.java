@@ -226,14 +226,14 @@ public class Korisnici implements Serializable {
 
 	public AlarmiKorisnik addAlarmiKorisnik(AlarmiKorisnik alarmiKorisnik) {
 		getAlarmiKorisniks().add(alarmiKorisnik);
-		alarmiKorisnik.setKorisnici(this);
+		alarmiKorisnik.setKorisnik(this);
 
 		return alarmiKorisnik;
 	}
 
 	public AlarmiKorisnik removeAlarmiKorisnik(AlarmiKorisnik alarmiKorisnik) {
 		getAlarmiKorisniks().remove(alarmiKorisnik);
-		alarmiKorisnik.setKorisnici(null);
+		alarmiKorisnik.setKorisnik(null);
 
 		return alarmiKorisnik;
 	}

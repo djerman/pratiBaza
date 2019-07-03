@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.SistemAlarmi;
 
 public interface JavljanjaDAO {
 
@@ -20,4 +21,6 @@ public interface JavljanjaDAO {
 	ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmima(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo);
 	
 	ArrayList<Javljanja> vratiJavljanjaObjektaOdDoPrvoPoslednje(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo);
+	
+	ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi);
 }

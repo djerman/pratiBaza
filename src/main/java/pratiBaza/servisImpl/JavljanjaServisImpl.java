@@ -8,6 +8,7 @@ import pratiBaza.dao.JavljanjaDAO;
 import pratiBaza.servis.JavljanjaServis;
 import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.SistemAlarmi;
 
 @Service("javljanjeServis")
 public class JavljanjaServisImpl implements JavljanjaServis{
@@ -61,6 +62,12 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	@Transactional
 	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		return javljanjeDAO.vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, datumVremeOd, datumVremeDo);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi) {
+		return javljanjeDAO.vratiJavljanjaObjektaOdDoSaAlarmimaZona(objekat, vremeOd, vremeDo, alarmi);
 	}
 	
 }

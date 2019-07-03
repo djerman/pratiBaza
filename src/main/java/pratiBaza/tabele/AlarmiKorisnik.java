@@ -16,23 +16,22 @@ public class AlarmiKorisnik implements Serializable {
 
 	private int version;
 	
-	private boolean alarmiranje;
+	private boolean aktivan;
 
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
-
-	private boolean pocetna;
-
-	private boolean pracenje;
-	
-	private boolean izbrisan;
 
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
 
+	//bi-directional many-to-one association to Organizacija
+	@ManyToOne
+	@JoinColumn(name="organizacijaId")
+	private Organizacije organizacija;
+	
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
 	@JoinColumn(name="korisnikId")
@@ -69,12 +68,12 @@ public class AlarmiKorisnik implements Serializable {
 		this.version = version;
 	}
 
-	public boolean getAlarmiranje() {
-		return this.alarmiranje;
+	public boolean isAktivan() {
+		return aktivan;
 	}
 
-	public void setAlarmiranje(boolean alarmiranje) {
-		this.alarmiranje = alarmiranje;
+	public void setAktivan(boolean email) {
+		this.aktivan = email;
 	}
 
 	public Timestamp getIzmenjeno() {
@@ -101,12 +100,12 @@ public class AlarmiKorisnik implements Serializable {
 		this.sistemPretplatnici = sistemPretplatnici;
 	}
 
-	public Korisnici getKorisnici() {
-		return this.korisnik;
+	public Organizacije getOrganizacija() {
+		return organizacija;
 	}
 
-	public void setKorisnici(Korisnici korisnici) {
-		this.korisnik = korisnici;
+	public void setOrganizacija(Organizacije organizacija) {
+		this.organizacija = organizacija;
 	}
 
 	public SistemAlarmi getSistemAlarmi() {
@@ -131,38 +130,6 @@ public class AlarmiKorisnik implements Serializable {
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
-	}
-
-	public SistemAlarmi getSistemAlarm() {
-		return sistemAlarm;
-	}
-
-	public void setSistemAlarm(SistemAlarmi sistemAlarm) {
-		this.sistemAlarm = sistemAlarm;
-	}
-
-	public boolean isPocetna() {
-		return pocetna;
-	}
-
-	public void setPocetna(boolean pocetna) {
-		this.pocetna = pocetna;
-	}
-
-	public boolean isPracenje() {
-		return pracenje;
-	}
-
-	public void setPracenje(boolean pracenje) {
-		this.pracenje = pracenje;
-	}
-
-	public boolean isIzbrisan() {
-		return izbrisan;
-	}
-
-	public void setIzbrisan(boolean izbrisan) {
-		this.izbrisan = izbrisan;
 	}
 
 }

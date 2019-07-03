@@ -17,4 +17,6 @@ public interface SistemAlarmiDAO {
 	SistemAlarmi nadjiAlaramPoId(int id);
 	
 	SistemAlarmi nadjiAlarmPoSifri(String sifra);
+	
+	ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email);
 }

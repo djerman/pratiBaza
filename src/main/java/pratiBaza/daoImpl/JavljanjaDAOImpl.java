@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.JavljanjaDAO;
 import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.SistemAlarmi;
 
 @Repository("javljanjeDAO")
 public class JavljanjaDAOImpl implements JavljanjaDAO{
@@ -97,5 +98,19 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			lista.add((Javljanja)criteria2.uniqueResult());
 		}
 		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo,  ArrayList<SistemAlarmi> alarmi) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.in("sistemAlarmi", alarmi));
+		criteria.add(Restrictions.ge("datumVreme", vremeOd));
+		criteria.add(Restrictions.lt("datumVreme", vremeDo));
+		criteria.add(Restrictions.eq("valid", true));
+		criteria.addOrder(Order.asc("datumVreme"));
+		ArrayList<Javljanja> javljanja = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return javljanja;
 	}
 }

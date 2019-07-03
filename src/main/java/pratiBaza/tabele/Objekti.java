@@ -72,8 +72,8 @@ public class Objekti implements Serializable {
 	private ObjektiDetalji objektiDetalji;
 
 	//bi-directional many-to-one association to ZoneObjekti
-	@OneToMany(mappedBy="objekti")
-	private List<ObjekatZone> zoneObjektis;
+	/*@OneToMany(mappedBy="objekti")
+	private List<ObjekatZone> zoneObjektis;**/
 	
 	//bi-directional many-to-one association to ZoneObjekti
 	@OneToMany(mappedBy="objekti")
@@ -259,7 +259,7 @@ public class Objekti implements Serializable {
 		this.objektiDetalji = objektiDetalji;
 	}
 
-	public List<ObjekatZone> getZoneObjektis() {
+	/*public List<ObjekatZone> getZoneObjektis() {
 		return this.zoneObjektis;
 	}
 
@@ -279,7 +279,7 @@ public class Objekti implements Serializable {
 		zoneObjekti.setObjekti(null);
 
 		return zoneObjekti;
-	}
+	}**/
 
 	public List<AlarmiKorisnik> getAlarmiKorisniks() {
 		return alarmiKorisniks;

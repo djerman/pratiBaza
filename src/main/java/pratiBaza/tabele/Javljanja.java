@@ -74,7 +74,27 @@ public class Javljanja implements Serializable {
 	}
 
 	public String getNazivAlarma() {
-		return sistemAlarmi.getNaziv();
+		if(sistemAlarmi != null) {
+			return sistemAlarmi.getNaziv();
+		}else {
+			return " ";
+		}
+	}
+	
+	public String getNazivObjekta() {
+		if(objekti != null) {
+			return objekti.getOznaka();
+		}else {
+			return " ";
+		}
+	}
+	
+	public String getNazivZone() {
+		if(zona != null) {
+			return zona.getNaziv();
+		}else {
+			return " ";
+		}
 	}
 
 	public Long getId() {

@@ -26,4 +26,5 @@ public interface ObjekatZoneDAO {
 	
 	ArrayList<ObjekatZone> vratiSveObjekatZone(Korisnici korisnik, boolean aktivan);
 
+	ArrayList<Zone> nadjiZonePoObjektu(Objekti objekat);
 }

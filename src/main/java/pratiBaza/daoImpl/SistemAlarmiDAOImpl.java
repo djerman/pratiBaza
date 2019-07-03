@@ -42,11 +42,11 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<SistemAlarmi> vratiSveAlarme() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
 		ArrayList<SistemAlarmi> lista = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return lista;
 	}
@@ -64,6 +64,20 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		criteria.add(Restrictions.eq("sifra", sifra));
 		SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return alarm;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", aktivan));
+		}
+		if(email) {
+			criteria.add(Restrictions.eq("email", email));
+		}
+		ArrayList<SistemAlarmi> lista = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		return lista;
 	}
 	
 }

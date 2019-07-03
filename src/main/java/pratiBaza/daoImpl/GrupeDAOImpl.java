@@ -28,7 +28,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 		grupa.setVersion(0);
 		grupa.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		grupa.setKreirano(new Timestamp((new Date()).getTime()));
-		sessionFactory.getCurrentSession().save(grupa);
+		sessionFactory.getCurrentSession().persist(grupa);
 	}
 
 	public void azurirajGrupu(Grupe grupa) {

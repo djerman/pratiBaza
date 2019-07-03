@@ -54,5 +54,11 @@ public class SistemAlarmiServisImpl implements SistemAlarmiServis{
 	public SistemAlarmi nadjiAlarmPoSifri(String sifra) {
 		return sistemAlarmDAO.nadjiAlarmPoSifri(sifra);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email) {
+		return sistemAlarmDAO.vratiAlarmePoZahtevu(aktivan, email);
+	}
 	
 }
