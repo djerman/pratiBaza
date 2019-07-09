@@ -57,6 +57,7 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -73,12 +74,17 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		if(aktivan) {
@@ -88,8 +94,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		if(organizacija != null) {
 			criteria.add(Restrictions.eq("organizacije", organizacija));
 		}
-		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik) {
@@ -110,6 +120,7 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	}
 
 	public ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("aktivan", true));
@@ -121,8 +132,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		}
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<Objekti> lista = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@Override

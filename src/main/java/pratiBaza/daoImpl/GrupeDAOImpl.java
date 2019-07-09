@@ -53,6 +53,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Grupe> vratiGrupe(Korisnici korisnik) {
+		ArrayList<Grupe> lista = new ArrayList<Grupe>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -65,8 +66,12 @@ public class GrupeDAOImpl implements GrupeDAO{
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Grupe> lista = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Grupe> lista2 = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public Grupe nadjiGrupuPoId(int id) {
@@ -78,6 +83,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Grupe> lista = new ArrayList<Grupe>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		if(organizacija != null) {
@@ -86,8 +92,12 @@ public class GrupeDAOImpl implements GrupeDAO{
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.addOrder(Order.asc("naziv"));
-		ArrayList<Grupe> lista = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Grupe> lista2 = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 	
 }

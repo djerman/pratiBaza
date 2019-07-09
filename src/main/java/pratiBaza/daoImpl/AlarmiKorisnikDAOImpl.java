@@ -74,7 +74,8 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno) {
+	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
+		ArrayList<AlarmiKorisnik> lista = new ArrayList<AlarmiKorisnik>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -88,18 +89,34 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 		if(aktivno) {
 			criteria.add(Restrictions.eq("aktivan", aktivno));
 		}
-		ArrayList<AlarmiKorisnik> lista = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		if(email) {
+			criteria.add(Restrictions.eq("email", true));
+		}
+		if(obavestenje) {
+			criteria.add(Restrictions.eq("obavestenje", true));
+		}
+		ArrayList<AlarmiKorisnik> lista2 = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat) {
+		ArrayList<AlarmiKorisnik> lista = new ArrayList<AlarmiKorisnik>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.eq("aktivan", true));
-		ArrayList<AlarmiKorisnik> lista = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<AlarmiKorisnik> lista2 = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 	
 }

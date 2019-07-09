@@ -60,6 +60,7 @@ public class SimDAOImpl implements SimDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Sim> lista = new ArrayList<Sim>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -76,8 +77,12 @@ public class SimDAOImpl implements SimDAO{
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Sim> lista = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Sim> lista2 = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@Override
@@ -91,6 +96,7 @@ public class SimDAOImpl implements SimDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Sim> vratiSveAktivneSimKartice(SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
+		ArrayList<Sim> lista = new ArrayList<Sim>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -104,11 +110,18 @@ public class SimDAOImpl implements SimDAO{
 		}
 		criteria.add(Restrictions.isNull("uredjaji"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Sim> lista = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(sim != null) {
-			lista.add(sim);
+		ArrayList<Sim> lista2 = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			if(sim != null) {
+				lista2.add(sim);
+			}
+			return lista2;
+		}else {
+			if(sim != null) {
+				lista.add(sim);
+			}
+			return lista;
 		}
-		return lista;
 	}
 	
 }

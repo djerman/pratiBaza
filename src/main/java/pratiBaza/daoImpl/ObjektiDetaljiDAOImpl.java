@@ -67,6 +67,7 @@ public class ObjektiDetaljiDAOImpl implements ObjektiDetaljiDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ObjektiDetalji> vratisveObjekatDetalje(Korisnici korisnik, boolean aktivan) {
+		ArrayList<ObjektiDetalji> lista = new ArrayList<ObjektiDetalji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiDetalji.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -82,8 +83,12 @@ public class ObjektiDetaljiDAOImpl implements ObjektiDetaljiDAO{
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("objekti"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<ObjektiDetalji> lista = (ArrayList<ObjektiDetalji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<ObjektiDetalji> lista2 = (ArrayList<ObjektiDetalji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 	
 }

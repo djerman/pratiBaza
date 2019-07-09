@@ -51,13 +51,18 @@ public class ObdDAOImpl implements ObdDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDo(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
+		ArrayList<Obd> lista = new ArrayList<Obd>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
 		criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
 		criteria.addOrder(Order.asc("datumVreme"));
-		 ArrayList<Obd> obd = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return obd;
+		 ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		 if(lista2 != null) {
+			 return lista2;
+		 }else {
+			 return lista;
+		 }
 	}
 
 	@Override

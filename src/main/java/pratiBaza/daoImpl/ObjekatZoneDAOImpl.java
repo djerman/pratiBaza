@@ -39,18 +39,28 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<ObjekatZone> nadjiZoneObjektePoObjektu(Objekti objekat) {
+		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
-		ArrayList<ObjekatZone> lista = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<ObjekatZone> lista2 = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<ObjekatZone> nadjiZoneObjektePoZoni(Zone zona) {
+		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("zone", zona));
-		ArrayList<ObjekatZone> lista = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<ObjekatZone> lista2 = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -88,6 +98,7 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ObjekatZone> vratiSveObjekatZone(Korisnici korisnik, boolean aktivan) {
+		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -104,8 +115,12 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<ObjekatZone> lista = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<ObjekatZone> lista2 = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@Override
@@ -115,5 +130,14 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 			lista.add(objekatZona.getZone());
 		}
 		return lista;
+	}
+
+	@Override
+	public ObjekatZone nadjiObjekatZonuPoZoniObjektu(Objekti objekat, Zone zona) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.eq("zone", zona));
+		ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		return objekatZona;
 	}
 }

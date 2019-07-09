@@ -63,11 +63,16 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa) {
+		ArrayList<GrupeObjekti> grupaObjekti = new ArrayList<GrupeObjekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
 		criteria.add(Restrictions.eq("grupe", grupa));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return grupaObjekti;
+		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(grupaObjekti2 != null) {
+			return grupaObjekti2;
+		}else {
+			return grupaObjekti;
+		}
 	}
 
 	@Override
@@ -81,20 +86,30 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat) {
+		ArrayList<GrupeObjekti> grupaObjekti = new ArrayList<GrupeObjekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return grupaObjekti;
+		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(grupaObjekti2 != null) {
+			return grupaObjekti2;
+		}else {
+			return grupaObjekti;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<GrupeObjekti> nadjiSveGrupeObjektePoGrupama(ArrayList<Grupe> grupe) {
+		ArrayList<GrupeObjekti> grupaObjekti = new ArrayList<GrupeObjekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
 		criteria.add(Restrictions.in("grupe", grupe));
-		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return grupaObjekti;
+		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(grupaObjekti2 != null) {
+			return grupaObjekti2;
+		}else {
+			return grupaObjekti;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -104,24 +119,29 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		criteria.add(Restrictions.in("grupe", grupa));
 		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
-		for(GrupeObjekti grupaObjekat : grupaObjekti) {
-			if(!objekti.contains(grupaObjekat.getObjekti())) {
-				objekti.add(grupaObjekat.getObjekti());			
+		if(grupaObjekti != null) {
+			for(GrupeObjekti grupaObjekat : grupaObjekti) {
+				if(!objekti.contains(grupaObjekat.getObjekti())) {
+					objekti.add(grupaObjekat.getObjekti());			
+					}
 				}
-			}
+		}
 		return objekti;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
-		criteria.add(Restrictions.in("grupe", grupe));
-		ArrayList<GrupeObjekti> grupeObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
-		for(GrupeObjekti grupaObjekat : grupeObjekti) {
-			if(!objekti.contains(grupaObjekat.getObjekti())) {
-				objekti.add(grupaObjekat.getObjekti());
+		for(Grupe grupa : grupe) {
+			ArrayList<Objekti> objektiNiz = nadjiSveObjektePoGrupi(grupa);
+			if(objektiNiz != null) {
+				for(Objekti objekat : objektiNiz) {
+					if(objekat.isAktivan()) {
+						if(!objekti.contains(objekat)) {
+							objekti.add(objekat);
+						}
+					}
+				}
 			}
 		}
 		return objekti;

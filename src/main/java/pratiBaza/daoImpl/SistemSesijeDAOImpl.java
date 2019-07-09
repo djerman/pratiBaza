@@ -37,6 +37,7 @@ public class SistemSesijeDAOImpl implements SistemSesijeDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<SistemSesije> nadjiSveSesije(Korisnici korisnik) {
+		ArrayList<SistemSesije> lista = new ArrayList<SistemSesije>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemSesije.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -48,8 +49,12 @@ public class SistemSesijeDAOImpl implements SistemSesijeDAO{
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemSesije> lista = (ArrayList<SistemSesije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemSesije> lista2 = (ArrayList<SistemSesije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public ArrayList<SistemSesije> nadjiSveSesijeKorisnika(Korisnici korisnik) {

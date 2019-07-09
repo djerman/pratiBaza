@@ -75,5 +75,11 @@ public class ObjekatZoneServisImpl implements ObjekatZoneServis{
 	public ArrayList<Zone> nadjiZonePoObjektu(Objekti objekat) {
 		return zonaObjekatDAO.nadjiZonePoObjektu(objekat);
 	}
+
+	@Override
+	@Transactional
+	public ObjekatZone nadjiObjekatZonuPoZoniObjektu(Objekti objekat, Zone zona) {
+		return zonaObjekatDAO.nadjiObjekatZonuPoZoniObjektu(objekat, zona);
+	}
 	
 }

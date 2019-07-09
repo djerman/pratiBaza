@@ -3,6 +3,7 @@ package pratiBaza.servis;
 import java.util.ArrayList;
 
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 public interface KorisniciServis {
@@ -24,4 +25,6 @@ public interface KorisniciServis {
 	Korisnici nadjiKorisnikaPoId(int id);
 	
 	ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan);
+	
+	ArrayList<Korisnici> nadjiKorisnikePoOrganizaciji(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

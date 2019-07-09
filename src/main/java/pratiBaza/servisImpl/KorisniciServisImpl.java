@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.KorisniciDAO;
 import pratiBaza.servis.KorisniciServis;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("korisnikServis")
@@ -67,6 +68,12 @@ public class KorisniciServisImpl implements KorisniciServis{
 	@Transactional
 	public ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan) {
 		return korisnikDAO.nadjiKorisnikeAktivneIzbrisane(aktivan, izbrisan);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Korisnici> nadjiKorisnikePoOrganizaciji(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return korisnikDAO.nadjiKorisnikePoOrganizaciji(pretplatnik, organizacija);
 	}
 	
 }

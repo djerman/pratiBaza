@@ -52,6 +52,7 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Organizacije> nadjiSveOrganizacije(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Organizacije> lista = new ArrayList<Organizacije>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Organizacije.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -67,8 +68,12 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Organizacije> lista = (ArrayList<Organizacije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Organizacije> lista2 = (ArrayList<Organizacije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public Organizacije nadjiOrganizacijuPoId(int id) {
@@ -80,6 +85,7 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Organizacije> nadjiSveOrganizacije(SistemPretplatnici pretplatnik, boolean aktivan) {
+		ArrayList<Organizacije> lista = new ArrayList<Organizacije>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Organizacije.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -87,8 +93,12 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 			criteria.add(Restrictions.eq("aktivan", true));
 		}
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Organizacije> lista = (ArrayList<Organizacije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Organizacije> lista2 = (ArrayList<Organizacije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 	
 }

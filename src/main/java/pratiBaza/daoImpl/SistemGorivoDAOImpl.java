@@ -44,14 +44,19 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan) {
+		ArrayList<SistemGoriva> lista = new ArrayList<SistemGoriva>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
 		if(!izbrisan) {
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemGoriva> lista = (ArrayList<SistemGoriva>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemGoriva> lista2 = (ArrayList<SistemGoriva>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SistemGoriva nadjiGorivoPoId(int id) {

@@ -2,6 +2,7 @@ package pratiBaza.dao;
 
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 public interface KorisniciDAO {
@@ -23,4 +24,6 @@ public interface KorisniciDAO {
 	Korisnici nadjiKorisnikaPoId(int id);
 	
 	ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan);
+	
+	ArrayList<Korisnici> nadjiKorisnikePoOrganizaciji(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

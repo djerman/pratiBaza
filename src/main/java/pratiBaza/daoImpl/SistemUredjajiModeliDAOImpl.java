@@ -34,12 +34,17 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 	}
 
 	public ArrayList<SistemUredjajiModeli> nadjiSveUredjajModele() {
+		ArrayList<SistemUredjajiModeli> lista = new ArrayList<SistemUredjajiModeli>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiModeli.class);
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<SistemUredjajiModeli> lista = (ArrayList<SistemUredjajiModeli>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemUredjajiModeli> lista2 = (ArrayList<SistemUredjajiModeli>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {

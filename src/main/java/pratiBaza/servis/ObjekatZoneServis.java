@@ -27,4 +27,6 @@ public interface ObjekatZoneServis {
 	ArrayList<ObjekatZone> vratiSveObjekatZone(Korisnici korisnik, boolean aktivan);
 	
 	ArrayList<Zone> nadjiZonePoObjektu(Objekti objekat);
+	
+	ObjekatZone nadjiObjekatZonuPoZoniObjektu(Objekti objekat, Zone zona);
 }

@@ -44,11 +44,16 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<SistemAlarmi> vratiSveAlarme() {
+		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemAlarmi> lista = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SistemAlarmi nadjiAlaramPoId(int id) {
@@ -69,6 +74,7 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email) {
+		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", aktivan));
@@ -76,8 +82,12 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		if(email) {
 			criteria.add(Restrictions.eq("email", email));
 		}
-		ArrayList<SistemAlarmi> lista = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 	
 }

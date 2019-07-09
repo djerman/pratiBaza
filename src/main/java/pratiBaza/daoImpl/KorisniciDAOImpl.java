@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.KorisniciDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 @Repository("korisnikDAO")
@@ -52,10 +53,16 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik) {
+		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		criteria.add(Restrictions.eq("aktivan", true));
-		return (ArrayList<Korisnici>) criteria.list();
+		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public Korisnici nadjiKorisnikaPoIButton(String iButton) {
@@ -74,6 +81,7 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -90,8 +98,12 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<Korisnici> lista = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public Korisnici nadjiKorisnikaPoId(int id) {
@@ -104,6 +116,22 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	public ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Korisnici> nadjiKorisnikePoOrganizaciji(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		criteria.add(Restrictions.eq("organizacija", organizacija));
+		criteria.add(Restrictions.eq("aktivan", true));
+		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 }

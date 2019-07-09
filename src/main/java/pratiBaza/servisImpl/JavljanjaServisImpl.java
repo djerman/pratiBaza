@@ -69,5 +69,17 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi) {
 		return javljanjeDAO.vratiJavljanjaObjektaOdDoSaAlarmimaZona(objekat, vremeOd, vremeDo, alarmi);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, boolean pregled) {
+		return javljanjeDAO.vratiJavljanjaObjekataOdDoSaAlarmima(objekti, vremeOd, vremeDo, pregled);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		return javljanjeDAO.vratiJavljanjaObjekataOdDoSaBrzinama(objekti, vremeOd, vremeDo);
+	}
 	
 }

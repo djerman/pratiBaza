@@ -42,10 +42,15 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
+		ArrayList<JavljanjaPoslednja> lista = new ArrayList<JavljanjaPoslednja>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
 		criteria.add(Restrictions.in("objekti", objekti));
-		ArrayList<JavljanjaPoslednja> lista = (ArrayList<JavljanjaPoslednja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<JavljanjaPoslednja> lista2 = (ArrayList<JavljanjaPoslednja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@Override

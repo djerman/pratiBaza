@@ -52,10 +52,15 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik) {
+		ArrayList<GrupeKorisnici> grupeKorisnik = new ArrayList<GrupeKorisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("korisnici", korisnik));
-		ArrayList<GrupeKorisnici> grupeKorisnik = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return grupeKorisnik;
+		ArrayList<GrupeKorisnici> grupeKorisnik2 = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(grupeKorisnik2 != null) {
+			return grupeKorisnik2;
+		}else {
+			return grupeKorisnik;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -63,11 +68,13 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 	public ArrayList<Grupe> vratiSveGrupePoKorisniku(Korisnici korisnik) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("korisnici", korisnik));
-		ArrayList<GrupeKorisnici> grupeKorisnik = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		ArrayList<GrupeKorisnici> grupeKorisnik2 = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		ArrayList<Grupe> grupe = new ArrayList<Grupe>();
-		for(GrupeKorisnici grupaKorisnik: grupeKorisnik) {
-			if(!grupe.contains(grupaKorisnik.getGrupe())) {
-				grupe.add(grupaKorisnik.getGrupe());
+		if(grupeKorisnik2 != null) {
+			for(GrupeKorisnici grupaKorisnik: grupeKorisnik2) {
+				if(!grupe.contains(grupaKorisnik.getGrupe())) {
+					grupe.add(grupaKorisnik.getGrupe());
+				}
 			}
 		}
 		return grupe;

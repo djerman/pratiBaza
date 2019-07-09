@@ -54,6 +54,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	}
 
 	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -72,11 +73,16 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		criteria.addOrder(Order.desc("objekti"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<Uredjaji> lista = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, Uredjaji uredjaj) {
+		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -89,11 +95,12 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		criteria.add(Restrictions.isNull("objekti"));
 		criteria.addOrder(Order.asc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<Uredjaji> lista = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(uredjaj != null) {
-			lista.add(uredjaj);
+		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
 		}
-		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -105,6 +112,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	}
 
 	public ArrayList<Uredjaji> nadjiSveAktivneUredjaje(Korisnici korisnik, Uredjaji uredjaj) {
+		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -117,11 +125,12 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		criteria.add(Restrictions.isNull("objekti"));
 		criteria.addOrder(Order.asc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<Uredjaji> lista = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(uredjaj != null) {
-			lista.add(uredjaj);
+		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
 		}
-		return lista;
 	}
 
 	@Override

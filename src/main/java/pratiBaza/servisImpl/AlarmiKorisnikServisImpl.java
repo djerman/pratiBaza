@@ -58,8 +58,8 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 
 	@Override
 	@Transactional
-	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno) {
-		return alarmKorisnikDAO.nadjiSveAlarmePoKorisniku(korisnik, aktivno);
+	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
+		return alarmKorisnikDAO.nadjiSveAlarmePoKorisniku(korisnik, aktivno, email, obavestenje);
 	}
 
 	@Override

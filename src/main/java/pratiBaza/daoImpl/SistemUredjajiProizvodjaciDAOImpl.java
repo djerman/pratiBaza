@@ -33,12 +33,17 @@ public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvod
 	}
 
 	public ArrayList<SistemUredjajiProizvodjac> nadjiSveSistemUredjajeProizvodjace() {
+		ArrayList<SistemUredjajiProizvodjac> lista = new ArrayList<SistemUredjajiProizvodjac>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiProizvodjac.class);
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<SistemUredjajiProizvodjac> lista = (ArrayList<SistemUredjajiProizvodjac>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemUredjajiProizvodjac> lista2 = (ArrayList<SistemUredjajiProizvodjac>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {

@@ -13,7 +13,7 @@ public class Obracuni {
 		double dist = 0;
 		if(javljanje.getDatumVreme().after(javljanjePoslednje.getDatumVreme())) {
 			if(javljanje.isValid() && javljanje.getBrzina() < 200) {
-			    double earthRadius = 6371; //meters * 1000
+			    double earthRadius = 6371000; //meters * 1000
 			    double dLat = Math.toRadians(javljanje.getLat() - javljanjePoslednje.getLat());
 			    double dLng = Math.toRadians(javljanje.getLon() - javljanjePoslednje.getLon());
 			    double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -25,7 +25,26 @@ public class Obracuni {
 			    }
 			}
 		}
-		return dist;
+		return dist/1000;
+	}
+	
+	public double rastojanje(Javljanja javljanje, Javljanja javljanjePoslednje) {
+		double dist = 0;
+		if(javljanje.getDatumVreme().after(javljanjePoslednje.getDatumVreme())) {
+			if(javljanje.isValid() && javljanje.getBrzina() < 200) {
+			    double earthRadius = 6371000; //meters * 1000
+			    double dLat = Math.toRadians(javljanje.getLat() - javljanjePoslednje.getLat());
+			    double dLng = Math.toRadians(javljanje.getLon() - javljanjePoslednje.getLon());
+			    double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			               Math.cos(Math.toRadians(javljanjePoslednje.getLat())) * Math.cos(Math.toRadians(javljanje.getLon())) *
+			               Math.sin(dLng/2) * Math.sin(dLng/2);
+			    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			    if(earthRadius * c > 5) {
+			    	dist = (earthRadius * c);
+			    }
+			}
+		}
+		return dist/1000;
 	}
 	
 	public double rastojanjeKoordinate(Javljanja javljanje, double lat, double lon) {

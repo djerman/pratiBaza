@@ -41,6 +41,7 @@ public class ZoneDAOImpl implements ZoneDAO{
 	}
 
 	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Zone> lista = new ArrayList<Zone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
 		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -58,24 +59,38 @@ public class ZoneDAOImpl implements ZoneDAO{
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<Zone> lista = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Zone> lista2 = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Zone> nadjiSveZonePoPretplatniku(SistemPretplatnici pretplatnik) {
+		ArrayList<Zone> lista = new ArrayList<Zone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		ArrayList<Zone> lista = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Zone> lista2 = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Zone> nadjiSveZonePoOrganizaciji(Organizacije organizacija) {
+		ArrayList<Zone> lista = new ArrayList<Zone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
 		criteria.add(Restrictions.eq("organizacija", organizacija));
-		ArrayList<Zone> lista = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<Zone> lista2 = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {

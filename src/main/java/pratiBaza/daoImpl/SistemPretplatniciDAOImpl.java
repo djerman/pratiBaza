@@ -41,23 +41,33 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 	}
 
 	public ArrayList<SistemPretplatnici> nadjiSvePretplatnike() {
+		ArrayList<SistemPretplatnici> lista = new ArrayList<SistemPretplatnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
-		ArrayList<SistemPretplatnici> lista = (ArrayList<SistemPretplatnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemPretplatnici> lista2 = (ArrayList<SistemPretplatnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 	
 	public ArrayList<SistemPretplatnici> nadjiSveAktivnePretplatnike() {
+		ArrayList<SistemPretplatnici> lista = new ArrayList<SistemPretplatnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.addOrder(Order.asc("naziv"));
 		@SuppressWarnings("unchecked")
-		ArrayList<SistemPretplatnici> lista = (ArrayList<SistemPretplatnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemPretplatnici> lista2 = (ArrayList<SistemPretplatnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {

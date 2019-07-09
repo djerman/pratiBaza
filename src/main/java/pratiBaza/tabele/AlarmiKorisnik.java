@@ -17,6 +17,10 @@ public class AlarmiKorisnik implements Serializable {
 	private int version;
 	
 	private boolean aktivan;
+	
+	private boolean email;
+	
+	private boolean obavestenje;
 
 	private Timestamp izmenjeno;
 
@@ -74,6 +78,30 @@ public class AlarmiKorisnik implements Serializable {
 
 	public void setAktivan(boolean email) {
 		this.aktivan = email;
+	}
+
+	public boolean isEmail() {
+		return email;
+	}
+
+	public void setEmail(boolean email) {
+		this.email = email;
+	}
+
+	public boolean isObavestenje() {
+		return obavestenje;
+	}
+
+	public void setObavestenje(boolean obavestenje) {
+		this.obavestenje = obavestenje;
+	}
+
+	public SistemAlarmi getSistemAlarm() {
+		return sistemAlarm;
+	}
+
+	public void setSistemAlarm(SistemAlarmi sistemAlarm) {
+		this.sistemAlarm = sistemAlarm;
 	}
 
 	public Timestamp getIzmenjeno() {

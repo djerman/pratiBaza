@@ -35,11 +35,16 @@ public class SistemOperateriDAOImpl implements SistemOperateriDAO{
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<SistemOperateri> nadjiSveOperatere() {
+		ArrayList<SistemOperateri> lista = new ArrayList<SistemOperateri>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemOperateri.class);
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemOperateri> lista = (ArrayList<SistemOperateri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return lista;
+		ArrayList<SistemOperateri> lista2 = (ArrayList<SistemOperateri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {
