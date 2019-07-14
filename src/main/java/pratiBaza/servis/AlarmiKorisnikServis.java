@@ -10,7 +10,7 @@ public interface AlarmiKorisnikServis {
 	
 	void unesiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik);
 	
-	ArrayList<SistemAlarmi> vratiAlarmePoKorisniku(Korisnici korisnik);
+	ArrayList<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje);
 	
 	void azurirajAlarmiKorisnik(AlarmiKorisnik alarmKorisnik);
 	

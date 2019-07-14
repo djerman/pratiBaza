@@ -18,5 +18,7 @@ public interface SistemAlarmiServis {
 	
 	SistemAlarmi nadjiAlarmPoSifri(String sifra);
 	
-	ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email);
+	ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email, boolean pregled);
+	
+	ArrayList<SistemAlarmi> vratiAlarmeZaPregled(boolean aktivan, boolean pregled);
 }

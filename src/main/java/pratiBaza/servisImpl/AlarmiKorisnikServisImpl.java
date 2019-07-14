@@ -21,8 +21,8 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 	}
 
 	@Transactional
-	public ArrayList<SistemAlarmi> vratiAlarmePoKorisniku(Korisnici korisnik) {
-		return alarmKorisnikDAO.vratiAlarmePoKorisniku(korisnik);
+	public ArrayList<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
+		return alarmKorisnikDAO.vratiAlarmePoKorisniku(korisnik, aktivno, email, obavestenje);
 	}
 
 	@Transactional

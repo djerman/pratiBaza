@@ -31,10 +31,23 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<SistemAlarmi> vratiAlarmePoKorisniku(Korisnici korisnik) {
+	public ArrayList<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 		criteria.add(Restrictions.eq("korisnik", korisnik));
-		ArrayList<SistemAlarmi> alarmi = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+		}
+		if(aktivno) {
+			criteria.add(Restrictions.eq("aktivan", aktivno));
+		}
+		if(email) {
+			criteria.add(Restrictions.eq("email", true));
+		}
+		if(obavestenje) {
+			criteria.add(Restrictions.eq("obavestenje", true));
+		}
+		ArrayList<AlarmiKorisnik> alarmi = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		return alarmi;
 	}
 	

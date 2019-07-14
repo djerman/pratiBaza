@@ -73,7 +73,7 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email) {
+	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email, boolean pregled) {
 		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
 		if(aktivan) {
@@ -81,6 +81,27 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		}
 		if(email) {
 			criteria.add(Restrictions.eq("email", email));
+		}
+		if(pregled)
+			criteria.add(Restrictions.eq("pregled", pregled));
+		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<SistemAlarmi> vratiAlarmeZaPregled(boolean aktivan, boolean pregled) {
+		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", aktivan));
+		}
+		if(pregled) {
+			criteria.add(Restrictions.eq("pregled", pregled));
 		}
 		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {

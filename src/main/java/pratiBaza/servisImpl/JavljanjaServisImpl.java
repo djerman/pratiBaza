@@ -81,5 +81,11 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
 		return javljanjeDAO.vratiJavljanjaObjekataOdDoSaBrzinama(objekti, vremeOd, vremeDo);
 	}
+
+	@Override
+	@Transactional
+	public Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo) {
+		return javljanjeDAO.vratiJavljanjePoslednjeObjektaDo(objekat, vremeDo);
+	}
 	
 }

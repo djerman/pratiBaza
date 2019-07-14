@@ -1,6 +1,7 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.JavljanjaPoslednjaDAO;
+import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.JavljanjaPoslednja;
 import pratiBaza.tabele.Objekti;
 
@@ -47,8 +49,10 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 		criteria.add(Restrictions.in("objekti", objekti));
 		ArrayList<JavljanjaPoslednja> lista2 = (ArrayList<JavljanjaPoslednja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
+			lista2.sort(Comparator.comparing(JavljanjaPoslednja::getDatumVreme).reversed());
 			return lista2;
 		}else {
+			lista.sort(Comparator.comparing(JavljanjaPoslednja::getDatumVreme).reversed());
 			return lista;
 		}
 	}

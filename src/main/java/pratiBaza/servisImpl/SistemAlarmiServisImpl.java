@@ -57,8 +57,14 @@ public class SistemAlarmiServisImpl implements SistemAlarmiServis{
 
 	@Override
 	@Transactional
-	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email) {
-		return sistemAlarmDAO.vratiAlarmePoZahtevu(aktivan, email);
+	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email, boolean pregled) {
+		return sistemAlarmDAO.vratiAlarmePoZahtevu(aktivan, email, pregled);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<SistemAlarmi> vratiAlarmeZaPregled(boolean aktivan, boolean pregled) {
+		return sistemAlarmDAO.vratiAlarmeZaPregled(aktivan, pregled);
 	}
 	
 }

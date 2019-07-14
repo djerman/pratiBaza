@@ -27,4 +27,6 @@ public interface JavljanjaDAO {
 	ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, boolean pregled);
 	
 	ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
+	
+	Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo);
 }

@@ -171,4 +171,15 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			return javljanja;
 		}
 	}
+
+	@Override
+	public Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.lt("datumVreme", vremeDo));
+		criteria.add(Restrictions.eq("valid", true));
+		criteria.addOrder(Order.desc("datumVreme"));
+		criteria.setMaxResults(1);
+		return (Javljanja) criteria.uniqueResult();
+	}
 }
