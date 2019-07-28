@@ -115,8 +115,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	public Objekti nadjiObjekatPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		criteria.add(Restrictions.eq("id", id));
-		Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekat;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekat;
+		}else {
+			return null;
+		}
 	}
 
 	public ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
@@ -144,8 +148,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	public Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		criteria.add(Restrictions.eq("uredjaji", uredjaj));
-		Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekat;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekat;
+		}else {
+			return null;
+		}
 	}
 	
 }

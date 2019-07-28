@@ -4,6 +4,7 @@ pratiBaza/tabele/Obd.class
 pratiBaza/daoImpl/ObjektiPoslednjeDAOImpl.class
 pratiBaza/servisImpl/ProcedureServisImpl.class
 pratiBaza/dao/ObjekatZoneDAO.class
+pratiBaza/pomocne/StajanjeMirovanje.class
 pratiBaza/dao/ObjektiDAO.class
 pratiBaza/daoImpl/GrupeObjektiDAOImpl.class
 pratiBaza/daoImpl/SistemUredjajiProizvodjaciDAOImpl.class

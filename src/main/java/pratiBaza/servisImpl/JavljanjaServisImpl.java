@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.JavljanjaDAO;
+import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.servis.JavljanjaServis;
 import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Objekti;
@@ -86,6 +87,17 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	@Transactional
 	public Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo) {
 		return javljanjeDAO.vratiJavljanjePoslednjeObjektaDo(objekat, vremeDo);
+	}
+
+	@Override
+	public ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina) {
+		return javljanjeDAO.vratiStajanjaMirovanja(objekti, vremeOd, vremeDo, duzina);
 	}
 	
 }

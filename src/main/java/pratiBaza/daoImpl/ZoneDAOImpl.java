@@ -104,8 +104,13 @@ public class ZoneDAOImpl implements ZoneDAO{
 	public Zone nadjiZonuPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
 		criteria.add(Restrictions.eq("id", id));
-		Zone zona = (Zone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return zona;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Zone zona = (Zone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return zona;
+		}else {
+			return null;
+		}
+		
 	}
 
 }

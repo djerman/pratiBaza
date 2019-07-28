@@ -89,8 +89,13 @@ public class SimDAOImpl implements SimDAO{
 	public Sim nadjiSimPoID(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
 		criteria.add(Restrictions.eq("id", id));
-		Sim sim = (Sim)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return sim;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Sim sim = (Sim)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return sim;
+		}else {
+			return null;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")

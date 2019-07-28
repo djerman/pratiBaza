@@ -44,8 +44,12 @@ public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
 	public ObjektiPoslednje nadjiObjekatPoslednjePoObjektu(Objekti objekat) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiPoslednje.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
-		ObjektiPoslednje objekatPoslednje = (ObjektiPoslednje)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekatPoslednje;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			ObjektiPoslednje objekatPoslednje = (ObjektiPoslednje)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekatPoslednje;
+		}else {
+			return null;
+		}
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -60,8 +64,12 @@ public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
 	public ObjektiPoslednje nadjiObjektiPoslednjePoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiPoslednje.class);
 		criteria.add(Restrictions.eq("id", id));
-		ObjektiPoslednje objekatPoslednje = (ObjektiPoslednje)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekatPoslednje;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			ObjektiPoslednje objekatPoslednje = (ObjektiPoslednje)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekatPoslednje;
+		}else {
+			return null;
+		}
 	}
 
 }

@@ -46,8 +46,13 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 	public GrupeKorisnici nadjiGrupaKorisnikPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("id", id));
-		GrupeKorisnici grupaKorisnik = (GrupeKorisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return grupaKorisnik;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			GrupeKorisnici grupaKorisnik = (GrupeKorisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return grupaKorisnik;
+		}else {
+			return null;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")

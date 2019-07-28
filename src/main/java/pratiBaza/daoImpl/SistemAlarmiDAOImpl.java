@@ -59,16 +59,27 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 	public SistemAlarmi nadjiAlaramPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
 		criteria.add(Restrictions.eq("id", id));
-		SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return alarm;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return alarm;
+		}else {
+			return null;
+		}
 	}
 
 	@Override
 	public SistemAlarmi nadjiAlarmPoSifri(String sifra) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
 		criteria.add(Restrictions.eq("sifra", sifra));
-		SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return alarm;
+		if(sifra.equals("0")) {
+			criteria.add(Restrictions.eq("aktivan", true));
+		}
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return alarm;
+		}else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

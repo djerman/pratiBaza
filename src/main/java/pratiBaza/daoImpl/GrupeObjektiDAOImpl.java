@@ -50,8 +50,13 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 	public GrupeObjekti nadjiGrupaObjekatPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
 		criteria.add(Restrictions.eq("id", id));
-		GrupeObjekti grupaObjekat = (GrupeObjekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return grupaObjekat;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			GrupeObjekti grupaObjekat = (GrupeObjekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return grupaObjekat;
+		}else {
+			return null;
+		}
+		
 	}
 
 	public void izbrisiSveGrupaObjekti(Grupe grupa) {

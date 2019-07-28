@@ -3,14 +3,16 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-
+import java.util.Iterator;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.JavljanjaDAO;
+import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
@@ -46,7 +48,11 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	public Javljanja nadjiPoslednjeJavljanjePoObjektu(Objekti objekat) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat)).addOrder(Order.desc("datumVreme")).setMaxResults(1);
-		return (Javljanja) criteria.uniqueResult();
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		}else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -176,10 +182,84 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	public Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.lt("datumVreme", vremeDo));
+		//criteria.add(Restrictions.lt("datumVreme", vremeDo));
 		criteria.add(Restrictions.eq("valid", true));
 		criteria.addOrder(Order.desc("datumVreme"));
 		criteria.setMaxResults(1);
-		return (Javljanja) criteria.uniqueResult();
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		}else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {
+		//ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
+		Disjunction disjunction = Restrictions.disjunction();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.eq("valid", true));
+		criteria.addOrder(Order.desc("datumVreme"));
+		//for(Iterator iterator = integerArray.iterator; iterator.hasNext())
+		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		for(Iterator<Javljanja> iterator = javljanja2.iterator(); iterator.hasNext();) {
+			disjunction.add(Restrictions.lt("brzina", 6));
+		}
+		return javljanja2;
+		/*if(javljanja2 != null) {
+			return javljanja2;
+		}else {
+			return javljanja;
+		}**/
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina) {
+		ArrayList<StajanjeMirovanje> lista = new ArrayList<StajanjeMirovanje>();
+		for(Objekti objekat: objekti) {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
+			criteria.add(Restrictions.eq("objekti", objekat));
+			criteria.add(Restrictions.ge("datumVreme", vremeOd));
+			criteria.add(Restrictions.lt("datumVreme", vremeDo));
+			criteria.add(Restrictions.eq("valid", true));
+			criteria.addOrder(Order.asc("datumVreme"));
+			ArrayList<Javljanja> javljanja = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 2) {
+				for(Javljanja javljanje : javljanja) {
+					ArrayList<Javljanja> stajanje = new ArrayList<Javljanja>();//brzina < 6
+					ArrayList<Javljanja> mirovanje = new ArrayList<Javljanja>(); //kontakt true
+					while(javljanje.getBrzina() < 6) {
+						stajanje.add(javljanje);
+						if(javljanje.isKontakt()) {
+							mirovanje.add(javljanje);
+						}
+					}
+					if(stajanje.size() > 1) {
+						StajanjeMirovanje sm = new StajanjeMirovanje();
+						sm.setObjekat(objekat.getOznaka());
+						sm.setPocetak(stajanje.get(0).getDatumVreme());
+						sm.setKraj(stajanje.get(stajanje.size() - 1).getDatumVreme());
+						long razlikaStajanje = sm.getKraj().getTime() - sm.getPocetak().getTime();
+						long sati = razlikaStajanje % (1000 * 60 * 60);
+						long minuta = (razlikaStajanje - sati * 1000 * 60 * 60) % (1000 * 60);
+						long sekundi = (razlikaStajanje - sati * 1000 * 60 * 60 - minuta * 1000 *60) % 1000;
+						sm.setVremeStajanja(sati + ":" + minuta + ":" + sekundi + ":");
+						if(mirovanje.size() > 1) {
+							long razlikaMirovanje = mirovanje.get(0).getDatumVreme().getTime() - mirovanje.get(0).getDatumVreme().getTime();
+							long satiM = razlikaMirovanje % (1000 * 60 * 60);
+							long minutaM = (razlikaMirovanje - satiM * 1000 * 60 * 60) % (1000 * 60);
+							long sekundiM = (razlikaMirovanje - satiM * 1000 * 60 * 60 - minutaM * 1000 *60) % 1000;
+							sm.setVremeMirovanja(satiM + ":" + minutaM + ":" + sekundiM + ":");
+						}
+						lista.add(sm);
+					}
+				}
+			}
+		}
+
+		return lista;
 	}
 }

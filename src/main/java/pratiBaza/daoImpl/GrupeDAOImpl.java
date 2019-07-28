@@ -3,14 +3,12 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import pratiBaza.dao.GrupeDAO;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
@@ -77,8 +75,12 @@ public class GrupeDAOImpl implements GrupeDAO{
 	public Grupe nadjiGrupuPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		criteria.add(Restrictions.eq("id", id));
-		Grupe grupa = (Grupe)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return grupa;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Grupe grupa = (Grupe)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return grupa;
+		}else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

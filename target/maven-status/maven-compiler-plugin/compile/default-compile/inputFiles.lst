@@ -9,6 +9,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/GrupeObjektiServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/JavljanjaDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SistemGorivaDAO.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/StajanjeMirovanje.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ObjektiServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/ObjektiDetaljiServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/ObjektiPoslednjeDAOImpl.java

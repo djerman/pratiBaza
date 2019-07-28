@@ -2,6 +2,8 @@ package pratiBaza.servis;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
@@ -29,4 +31,8 @@ public interface JavljanjaServis {
 	ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
 	
 	Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo);
+	
+	ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat);
+	
+	ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina);
 }

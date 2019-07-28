@@ -79,8 +79,13 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 	public Organizacije nadjiOrganizacijuPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Organizacije.class);
 		criteria.add(Restrictions.eq("id", id));
-		Organizacije organizacija = (Organizacije)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return organizacija;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Organizacije organizacija = (Organizacije)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return organizacija;
+		}else {
+			return null;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")

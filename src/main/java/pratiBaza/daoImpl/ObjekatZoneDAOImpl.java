@@ -91,8 +91,12 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 	public ObjekatZone nadjiObjekatZoniPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("id", id));
-		ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekatZona;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekatZona;
+		}else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -137,7 +141,11 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.eq("zone", zona));
-		ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekatZona;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekatZona;
+		}else {
+			return null;
+		}
 	}
 }

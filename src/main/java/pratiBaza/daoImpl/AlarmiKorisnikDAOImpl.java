@@ -71,8 +71,13 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 	public AlarmiKorisnik nadjiAlarmKorisnikPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
 		criteria.add(Restrictions.eq("id", id));
-		AlarmiKorisnik alarm = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return alarm;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			AlarmiKorisnik alarmKorisnik = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return alarmKorisnik;
+		}else {
+			return null;
+		}
+		
 	}
 
 	@Override
@@ -81,8 +86,12 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 		criteria.add(Restrictions.eq("korisnik", korisnik));
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.eq("sistemAlarm", alarm));
-		AlarmiKorisnik alarmKorisnik = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return alarmKorisnik;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			AlarmiKorisnik alarmKorisnik = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return alarmKorisnik;
+		}else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -2,15 +2,12 @@ package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import pratiBaza.dao.JavljanjaPoslednjaDAO;
-import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.JavljanjaPoslednja;
 import pratiBaza.tabele.Objekti;
 
@@ -61,6 +58,11 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 	public JavljanjaPoslednja nadjiJavljanjaPoslednjaPoObjektu(Objekti objekat) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
-		return (JavljanjaPoslednja)criteria.uniqueResult();
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			return (JavljanjaPoslednja)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		}else {
+			return null;
+		}
+		
 	}
 }

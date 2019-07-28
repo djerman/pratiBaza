@@ -52,8 +52,13 @@ public class ObjektiDetaljiDAOImpl implements ObjektiDetaljiDAO{
 	public ObjektiDetalji nadjiObjekatDetaljePoObjektu(Objekti objekti) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiDetalji.class);
 		criteria.add(Restrictions.eq("objekti", objekti));
-		ObjektiDetalji objekatDetalj = (ObjektiDetalji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekatDetalj;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			ObjektiDetalji objekatDetalj = (ObjektiDetalji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekatDetalj;
+		}else {
+			return null;
+		}
+		
 	}
 
 	@Override

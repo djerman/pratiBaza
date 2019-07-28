@@ -137,16 +137,24 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	public Uredjaji nadjiUredjajPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("id", id));
-		Uredjaji uredjaj = (Uredjaji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return uredjaj;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Uredjaji uredjaj = (Uredjaji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return uredjaj;
+		}else {
+			return null;
+		}
 	}
 
 	@Override
 	public Uredjaji nadjiUredjajPoKodu(String kod) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("kod", kod));
-		Uredjaji uredjaj = (Uredjaji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return uredjaj;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Uredjaji uredjaj = (Uredjaji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return uredjaj;
+		}else {
+			return null;
+		}
 	}
 	
 }
