@@ -21,7 +21,7 @@ public interface ObjektiDAO {
 	
 	ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan);
 	
-	ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik);
+	ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik);
 	
 	ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa);
 	

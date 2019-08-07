@@ -102,9 +102,30 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		}
 	}
 
-	public ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik) {
-
-		return null;
+	@SuppressWarnings("unchecked")
+	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		criteria.add(Restrictions.eq("aktivan", true));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.eq("tip", true));
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		criteria.addOrder(Order.desc("sistemPretplatnici"));
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 	public ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa) {

@@ -55,8 +55,8 @@ public class ObjektiServisImpl implements ObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiObjektePoKorisniku(Korisnici korisnik) {
-		return objekatDAO.vratiObjektePoKorisniku(korisnik);
+	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik) {
+		return objekatDAO.vratiSvaVozila(korisnik);
 	}
 
 	@Transactional

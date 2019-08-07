@@ -114,8 +114,11 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	public Korisnici nadjiKorisnikaPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
 		criteria.add(Restrictions.eq("id", id));
-		Korisnici korisnik = (Korisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return korisnik;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			return (Korisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		}else {
+			return null;
+		}
 	}
 
 	public ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan) {
@@ -131,6 +134,35 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		criteria.add(Restrictions.eq("organizacija", organizacija));
 		criteria.add(Restrictions.eq("aktivan", true));
+		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Korisnici> nadjiSveKorisnikeVozace(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
+		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			}
+		criteria.add(Restrictions.eq("vozac", true));
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivan"));
+		criteria.addOrder(Order.desc("id"));
 		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
 			return lista2;
