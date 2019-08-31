@@ -9,8 +9,10 @@ pratiBaza/dao/ObjekatZoneDAO.class
 pratiBaza/pomocne/StajanjeMirovanje.class
 pratiBaza/daoImpl/VozaciPasosiDAOImpl.class
 pratiBaza/dao/ObjektiDAO.class
+pratiBaza/servis/VozilaOpremaPrijemServis.class
 pratiBaza/daoImpl/VozilaPrimoPredajeDAOImpl.class
 pratiBaza/daoImpl/GrupeObjektiDAOImpl.class
+pratiBaza/servisImpl/VozilaOpremaPrijemServisImpl.class
 pratiBaza/daoImpl/SistemUredjajiProizvodjaciDAOImpl.class
 pratiBaza/servisImpl/ObjektiDetaljiServisImpl.class
 pratiBaza/dao/JavljanjaDAO.class
@@ -21,7 +23,10 @@ pratiBaza/servis/GrupeServis.class
 pratiBaza/servisImpl/ObjekatZoneServisImpl.class
 pratiBaza/dao/ObdDAO.class
 pratiBaza/servisImpl/SistemUredjajiProizvodjaciServisImpl.class
+pratiBaza/pomocne/StavkaPrijema.class
 pratiBaza/pomocne/Obracuni.class
+pratiBaza/dao/VozaciLicenceDAO.class
+pratiBaza/dao/VozilaOpremaDAO.class
 pratiBaza/dao/KorisniciDAO.class
 pratiBaza/tabele/Objekti.class
 pratiBaza/dao/GrupeDAO.class
@@ -39,6 +44,7 @@ pratiBaza/tabele/SistemUredjajiModeli.class
 pratiBaza/tabele/VozaciPasosi.class
 pratiBaza/servis/KorisniciServis.class
 pratiBaza/servisImpl/SistemPretplatniciServisImpl.class
+pratiBaza/servis/VozilaOpremaServis.class
 pratiBaza/tabele/VozaciLicna.class
 pratiBaza/servisImpl/VozaciDozvoleServisImpl.class
 pratiBaza/dao/SistemOperateriDAO.class
@@ -65,6 +71,7 @@ pratiBaza/dao/UredjajiDAO.class
 pratiBaza/servisImpl/JavljanjaServisImpl.class
 pratiBaza/servisImpl/SistemGorivoServisImpl.class
 pratiBaza/servis/SistemSesijeServis.class
+pratiBaza/daoImpl/VozilaOpremaPrijemDAOImpl.class
 pratiBaza/daoImpl/SistemDAOImpl.class
 pratiBaza/dao/VozilaPrimoPredajeDAO.class
 pratiBaza/servis/ObjekatZoneServis.class
@@ -74,6 +81,7 @@ pratiBaza/dao/SistemAlarmiDAO.class
 pratiBaza/servis/SistemUredjajiModeliServis.class
 pratiBaza/tabele/SistemSesije.class
 pratiBaza/daoImpl/SistemAlarmiDAOImpl.class
+pratiBaza/tabele/VozilaOpremaPrijem.class
 pratiBaza/servisImpl/ObdServisImpl.class
 pratiBaza/daoImpl/SistemUredjajiModeliDAOImpl.class
 pratiBaza/tabele/GrupeKorisnici.class
@@ -98,6 +106,7 @@ pratiBaza/servisImpl/SistemUredjajiModeliServisImpl.class
 pratiBaza/servisImpl/VozilaPrimoPredajeServisImpl.class
 pratiBaza/dao/SimDAO.class
 pratiBaza/servisImpl/OrganizacijeServisImpl.class
+pratiBaza/servis/VozaciLicenceServis.class
 pratiBaza/daoImpl/ObdDAOImpl.class
 pratiBaza/daoImpl/SimDAOImpl.class
 pratiBaza/tabele/AlarmiKorisnik.class
@@ -110,7 +119,9 @@ pratiBaza/servis/ZoneServis.class
 pratiBaza/tabele/VozaciLekarsko.class
 pratiBaza/servis/JavljanjaPoslednjaServis.class
 pratiBaza/servis/VozaciServis.class
+pratiBaza/tabele/VozilaOprema.class
 pratiBaza/dao/SistemSesijeDAO.class
+pratiBaza/servisImpl/VozaciLicenceServisImpl.class
 pratiBaza/pomocne/RadnoVremePutGPS.class
 pratiBaza/tabele/ObjektiDetalji.class
 pratiBaza/servisImpl/VozaciServisImpl.class
@@ -147,10 +158,12 @@ pratiBaza/servisImpl/GrupeServisImpl.class
 pratiBaza/servisImpl/VozaciLekarskoServisImpl.class
 pratiBaza/daoImpl/ZoneDAOImpl.class
 pratiBaza/dao/ZoneDAO.class
+pratiBaza/dao/VozilaOpremaPrijemDAO.class
 pratiBaza/daoImpl/SistemSesijeDAOImpl.class
 pratiBaza/servis/OrganizacijeServis.class
 pratiBaza/tabele/Korisnici.class
 pratiBaza/tabele/Organizacije.class
+pratiBaza/daoImpl/VozilaOpremaDAOImpl.class
 pratiBaza/daoImpl/VozaciDAOImpl.class
 pratiBaza/dao/ObjektiPoslednjeDAO.class
 pratiBaza/servis/JavljanjaServis.class
@@ -158,11 +171,14 @@ pratiBaza/servisImpl/JavljanjaPoslednjaServisImpl.class
 pratiBaza/dao/OrganizacijeDAO.class
 pratiBaza/tabele/SistemOperateri.class
 pratiBaza/servis/VozilaNaloziServis.class
+pratiBaza/servisImpl/VozilaOpremaServisImpl.class
 pratiBaza/servis/SistemUredjajiProizvodjaciServis.class
 pratiBaza/daoImpl/ObjektiDAOImpl.class
+pratiBaza/tabele/VozaciLicence.class
 pratiBaza/daoImpl/AlarmiKorisnikDAOImpl.class
 pratiBaza/servisImpl/SimServisImpl.class
 pratiBaza/tabele/VozilaPrimoPredaje.class
+pratiBaza/daoImpl/VozaciLicenceDAOImpl.class
 pratiBaza/servisImpl/ZoneServisImpl.class
 pratiBaza/servis/SistemPretplatniciServis.class
 pratiBaza/dao/VozilaNaloziDAO.class

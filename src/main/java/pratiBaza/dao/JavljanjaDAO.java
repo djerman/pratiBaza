@@ -34,5 +34,7 @@ public interface JavljanjaDAO {
 	
 	ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat);
 	
+	Javljanja vratiJavljanjeZaStajanje(Objekti objekat);
+	
 	ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina);
 }

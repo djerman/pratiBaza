@@ -90,14 +90,22 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	}
 
 	@Override
+	@Transactional
 	public ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina) {
 		return javljanjeDAO.vratiStajanjaMirovanja(objekti, vremeOd, vremeDo, duzina);
+	}
+
+	@Override
+	@Transactional
+	public Javljanja vratiJavljanjeZaStajanje(Objekti objekat) {
+		return javljanjeDAO.vratiJavljanjeZaStajanje(objekat);
 	}
 	
 }

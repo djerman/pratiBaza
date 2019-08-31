@@ -228,38 +228,64 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			criteria.addOrder(Order.asc("datumVreme"));
 			ArrayList<Javljanja> javljanja = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 2) {
+				ArrayList<Javljanja> stajanje = new ArrayList<Javljanja>();//brzina < 6
+				ArrayList<Javljanja> mirovanje = new ArrayList<Javljanja>(); //kontakt true
+				String event = "";
 				for(Javljanja javljanje : javljanja) {
-					ArrayList<Javljanja> stajanje = new ArrayList<Javljanja>();//brzina < 6
-					ArrayList<Javljanja> mirovanje = new ArrayList<Javljanja>(); //kontakt true
-					while(javljanje.getBrzina() < 6) {
+					if(javljanje.getBrzina() < 6 && !javljanje.equals(javljanja.get(javljanja.size() - 1))) {
 						stajanje.add(javljanje);
+						if(javljanje.getSistemAlarmi().getSifra().equals("1091") || javljanje.getSistemAlarmi().getSifra().equals("1092")
+								|| javljanje.getSistemAlarmi().getSifra().equals("1095") || !javljanje.getEventData().equals("0")) {
+							event = javljanje.getEventData();
+						}
 						if(javljanje.isKontakt()) {
 							mirovanje.add(javljanje);
 						}
-					}
-					if(stajanje.size() > 1) {
-						StajanjeMirovanje sm = new StajanjeMirovanje();
-						sm.setObjekat(objekat.getOznaka());
-						sm.setPocetak(stajanje.get(0).getDatumVreme());
-						sm.setKraj(stajanje.get(stajanje.size() - 1).getDatumVreme());
-						long razlikaStajanje = sm.getKraj().getTime() - sm.getPocetak().getTime();
-						long sati = razlikaStajanje % (1000 * 60 * 60);
-						long minuta = (razlikaStajanje - sati * 1000 * 60 * 60) % (1000 * 60);
-						long sekundi = (razlikaStajanje - sati * 1000 * 60 * 60 - minuta * 1000 *60) % 1000;
-						sm.setVremeStajanja(sati + ":" + minuta + ":" + sekundi + ":");
-						if(mirovanje.size() > 1) {
-							long razlikaMirovanje = mirovanje.get(0).getDatumVreme().getTime() - mirovanje.get(0).getDatumVreme().getTime();
-							long satiM = razlikaMirovanje % (1000 * 60 * 60);
-							long minutaM = (razlikaMirovanje - satiM * 1000 * 60 * 60) % (1000 * 60);
-							long sekundiM = (razlikaMirovanje - satiM * 1000 * 60 * 60 - minutaM * 1000 *60) % 1000;
-							sm.setVremeMirovanja(satiM + ":" + minutaM + ":" + sekundiM + ":");
+					}else {
+						if(stajanje.size() > 1) {
+							StajanjeMirovanje sm = new StajanjeMirovanje();
+							sm.setObjekat(objekat.getOznaka());
+							sm.setPocetak(stajanje.get(0).getDatumVreme());
+							sm.setKraj(stajanje.get(stajanje.size() - 1).getDatumVreme());
+							long razlikaStajanje = sm.getKraj().getTime() - sm.getPocetak().getTime();
+							razlikaStajanje /= 1000;//sekunde
+							long sati = razlikaStajanje / 3600;
+							long minuta = (razlikaStajanje - sati * 3600) / 60;
+							long sekundi = razlikaStajanje - sati * 3600 - minuta * 60;
+							sm.setVremeStajanja(sati + ":" + minuta + ":" + sekundi);
+							if(mirovanje.size() > 1) {
+								long razlikaMirovanje = mirovanje.get(mirovanje.size() - 1).getDatumVreme().getTime() - mirovanje.get(0).getDatumVreme().getTime();
+								razlikaMirovanje /= 1000;
+								long satiM = razlikaMirovanje / 3600;
+								long minutaM = (razlikaMirovanje - satiM * 3600) / 60;
+								long sekundiM = razlikaMirovanje - satiM * 3600 - minutaM * 60;
+								sm.setVremeMirovanja(satiM + ":" + minutaM + ":" + sekundiM);
+							}
+							sm.setOpis(event);
+							lista.add(sm);
 						}
-						lista.add(sm);
+						stajanje.clear();
+						mirovanje.clear();
 					}
 				}
 			}
 		}
 
 		return lista;
+	}
+
+	@Override
+	public Javljanja vratiJavljanjeZaStajanje(Objekti objekat) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.eq("valid", true));
+		criteria.add(Restrictions.gt("brzina", 5));
+		criteria.addOrder(Order.desc("datumVreme"));
+		criteria.setMaxResults(1);
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		}else {
+			return null;
+		}
 	}
 }

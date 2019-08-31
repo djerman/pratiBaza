@@ -57,13 +57,13 @@ public class ObdDAOImpl implements ObdDAO{
 		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
 		criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
 		criteria.addOrder(Order.asc("datumVreme"));
-		 ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		 if(lista2 != null) {
-			 return lista2;
-		 }else {
-			 return lista;
-		 }
-	}
+		ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+			}else {
+				return lista;
+				}
+		}
 
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
@@ -88,5 +88,20 @@ public class ObdDAOImpl implements ObdDAO{
 		}
 		return lista;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Obd> nadjiObdPoslednjaStajanja(Objekti objekat, Timestamp datumVremeOd) {
+		ArrayList<Obd> lista = new ArrayList<Obd>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
+		criteria.add(Restrictions.eq("objekti", objekat));
+		criteria.add(Restrictions.gt("datumVreme", datumVremeOd));
+		criteria.addOrder(Order.asc("datumVreme"));
+		ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+			}else {
+				return lista;
+				}
+	}
 }

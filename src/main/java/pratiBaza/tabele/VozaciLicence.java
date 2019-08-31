@@ -16,9 +16,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="voziloPrimoPredaja")
-@NamedQuery(name="VozilaPrimoPredaje.findAll", query="SELECT vpp FROM VozilaPrimoPredaje vpp")
-public class VozilaPrimoPredaje implements Serializable{
+@Table(name="vozaciLicence")
+@NamedQuery(name="VozaciLicence.findAll", query="SELECT vlic FROM VozaciLicence vlic")
+public class VozaciLicence implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,32 +37,20 @@ public class VozilaPrimoPredaje implements Serializable{
 	@JoinColumn(name="organizacijaId")
 	private Organizacije organizacija;
 	
+	//bi-directional many-to-one association to Korisnici
+	@ManyToOne
+	@JoinColumn(name="korisnikId")
+	private Korisnici korisnici;
+	
 	private String broj;
 	
+	private String izdao;
+	
 	@Temporal(TemporalType.DATE)
-	private Date datum;
+	private Date izdato;
 	
-	//bi-directional many-to-one association to SistemPretplatnici
-	@ManyToOne
-	@JoinColumn(name="voziloId")
-	private Objekti vozilo;
-	
-	//bi-directional many-to-one association to Korisnici
-	@ManyToOne
-	@JoinColumn(name="vozacPredaja")
-	private Korisnici vozacPredaja;
-	
-	//bi-directional many-to-one association to Korisnici
-	@ManyToOne
-	@JoinColumn(name="administrator")
-	private Korisnici administrator;
-	
-	//bi-directional many-to-one association to Korisnici
-	@ManyToOne
-	@JoinColumn(name="vozacPrijem")
-	private Korisnici vozacPrijem;
-	
-	private String komentar;
+	@Temporal(TemporalType.DATE)
+	private Date vaziDo;
 	
 	private Timestamp kreirano;
 	
@@ -70,7 +58,7 @@ public class VozilaPrimoPredaje implements Serializable{
 	
 	private boolean izbrisan;
 	
-	public VozilaPrimoPredaje() {
+	public VozaciLicence() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -106,6 +94,14 @@ public class VozilaPrimoPredaje implements Serializable{
 		this.organizacija = organizacija;
 	}
 
+	public Korisnici getKorisnici() {
+		return korisnici;
+	}
+
+	public void setKorisnici(Korisnici korisnici) {
+		this.korisnici = korisnici;
+	}
+
 	public String getBroj() {
 		return broj;
 	}
@@ -114,52 +110,28 @@ public class VozilaPrimoPredaje implements Serializable{
 		this.broj = broj;
 	}
 
-	public Date getDatum() {
-		return datum;
+	public String getIzdao() {
+		return izdao;
 	}
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
+	public void setIzdao(String izdao) {
+		this.izdao = izdao;
 	}
 
-	public Objekti getVozilo() {
-		return vozilo;
+	public Date getIzdato() {
+		return izdato;
 	}
 
-	public void setVozilo(Objekti vozilo) {
-		this.vozilo = vozilo;
+	public void setIzdato(Date izdato) {
+		this.izdato = izdato;
 	}
 
-	public Korisnici getVozacPredaja() {
-		return vozacPredaja;
+	public Date getVaziDo() {
+		return vaziDo;
 	}
 
-	public void setVozacPredaja(Korisnici vozacPredaja) {
-		this.vozacPredaja = vozacPredaja;
-	}
-
-	public Korisnici getAdministrator() {
-		return administrator;
-	}
-
-	public void setAdministrator(Korisnici administrator) {
-		this.administrator = administrator;
-	}
-
-	public Korisnici getVozacPrijem() {
-		return vozacPrijem;
-	}
-
-	public void setVozacPrijem(Korisnici vozacPrijem) {
-		this.vozacPrijem = vozacPrijem;
-	}
-
-	public String getKomentar() {
-		return komentar;
-	}
-
-	public void setKomentar(String komentar) {
-		this.komentar = komentar;
+	public void setVaziDo(Date vaziDo) {
+		this.vaziDo = vaziDo;
 	}
 
 	public Timestamp getKreirano() {

@@ -70,8 +70,8 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		criteria.addOrder(Order.desc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("objekti"));
 		criteria.addOrder(Order.desc("id"));
+		criteria.addOrder(Order.asc("objekti"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
@@ -93,7 +93,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 			criteria.add(Restrictions.eq("organizacija",  organizacija));
 		}
 		criteria.add(Restrictions.isNull("objekti"));
-		criteria.addOrder(Order.asc("id"));
+		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
@@ -123,7 +123,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 		}
 		criteria.add(Restrictions.isNull("objekti"));
-		criteria.addOrder(Order.asc("id"));
+		criteria.addOrder(Order.desc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {

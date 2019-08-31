@@ -116,5 +116,20 @@ public class VozilaNaloziDAOImpl implements VozilaNaloziDAO{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(ArrayList<Objekti> objekti, Timestamp pocetak, Timestamp kraj) {
+		ArrayList<VozilaNalozi> lista = new ArrayList<VozilaNalozi>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaNalozi.class);
+		criteria.add(Restrictions.in("vozilo", objekti));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		ArrayList<VozilaNalozi> lista2 = (ArrayList<VozilaNalozi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
 	
 }

@@ -100,7 +100,7 @@ public class VozilaPrimoPredajeDAOImpl implements VozilaPrimoPredajeDAO{
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("ocekivaniPolazak"));
+		criteria.addOrder(Order.desc("datum"));
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<VozilaPrimoPredaje> lista2 = (ArrayList<VozilaPrimoPredaje>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {

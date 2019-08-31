@@ -56,5 +56,11 @@ public class ObdServisImpl implements ObdServis{
 	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		return obdDAO.nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, datumVremeOd, datumVremeDo);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Obd> nadjiObdPoslednjaStajanja(Objekti objekat, Timestamp datumVremeOd) {
+		return obdDAO.nadjiObdPoslednjaStajanja(objekat, datumVremeOd);
+	}
 	
 }
