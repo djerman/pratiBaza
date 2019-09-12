@@ -69,7 +69,7 @@ public class Objekti implements Serializable {
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
 	@JoinColumn(name="detaljiId")
-	private ObjektiDetalji objektiDetalji;
+	private Vozila objektiDetalji;
 
 	//bi-directional many-to-one association to ZoneObjekti
 	/*@OneToMany(mappedBy="objekti")
@@ -251,11 +251,11 @@ public class Objekti implements Serializable {
 		this.uredjaji = uredjaji;
 	}
 
-	public ObjektiDetalji getObjektiDetalji() {
+	public Vozila getObjektiDetalji() {
 		return objektiDetalji;
 	}
 
-	public void setObjektiDetalji(ObjektiDetalji objektiDetalji) {
+	public void setObjektiDetalji(Vozila objektiDetalji) {
 		this.objektiDetalji = objektiDetalji;
 	}
 
