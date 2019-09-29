@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaNalozi;
 
 public interface VozilaNaloziServis {
@@ -16,9 +17,9 @@ public interface VozilaNaloziServis {
 	
 	VozilaNalozi nadjiVoziloNalog(int id);
 	
-	VozilaNalozi nadjiVoziloNalogPoVozilu(Objekti objekat);
+	VozilaNalozi nadjiVoziloNalogPoVozilu(Vozila vozilo);
 	
-	ArrayList<VozilaNalozi> nadjiSveVozilaNalogePoObjektu(Objekti objekat);
+	ArrayList<VozilaNalozi> nadjiSveVozilaNalogePoVozilu(Vozila vozilo);
 	
 	ArrayList<VozilaNalozi> nadjiSveVozilaNaloge(Korisnici korisnik);
 	

@@ -59,6 +59,11 @@ public class Vozila implements Serializable {
 	
 	private String brojSaobracajne;
 	
+	//bi-directional many-to-one association to SistemPretplatnici
+    @ManyToOne
+	@JoinColumn(name="saobracajnaId")
+	private VozilaSaobracajne saobracajna;
+	
 	private String serijskiBroj;
 	
 	private Date datumRegistracije;
@@ -163,6 +168,14 @@ public class Vozila implements Serializable {
 
 	public void setRegistracija(String registracija) {
 		this.registracija = registracija;
+	}
+
+	public VozilaSaobracajne getSaobracajna() {
+		return saobracajna;
+	}
+
+	public void setSaobracajna(VozilaSaobracajne saobracajna) {
+		this.saobracajna = saobracajna;
 	}
 
 	public int getRezervoar() {

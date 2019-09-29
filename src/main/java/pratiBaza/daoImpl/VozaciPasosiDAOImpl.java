@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.VozaciPasosiDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciPasosi;
 
 @Repository("vozacPasosDAO")
@@ -55,9 +56,9 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 	}
 
 	@Override
-	public VozaciPasosi nadjiVozacPasosPoKorisniku(Korisnici korisnik) {
+	public VozaciPasosi nadjiVozacPasosPoVozacu(Vozaci vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciPasosi.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
+		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.addOrder(Order.desc("id")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -69,18 +70,15 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciPasosi> nadjiSveVozacPasosPoKorisniku(Korisnici korisnik) {
+	public ArrayList<VozaciPasosi> nadjiSveVozacPasosPoVozacu(Vozaci vozac) {
 		ArrayList<VozaciPasosi> lista = new ArrayList<VozaciPasosi>();
-		if(korisnik.isVozac()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciPasosi.class);
-			criteria.add(Restrictions.eq("korisnici", korisnik));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			ArrayList<VozaciPasosi> lista2 = (ArrayList<VozaciPasosi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				return lista2;
-			}else {
-				return lista;
-			}
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciPasosi.class);
+		criteria.createAlias("vozaci", "v");
+		criteria.add(Restrictions.eq("v.korisnici", vozac));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		ArrayList<VozaciPasosi> lista2 = (ArrayList<VozaciPasosi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
 		}else {
 			return lista;
 		}
@@ -96,7 +94,9 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("vozaci", "v");
+			criteria.createAlias("v.korisnici", "k");
+			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));

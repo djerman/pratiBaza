@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.VozaciLicnaDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLicna;
 
 @Repository("vozacLicnaDAO")
@@ -55,9 +56,9 @@ public class VozaciLicnaDAOImpl implements VozaciLicnaDAO{
 	}
 
 	@Override
-	public VozaciLicna nadjiVozacLicnaPoKorisniku(Korisnici korisnik) {
+	public VozaciLicna nadjiVozacLicnaPoVozacu(Vozaci vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicna.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
+		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.addOrder(Order.desc("id")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -69,18 +70,14 @@ public class VozaciLicnaDAOImpl implements VozaciLicnaDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciLicna> nadjiSveVozacLicnaPoKorisniku(Korisnici korisnik) {
+	public ArrayList<VozaciLicna> nadjiSveVozacLicnaPoVozacu(Vozaci vozac) {
 		ArrayList<VozaciLicna> lista = new ArrayList<VozaciLicna>();
-		if(korisnik.isVozac()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicna.class);
-			criteria.add(Restrictions.eq("korisnici", korisnik));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			ArrayList<VozaciLicna> lista2 = (ArrayList<VozaciLicna>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				return lista2;
-			}else {
-				return lista;
-			}
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicna.class);
+		criteria.add(Restrictions.eq("vozaci", vozac));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		ArrayList<VozaciLicna> lista2 = (ArrayList<VozaciLicna>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
 		}else {
 			return lista;
 		}
@@ -96,7 +93,9 @@ public class VozaciLicnaDAOImpl implements VozaciLicnaDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("vozaci", "v");
+			criteria.createAlias("v.korisnici", "k");
+			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));

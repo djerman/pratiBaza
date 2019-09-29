@@ -41,7 +41,7 @@ public class VozilaNalozi implements Serializable{
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
 	@JoinColumn(name="voziloId")
-	private Objekti vozilo;
+	private Vozila vozilo;
 	
 	private String odMesta;
 	
@@ -58,7 +58,7 @@ public class VozilaNalozi implements Serializable{
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
 	@JoinColumn(name="vozacId")
-	private Korisnici vozac;
+	private Vozaci vozac;
 	
 	private String komentar;
 	
@@ -112,11 +112,11 @@ public class VozilaNalozi implements Serializable{
 		this.brojNaloga = brojNaloga;
 	}
 
-	public Objekti getVozilo() {
+	public Vozila getVozilo() {
 		return vozilo;
 	}
 
-	public void setVozilo(Objekti vozilo) {
+	public void setVozilo(Vozila vozilo) {
 		this.vozilo = vozilo;
 	}
 
@@ -161,11 +161,11 @@ public class VozilaNalozi implements Serializable{
 		this.ocekivaniDolazak = ocekivaniDolazak;
 	}
 
-	public Korisnici getVozac() {
+	public Vozaci getVozac() {
 		return vozac;
 	}
 
-	public void setVozac(Korisnici vozac) {
+	public void setVozac(Vozaci vozac) {
 		this.vozac = vozac;
 	}
 

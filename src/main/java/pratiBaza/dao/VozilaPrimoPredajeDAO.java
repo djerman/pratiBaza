@@ -2,7 +2,7 @@ package pratiBaza.dao;
 
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaPrimoPredaje;
 
 public interface VozilaPrimoPredajeDAO {
@@ -15,9 +15,9 @@ public interface VozilaPrimoPredajeDAO {
 	
 	VozilaPrimoPredaje nadjiVoziloPrimoPredajaPoId(int id);
 	
-	VozilaPrimoPredaje nadjiVoziloPripmoPredajuPoVozilu(Objekti objekat);
+	VozilaPrimoPredaje nadjiVoziloPrimoPredajuPoVozilu(Vozila vozilo);
 	
-	ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredajePoObjektu(Objekti objekat);
+	ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredajePoVozilu(Vozila vozilo);
 	
 	ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredaje(Korisnici korisnik);
 }

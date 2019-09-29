@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.VozilaPrimoPredajeDAO;
 import pratiBaza.servis.VozilaPrimoPredajeServis;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaPrimoPredaje;
 
 @Service("voziloPrimoPredajaServis")
@@ -41,14 +41,14 @@ public class VozilaPrimoPredajeServisImpl implements VozilaPrimoPredajeServis{
 
 	@Transactional
 	@Override
-	public VozilaPrimoPredaje nadjiVoziloPripmoPredajuPoVozilu(Objekti objekat) {
-		return voziloPrimoPredajaDAO.nadjiVoziloPripmoPredajuPoVozilu(objekat);
+	public VozilaPrimoPredaje nadjiVoziloPrimoPredajuPoVozilu(Vozila vozilo) {
+		return voziloPrimoPredajaDAO.nadjiVoziloPrimoPredajuPoVozilu(vozilo);
 	}
 
 	@Transactional
 	@Override
-	public ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredajePoObjektu(Objekti objekat) {
-		return voziloPrimoPredajaDAO.nadjiSveVozilaPrimoPredajePoObjektu(objekat);
+	public ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredajePoObjektu(Vozila vozilo) {
+		return voziloPrimoPredajaDAO.nadjiSveVozilaPrimoPredajePoVozilu(vozilo);
 	}
 
 	@Transactional

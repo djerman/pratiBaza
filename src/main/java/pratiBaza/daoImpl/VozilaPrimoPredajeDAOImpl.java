@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozilaPrimoPredajeDAO;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaPrimoPredaje;
 
 @Repository("voziloPrimoPredajaDAO")
@@ -55,9 +55,9 @@ public class VozilaPrimoPredajeDAOImpl implements VozilaPrimoPredajeDAO{
 	}
 
 	@Override
-	public VozilaPrimoPredaje nadjiVoziloPripmoPredajuPoVozilu(Objekti objekat) {
+	public VozilaPrimoPredaje nadjiVoziloPrimoPredajuPoVozilu(Vozila vozilo) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaPrimoPredaje.class);
-		criteria.add(Restrictions.eq("vozilo", objekat));
+		criteria.add(Restrictions.eq("vozilo", vozilo));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.addOrder(Order.desc("id")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -69,18 +69,14 @@ public class VozilaPrimoPredajeDAOImpl implements VozilaPrimoPredajeDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredajePoObjektu(Objekti objekat) {
+	public ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredajePoVozilu(Vozila vozilo) {
 		ArrayList<VozilaPrimoPredaje> lista = new ArrayList<VozilaPrimoPredaje>();
-		if(objekat.getTip()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaPrimoPredaje.class);
-			criteria.add(Restrictions.eq("vozilo", objekat));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			ArrayList<VozilaPrimoPredaje> lista2 = (ArrayList<VozilaPrimoPredaje>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				return lista2;
-			}else {
-				return lista;
-			}
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaPrimoPredaje.class);
+		criteria.add(Restrictions.eq("vozilo", vozilo));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		ArrayList<VozilaPrimoPredaje> lista2 = (ArrayList<VozilaPrimoPredaje>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
 		}else {
 			return lista;
 		}
@@ -96,7 +92,9 @@ public class VozilaPrimoPredajeDAOImpl implements VozilaPrimoPredajeDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("vozilo", "v");
+			criteria.createAlias("v.objekti", "o");
+			criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));

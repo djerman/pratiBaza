@@ -9,6 +9,7 @@ import pratiBaza.servis.VozilaServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Vozila;
+import pratiBaza.tabele.VozilaSaobracajne;
 
 @Service("voziloServis")
 public class VozilaServisImpl implements VozilaServis{
@@ -55,6 +56,12 @@ public class VozilaServisImpl implements VozilaServis{
 	@Transactional
 	public void setVoziloDAO(VozilaDAO voziloDAO) {
 		this.voziloDAO = voziloDAO;
+	}
+
+	@Override
+	@Transactional
+	public Vozila vratiVoziloPoSaobracajnoj(VozilaSaobracajne saobracajna) {
+		return voziloDAO.vratiVoziloPoSaobracajnoj(saobracajna);
 	}
 	
 }

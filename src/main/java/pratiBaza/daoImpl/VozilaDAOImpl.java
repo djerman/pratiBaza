@@ -15,6 +15,7 @@ import pratiBaza.dao.VozilaDAO;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Vozila;
+import pratiBaza.tabele.VozilaSaobracajne;
 
 @Repository("voziloDAO")
 public class VozilaDAOImpl implements VozilaDAO{
@@ -53,8 +54,8 @@ public class VozilaDAOImpl implements VozilaDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
 		criteria.add(Restrictions.eq("objekti", objekti));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Vozila objekatDetalj = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return objekatDetalj;
+			Vozila vozilo = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return vozilo;
 		}else {
 			return null;
 		}
@@ -65,8 +66,12 @@ public class VozilaDAOImpl implements VozilaDAO{
 	public Vozila nadjiVoziloPoId(int id) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
 		criteria.add(Restrictions.eq("objekti", id));
-		Vozila objekatDetalj = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return objekatDetalj;
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Vozila vozilo = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return vozilo;
+		}else {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -82,7 +87,8 @@ public class VozilaDAOImpl implements VozilaDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("objekti", "o");
+			criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.desc("sistemPretplatnici"));
 		criteria.addOrder(Order.desc("izbrisan"));
@@ -93,6 +99,18 @@ public class VozilaDAOImpl implements VozilaDAO{
 			return lista2;
 		}else {
 			return lista;
+		}
+	}
+
+	@Override
+	public Vozila vratiVoziloPoSaobracajnoj(VozilaSaobracajne saobracajna) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		criteria.add(Restrictions.eq("saobracajna", saobracajna));
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Vozila vozilo = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return vozilo;
+		}else {
+			return null;
 		}
 	}
 	

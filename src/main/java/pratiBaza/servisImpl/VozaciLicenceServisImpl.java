@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.VozaciLicenceDAO;
 import pratiBaza.servis.VozaciLicenceServis;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLicence;
 
 @Service("vozacLicencaServis")
@@ -39,14 +40,14 @@ public class VozaciLicenceServisImpl implements VozaciLicenceServis{
 
 	@Transactional
 	@Override
-	public VozaciLicence nadjiVozacLicencaPoKorisniku(Korisnici korisnik) {
-		return vozacLicencaDAO.nadjiVozacLicencaPoKorisniku(korisnik);
+	public VozaciLicence nadjiVozacLicencaPoVozacu(Vozaci vozac) {
+		return vozacLicencaDAO.nadjiVozacLicencaPoVozacu(vozac);
 	}
 
 	@Transactional
 	@Override
-	public ArrayList<VozaciLicence> nadjiSVeVozacLicencaPoKorisniku(Korisnici korisnik) {
-		return vozacLicencaDAO.nadjiSVeVozacLicencaPoKorisniku(korisnik);
+	public ArrayList<VozaciLicence> nadjiSveVozacLicencaPoVozacu(Vozaci vozac) {
+		return vozacLicencaDAO.nadjiSveVozacLicencaPoVozacu(vozac);
 	}
 
 	@Transactional

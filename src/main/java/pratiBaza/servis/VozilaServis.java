@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Vozila;
+import pratiBaza.tabele.VozilaSaobracajne;
 
 public interface VozilaServis {
 
@@ -19,4 +20,6 @@ public interface VozilaServis {
 	Vozila nadjiVoziloPoId(int id);
 	
 	ArrayList<Vozila> vratisvaVozila(Korisnici korisnik, boolean aktivan);
+	
+	Vozila vratiVoziloPoSaobracajnoj(VozilaSaobracajne saobracajna);
 }

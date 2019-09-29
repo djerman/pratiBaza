@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozaciDozvoleDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciDozvole;
 
 @Repository("vozacDozvolaDAO")
@@ -54,9 +55,9 @@ public class VozaciDozvoleDAOImpl implements VozaciDozvoleDAO{
 	}
 
 	@Override
-	public VozaciDozvole nadjiVozacDozvoluPoKorisniku(Korisnici korisnik) {
+	public VozaciDozvole nadjiVozacDozvoluPoVozacu(Vozaci vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciDozvole.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
+		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.addOrder(Order.desc("id")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -68,18 +69,14 @@ public class VozaciDozvoleDAOImpl implements VozaciDozvoleDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciDozvole> nadjiSveVozacDozvolePoKorisniku(Korisnici korisnik) {
+	public ArrayList<VozaciDozvole> nadjiSveVozacDozvolePoVozacu(Vozaci vozac) {
 		ArrayList<VozaciDozvole> lista = new ArrayList<VozaciDozvole>();
-		if(korisnik.isVozac()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciDozvole.class);
-			criteria.add(Restrictions.eq("korisnici", korisnik));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			ArrayList<VozaciDozvole> lista2 = (ArrayList<VozaciDozvole>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				return lista2;
-			}else {
-				return lista;
-			}
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciDozvole.class);
+		criteria.add(Restrictions.eq("vozaci", vozac));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		ArrayList<VozaciDozvole> lista2 = (ArrayList<VozaciDozvole>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
 		}else {
 			return lista;
 		}
@@ -95,7 +92,9 @@ public class VozaciDozvoleDAOImpl implements VozaciDozvoleDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("vozaci", "v");
+			criteria.createAlias("v.korisnici", "k");
+			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));

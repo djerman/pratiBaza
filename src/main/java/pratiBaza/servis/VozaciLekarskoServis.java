@@ -2,6 +2,7 @@ package pratiBaza.servis;
 
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLekarsko;
 
 public interface VozaciLekarskoServis {
@@ -14,9 +15,9 @@ public interface VozaciLekarskoServis {
 	
 	VozaciLekarsko nadjiVozacLekarskoPoId(int id);
 	
-	VozaciLekarsko nadjiVozacLekarskoPoKorisniku(Korisnici korisnik);
+	VozaciLekarsko nadjiVozacLekarskoPoVozacu(Vozaci vozac);
 	
-	ArrayList<VozaciLekarsko> nadjiSveVozacLekarskePoKorisniku(Korisnici korisnik);
+	ArrayList<VozaciLekarsko> nadjiSveVozacLekarskePoVozacu(Vozaci vozac);
 	
 	ArrayList<VozaciLekarsko> nadjiSveVozacLekarske(Korisnici korisnik);
 }

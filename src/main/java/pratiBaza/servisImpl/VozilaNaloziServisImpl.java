@@ -8,6 +8,7 @@ import pratiBaza.dao.VozilaNaloziDAO;
 import pratiBaza.servis.VozilaNaloziServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaNalozi;
 
 @Service("voziloNalogServis")
@@ -41,14 +42,14 @@ public class VozilaNaloziServisImpl implements VozilaNaloziServis{
 
 	@Transactional
 	@Override
-	public VozilaNalozi nadjiVoziloNalogPoVozilu(Objekti objekat) {
-		return voziloNalogDAO.nadjiVoziloNalogPoVozilu(objekat);
+	public VozilaNalozi nadjiVoziloNalogPoVozilu(Vozila vozilo) {
+		return voziloNalogDAO.nadjiVoziloNalogPoVozilu(vozilo);
 	}
 
 	@Transactional
 	@Override
-	public ArrayList<VozilaNalozi> nadjiSveVozilaNalogePoObjektu(Objekti objekat) {
-		return voziloNalogDAO.nadjiSveVozilaNalogePoObjektu(objekat);
+	public ArrayList<VozilaNalozi> nadjiSveVozilaNalogePoVozilu(Vozila vozilo) {
+		return voziloNalogDAO.nadjiSveVozilaNalogePoVozilu(vozilo);
 	}
 
 	@Transactional

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.VozaciLekarskoDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLekarsko;
 
 @Repository("vozacLekarskoDAO")
@@ -55,9 +56,9 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 	}
 
 	@Override
-	public VozaciLekarsko nadjiVozacLekarskoPoKorisniku(Korisnici korisnik) {
+	public VozaciLekarsko nadjiVozacLekarskoPoVozacu(Vozaci vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLekarsko.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
+		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.addOrder(Order.desc("id")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null){
@@ -69,22 +70,19 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciLekarsko> nadjiSveVozacLekarskePoKorisniku(Korisnici korisnik) {
+	public ArrayList<VozaciLekarsko> nadjiSveVozacLekarskePoVozacu(Vozaci vozac) {
 		ArrayList<VozaciLekarsko> lista = new ArrayList<VozaciLekarsko>();
-		if(korisnik.isVozac()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLekarsko.class);
-			criteria.add(Restrictions.eq("korisnici", korisnik));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			criteria.addOrder(Order.asc("vaziDo"));
-			ArrayList<VozaciLekarsko> lista2 = (ArrayList<VozaciLekarsko>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				return lista2;
-			}else {
-				return lista;
-			}
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLekarsko.class);
+		criteria.add(Restrictions.eq("vozaci", vozac));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.addOrder(Order.asc("vaziDo"));
+		ArrayList<VozaciLekarsko> lista2 = (ArrayList<VozaciLekarsko>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
 		}else {
 			return lista;
 		}
+	
 	}
 
 	@SuppressWarnings("unchecked")
@@ -97,7 +95,9 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("vozaci", "v");
+			criteria.createAlias("v.korisnici", "k");
+			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
