@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozilaDAO;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaSaobracajne;
 
@@ -111,6 +113,39 @@ public class VozilaDAOImpl implements VozilaDAO{
 			return vozilo;
 		}else {
 			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozila> nadjisvaVozilaPoPretplatniku(SistemPretplatnici pretplatnik) {
+		ArrayList<Vozila> lista = new ArrayList<Vozila>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.addOrder(Order.asc("id"));
+		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozila> nadjisvaVozilaPoOrganizaciji(Organizacije organizacija) {
+		ArrayList<Vozila> lista = new ArrayList<Vozila>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		criteria.createAlias("objekti", "o");
+		criteria.add(Restrictions.eq("o.organizacija", organizacija));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.addOrder(Order.asc("id"));
+		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
 		}
 	}
 	

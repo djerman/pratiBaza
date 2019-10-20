@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.JavljanjaDAO;
+import pratiBaza.pomocne.PredjeniPut;
+import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.servis.JavljanjaServis;
 import pratiBaza.tabele.Javljanja;
+import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
 
@@ -67,6 +70,12 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 
 	@Override
 	@Transactional
+	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
+		return javljanjeDAO.nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, datumVremeOd, datumVremeDo);
+	}
+	
+	@Override
+	@Transactional
 	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi) {
 		return javljanjeDAO.vratiJavljanjaObjektaOdDoSaAlarmimaZona(objekat, vremeOd, vremeDo, alarmi);
 	}
@@ -106,6 +115,25 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	@Transactional
 	public Javljanja vratiJavljanjeZaStajanje(Objekti objekat) {
 		return javljanjeDAO.vratiJavljanjeZaStajanje(objekat);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<PredjeniPut> vratiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		return javljanjeDAO.vratiPredjeniPut(objekti, vremeOd, vremeDo);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<PredjeniPut> nadjiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		return javljanjeDAO.nadjiPredjeniPut(objekti, vremeOd, vremeDo);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<PredjeniPutGPS> nadjiPredjeniPutGPS(ArrayList<Objekti> objekti, Timestamp vremeOd,
+			Timestamp vremeDo) {
+		return javljanjeDAO.nadjiPredjeniPutGPS(objekti, vremeOd, vremeDo);
 	}
 	
 }

@@ -3,8 +3,11 @@ package pratiBaza.dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import pratiBaza.pomocne.PredjeniPut;
+import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.tabele.Javljanja;
+import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
 
@@ -24,6 +27,12 @@ public interface JavljanjaDAO {
 	
 	ArrayList<Javljanja> vratiJavljanjaObjektaOdDoPrvoPoslednje(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo);
 	
+	ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo);
+	
+	ArrayList<PredjeniPut> nadjiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
+	
+	ArrayList<PredjeniPutGPS> nadjiPredjeniPutGPS(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
+	
 	ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi);
 	
 	ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, boolean pregled);
@@ -37,4 +46,6 @@ public interface JavljanjaDAO {
 	Javljanja vratiJavljanjeZaStajanje(Objekti objekat);
 	
 	ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina);
+	
+	ArrayList<PredjeniPut> vratiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
 }

@@ -8,6 +8,8 @@ import pratiBaza.dao.VozilaDAO;
 import pratiBaza.servis.VozilaServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaSaobracajne;
 
@@ -62,6 +64,18 @@ public class VozilaServisImpl implements VozilaServis{
 	@Transactional
 	public Vozila vratiVoziloPoSaobracajnoj(VozilaSaobracajne saobracajna) {
 		return voziloDAO.vratiVoziloPoSaobracajnoj(saobracajna);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozila> nadjisvaVozilaPoPretplatniku(SistemPretplatnici pretplatnik) {
+		return voziloDAO.nadjisvaVozilaPoPretplatniku(pretplatnik);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozila> nadjisvaVozilaPoOrganizaciji(Organizacije organizacija) {
+		return voziloDAO.nadjisvaVozilaPoOrganizaciji(organizacija);
 	}
 	
 }

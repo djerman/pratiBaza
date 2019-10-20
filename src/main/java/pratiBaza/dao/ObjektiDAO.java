@@ -29,6 +29,8 @@ public interface ObjektiDAO {
 	
 	ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
+	ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	
 	Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj);
 	
 }

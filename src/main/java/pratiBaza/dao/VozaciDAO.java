@@ -2,6 +2,8 @@ package pratiBaza.dao;
 
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozaci;
 
 public interface VozaciDAO {
@@ -19,4 +21,8 @@ public interface VozaciDAO {
 	ArrayList<Vozaci> nadjiSveVozacePoKorisniku(Korisnici korisnik);//svaki unos vozaca za određenog korisnika
 	
 	ArrayList<Vozaci> nadjiSveVozace(Korisnici korisnik);
+	
+	ArrayList<Vozaci> nadjiSveVozacePoPretplatniku(SistemPretplatnici pretplatnik);
+	
+	ArrayList<Vozaci> nadjiSveVozacePoOrganizaciji(Organizacije organizacija);
 }

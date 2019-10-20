@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozaciDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozaci;
 
 @Repository("vozacDAO")
@@ -95,7 +97,8 @@ public class VozaciDAOImpl implements VozaciDAO{
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
+			criteria.createAlias("korisnici", "ko");
+			criteria.add(Restrictions.eq("ko.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
@@ -107,7 +110,6 @@ public class VozaciDAOImpl implements VozaciDAO{
 		}else {
 			return lista;
 		}
-	
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -116,6 +118,39 @@ public class VozaciDAOImpl implements VozaciDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozaci> nadjiSveVozacePoPretplatniku(SistemPretplatnici pretplatnik) {
+		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.addOrder(Order.asc("id"));
+		ArrayList<Vozaci> lista2 = (ArrayList<Vozaci>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozaci> nadjiSveVozacePoOrganizaciji(Organizacije organizacija) {
+		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
+		criteria.createAlias("korisnici", "ko");
+		criteria.add(Restrictions.eq("k.organizacija", organizacija));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.addOrder(Order.asc("id"));
+		ArrayList<Vozaci> lista2 = (ArrayList<Vozaci>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
 	}
 
 }

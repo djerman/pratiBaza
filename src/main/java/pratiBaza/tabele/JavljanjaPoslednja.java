@@ -55,7 +55,7 @@ public class JavljanjaPoslednja implements Serializable {
 	private SistemAlarmi sistemAlarmi;
 	
 	//bi-directional many-to-one association to Obd
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="obdId")
 	private Obd obd;
 	
@@ -63,7 +63,6 @@ public class JavljanjaPoslednja implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="zona")
 	private Zone zona;
-
 	
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne

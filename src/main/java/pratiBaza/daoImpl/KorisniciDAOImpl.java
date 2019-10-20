@@ -171,4 +171,31 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Korisnici> nadjiSveKorisnikeVozace(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
+		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		if(organizacija != null) {
+			criteria.add(Restrictions.eq("organizacija", organizacija));
+			}
+		criteria.add(Restrictions.eq("izbrisan", false));
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		criteria.add(Restrictions.eq("vozac", true));
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("aktivan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
+
 }

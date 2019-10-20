@@ -3,6 +3,8 @@ package pratiBaza.dao;
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaSaobracajne;
 
@@ -21,4 +23,8 @@ public interface VozilaDAO {
 	ArrayList<Vozila> vratisvaVozila(Korisnici korisnik, boolean aktivan);
 	
 	Vozila vratiVoziloPoSaobracajnoj(VozilaSaobracajne saobracajna);
+	
+	ArrayList<Vozila> nadjisvaVozilaPoPretplatniku(SistemPretplatnici pretplatnik);
+	
+	ArrayList<Vozila> nadjisvaVozilaPoOrganizaciji(Organizacije organizacija);
 }

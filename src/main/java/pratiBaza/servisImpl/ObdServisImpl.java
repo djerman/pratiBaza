@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.ObdDAO;
+import pratiBaza.pomocne.PredjeniPutOBD;
 import pratiBaza.servis.ObdServis;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
@@ -41,8 +42,8 @@ public class ObdServisImpl implements ObdServis{
 	}
 
 	@Transactional
-	public Obd nadjiObdPoslednji(Objekti objekat) {
-		return obdDAO.nadjiObdPoslednji(objekat);
+	public Obd nadjiObdPoslednji(Objekti objekat, Timestamp datumVreme) {
+		return obdDAO.nadjiObdPoslednji(objekat, datumVreme);
 	}
 
 	@Override
@@ -61,6 +62,19 @@ public class ObdServisImpl implements ObdServis{
 	@Transactional
 	public ArrayList<Obd> nadjiObdPoslednjaStajanja(Objekti objekat, Timestamp datumVremeOd) {
 		return obdDAO.nadjiObdPoslednjaStajanja(objekat, datumVremeOd);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<PredjeniPutOBD> nadjiPredjeniPutOBD(ArrayList<Objekti> objekti, Timestamp datumVremeOd,
+			Timestamp datumVremeDo) {
+		return obdDAO.nadjiPredjeniPutOBD(objekti, datumVremeOd, datumVremeDo);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Obd> nadjiObdPoslednji(ArrayList<Objekti> objekti, Timestamp datumVreme) {
+		return obdDAO.nadjiObdPoslednji(objekti, datumVreme);
 	}
 	
 }

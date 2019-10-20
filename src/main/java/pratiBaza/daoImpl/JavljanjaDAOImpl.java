@@ -8,12 +8,16 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.JavljanjaDAO;
+import pratiBaza.pomocne.PredjeniPut;
+import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.tabele.Javljanja;
+import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
 
@@ -66,6 +70,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.add(Restrictions.eq("valid", true));
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		if(javljanja2 != null) {
 			return javljanja2;
 		}else {
@@ -85,6 +91,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.createAlias("sistemAlarmi", "alarmi").add(Restrictions.ne("alarmi.sifra","0"));
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		if(javljanja2 != null) {
 			return javljanja2;
 		}else {
@@ -95,26 +103,123 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	@Override
 	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Javljanja> lista = new ArrayList<Javljanja>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
-		criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
-		criteria.add(Restrictions.eq("valid", true));
-		criteria.addOrder(Order.asc("datumVreme"));
-		criteria.setMaxResults(1);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class)
+				.add(Restrictions.eq("objekti", objekat))
+				.add(Restrictions.ge("datumVreme", datumVremeOd))
+				.add(Restrictions.lt("datumVreme", datumVremeDo))
+				.add(Restrictions.eq("valid", true))
+				.addOrder(Order.asc("datumVreme"))
+				.setMaxResults(1);
 		if(criteria.uniqueResult() != null) {
 			lista.add((Javljanja)criteria.uniqueResult());
 		}
-		Criteria criteria2 = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
-		criteria2.add(Restrictions.eq("objekti", objekat));
-		criteria2.add(Restrictions.ge("datumVreme", datumVremeOd));
-		criteria2.add(Restrictions.lt("datumVreme", datumVremeDo));
-		criteria2.add(Restrictions.eq("valid", true));
-		criteria2.addOrder(Order.desc("datumVreme"));
-		criteria2.setMaxResults(1);
+		
+		Criteria criteria2 = sessionFactory.getCurrentSession().createCriteria(Javljanja.class)
+				.add(Restrictions.eq("objekti", objekat))
+				.add(Restrictions.ge("datumVreme", datumVremeOd))
+				.add(Restrictions.lt("datumVreme", datumVremeDo))
+				.add(Restrictions.eq("valid", true))
+				.addOrder(Order.desc("datumVreme"))
+				.setMaxResults(1);
 		if(criteria2.uniqueResult() != null){
 			lista.add((Javljanja)criteria2.uniqueResult());
 		}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
+		return lista;
+	}
+	
+	@Override
+	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
+		ArrayList<Obd> lista = new ArrayList<Obd>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class)
+				.add(Restrictions.eq("objekti", objekat))
+				.add(Restrictions.ge("datumVreme", datumVremeOd))
+				.add(Restrictions.lt("datumVreme", datumVremeDo))
+				.addOrder(Order.asc("datumVreme"))
+				.setMaxResults(1);
+		if(criteria.uniqueResult() != null) {
+			lista.add((Obd)criteria.uniqueResult());
+		}
+		
+		Criteria criteria2 = sessionFactory.getCurrentSession().createCriteria(Obd.class)
+				.add(Restrictions.eq("objekti", objekat))
+				.add(Restrictions.ge("datumVreme", datumVremeOd))
+				.add(Restrictions.lt("datumVreme", datumVremeDo))
+				.addOrder(Order.desc("datumVreme"))
+				.setMaxResults(1);
+		if(criteria2.uniqueResult() != null){
+			lista.add((Obd)criteria2.uniqueResult());
+		}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
+		return lista;
+	}
+	
+
+	@Override
+	public ArrayList<PredjeniPutGPS> nadjiPredjeniPutGPS(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		ArrayList<PredjeniPutGPS> lista = new ArrayList<PredjeniPutGPS>();
+		for(Objekti objekat: objekti) {
+			ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 1) {
+				PredjeniPutGPS put = new PredjeniPutGPS(objekat.getOznaka(), javljanja.get(0).getVirtualOdo(), javljanja.get(1).getVirtualOdo(), 
+						javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo());
+				lista.add(put);
+			}
+		}
+		return lista;
+	}
+	
+	//obračun po projections
+	@Override
+	public ArrayList<PredjeniPut> nadjiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		ArrayList<PredjeniPut> lista = new ArrayList<PredjeniPut>();
+		for(Objekti objekat : objekti) {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
+			criteria.add(Restrictions.eq("objekti", objekat));
+			criteria.add(Restrictions.ge("datumVreme", vremeOd));
+			criteria.add(Restrictions.lt("datumVreme", vremeDo));
+			criteria.add(Restrictions.eq("valid", true));
+			if(!criteria.list().isEmpty()) {
+				PredjeniPut put = new PredjeniPut(objekat.getOznaka(), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+				criteria.setProjection(Projections.min("virtualOdo"));
+				Float gpsMin = (Float)criteria.uniqueResult();
+				criteria.setProjection(Projections.max("virtualOdo"));
+				Float gpsMax = (Float)criteria.uniqueResult();
+				put.setVirtualOdo(gpsMax.floatValue() - gpsMin.floatValue());
+				
+				Criteria criteriaObd = sessionFactory.getCurrentSession().createCriteria(Obd.class);
+				criteriaObd.add(Restrictions.eq("objekti", objekat));
+				criteriaObd.add(Restrictions.ge("datumVreme", vremeOd));
+				criteriaObd.add(Restrictions.lt("datumVreme", vremeDo));
+				System.out.println(objekat.getOznaka() + " " + criteriaObd.list().size());
+				if(!criteriaObd.list().isEmpty()) {
+					criteriaObd.setProjection(Projections.min("ukupnoGorivo"));
+					Float gorivoMin = (Float)criteria.uniqueResult();
+					criteriaObd.setProjection(Projections.max("ukupnoGorivo"));
+					Float gorivoMax = (Float)criteria.uniqueResult();
+					put.setUkupnoGorivo(gorivoMax.floatValue() - gorivoMin.floatValue());
+					
+					criteriaObd.setProjection(Projections.min("ukupnoKm"));
+					Integer kmMin = (Integer)criteria.uniqueResult();
+					criteriaObd.setProjection(Projections.max("ukupnoKm"));
+					Integer kmMax = (Integer)criteria.uniqueResult();
+					put.setUkupnoKm(kmMax.intValue() - kmMin.intValue());
+					
+					if(put.getVirtualOdo() != 0.0f) {
+						put.setProsPotGps(put.getUkupnoGorivo()/put.getVirtualOdo()/100);
+					}
+					if(put.getUkupnoKm() != 0.0f) {
+						put.setProsPotr(put.getUkupnoGorivo()/put.getUkupnoKm()/100);
+					}
+				}
+				lista.add(put);
+			}
+			
+		}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 
@@ -130,6 +235,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.add(Restrictions.eq("valid", true));
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		if(javljanja2 != null) {
 			return javljanja2;
 		}else {
@@ -156,6 +263,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			javljanja.addAll(javljanja2);
 		}
 		javljanja.sort(Comparator.comparing(Javljanja::getDatumVreme).reversed());
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return javljanja;
 	}
 
@@ -171,6 +280,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.addOrder(Order.desc("brzina"));
 		criteria.setMaxResults(10);
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		if(javljanja2 != null) {
 			return javljanja2;
 		}else {
@@ -207,12 +318,9 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		for(Iterator<Javljanja> iterator = javljanja2.iterator(); iterator.hasNext();) {
 			disjunction.add(Restrictions.lt("brzina", 6));
 		}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return javljanja2;
-		/*if(javljanja2 != null) {
-			return javljanja2;
-		}else {
-			return javljanja;
-		}**/
 	}
 
 	@SuppressWarnings("unchecked")
@@ -270,7 +378,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				}
 			}
 		}
-
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 
@@ -288,4 +397,34 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			return null;
 		}
 	}
+
+	@Override
+	public ArrayList<PredjeniPut> vratiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		ArrayList<PredjeniPut> lista = new ArrayList<PredjeniPut>();
+		//ObdServis obdDAO = new ObdServ
+		for(Objekti objekat : objekti) {
+			ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+			ArrayList<Obd> obd = nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+			PredjeniPut predjeniPut = new PredjeniPut(objekat.getOznaka(), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+			
+			if(javljanja != null && !javljanja.isEmpty()) {
+				predjeniPut.setVirtualOdo(javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo());
+				if(obd != null && !obd.isEmpty()) {
+					predjeniPut.setUkupnoKm(obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm());
+					predjeniPut.setUkupnoGorivo(obd.get(1).getUkupnoGorivo() - obd.get(0).getUkupnoGorivo());
+					if(predjeniPut.getVirtualOdo() != 0.0f) {
+						predjeniPut.setProsPotGps(predjeniPut.getUkupnoGorivo()/(predjeniPut.getVirtualOdo()/100));
+						}
+					if(predjeniPut.getUkupnoKm() != 0.0f) {
+						predjeniPut.setProsPotr(predjeniPut.getUkupnoGorivo()/(predjeniPut.getUkupnoKm()/100));
+						}
+					}
+				}
+			lista.add(predjeniPut);
+			}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
+		return lista;
+		}
+
 }

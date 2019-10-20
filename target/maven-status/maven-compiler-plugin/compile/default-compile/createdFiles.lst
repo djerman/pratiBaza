@@ -16,6 +16,7 @@ pratiBaza/dao/VozaciLicenceDAO.class
 pratiBaza/dao/VozilaOpremaDAO.class
 pratiBaza/dao/KorisniciDAO.class
 pratiBaza/tabele/Objekti.class
+pratiBaza/pomocne/PredjeniPutOBD.class
 pratiBaza/servis/SistemOperateriServis.class
 pratiBaza/servisImpl/VozaciLicnaServisImpl.class
 pratiBaza/servis/VozaciLicnaServis.class
@@ -127,6 +128,7 @@ pratiBaza/servis/ObdServis.class
 pratiBaza/daoImpl/ProcedureDAOImpl.class
 pratiBaza/pomocne/PredjeniPut.class
 pratiBaza/tabele/Vozila.class
+pratiBaza/pomocne/PredjeniPutGPS.class
 pratiBaza/dao/UredjajiDAO.class
 pratiBaza/servisImpl/JavljanjaServisImpl.class
 pratiBaza/servis/VozilaSaobracajne2Servis.class

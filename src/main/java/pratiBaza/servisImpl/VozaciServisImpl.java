@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.VozaciDAO;
 import pratiBaza.servis.VozaciServis;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozaci;
 
 @Service("vozacServis")
@@ -65,6 +67,18 @@ public class VozaciServisImpl implements VozaciServis{
 	@Transactional
 	public void setVozacDAO(VozaciDAO vozacDAO) {
 		this.vozacDAO = vozacDAO;
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozaci> nadjiSveVozacePoPretplatniku(SistemPretplatnici pretplatnik) {
+		return vozacDAO.nadjiSveVozacePoPretplatniku(pretplatnik);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozaci> nadjiSveVozacePoOrganizaciji(Organizacije organizacija) {
+		return vozacDAO.nadjiSveVozacePoOrganizaciji(organizacija);
 	}
 
 }

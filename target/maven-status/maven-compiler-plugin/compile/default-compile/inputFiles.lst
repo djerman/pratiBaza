@@ -84,6 +84,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/Mail.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/VozilaOpremaPrijemServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/SistemSesijeServisImpl.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/PredjeniPutGPS.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/AlarmiKorisnik.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/PartneriDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/ProcedureDAOImpl.java
@@ -193,6 +194,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/ZoneDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ObjekatZoneServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/VozaciDAO.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/PredjeniPutOBD.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/ObdDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/ProcedureDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/GrupeKorisniciServisImpl.java

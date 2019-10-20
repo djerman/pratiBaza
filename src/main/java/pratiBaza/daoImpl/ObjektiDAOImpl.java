@@ -166,6 +166,27 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	}
 
 	@Override
+	public ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.eq("aktivan", true));
+		criteria.add(Restrictions.eq("tip", true));
+		criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
+		if(organizacija != null) {
+			criteria.add(Restrictions.eq("organizacija", organizacija));
+		}
+		criteria.addOrder(Order.desc("id"));
+		@SuppressWarnings("unchecked")
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
+
+	@Override
 	public Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
 		criteria.add(Restrictions.eq("uredjaji", uredjaj));

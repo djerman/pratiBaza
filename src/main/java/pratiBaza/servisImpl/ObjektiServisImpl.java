@@ -79,6 +79,12 @@ public class ObjektiServisImpl implements ObjektiServis{
 	public Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj) {
 		return objekatDAO.nadjiObjekatPoUredjaju(uredjaj);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return objekatDAO.vratiSveObjekteVozila(pretplatnik, organizacija);
+	}
 	
 
 }

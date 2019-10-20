@@ -45,27 +45,27 @@ public class Javljanja implements Serializable {
 	private float virtualOdo;
 
 	//bi-directional many-to-one association to SistemAlarmi
-	@ManyToOne
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name="alarmId")
 	private SistemAlarmi sistemAlarmi;
 
 	//bi-directional many-to-one association to Obd
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="obdId")
-	private Obd bd;
+	private Obd obd;
 	
 	//bi-directional many-to-one association to Obd
-	@ManyToOne
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name="zona")
 	private Zone zona;
 
 	//bi-directional many-to-one association to Objekti
-	@ManyToOne
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 	
 	//bi-directional many-to-one association to Objekti
-	@ManyToOne
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name="korisnikId")
 	private Korisnici korisnik;
 
@@ -74,24 +74,27 @@ public class Javljanja implements Serializable {
 	}
 
 	public String getNazivAlarma() {
-		if(sistemAlarmi != null) {
-			return sistemAlarmi.getNaziv();
+		SistemAlarmi alarm = this.getSistemAlarmi();
+		if(alarm != null) {
+			return alarm.getNaziv();
 		}else {
 			return " ";
 		}
 	}
 	
 	public String getNazivObjekta() {
-		if(objekti != null) {
-			return objekti.getOznaka();
+		Objekti objekat = this.getObjekti();
+		if(objekat != null) {
+			return objekat.getOznaka();
 		}else {
 			return " ";
 		}
 	}
 	
 	public String getNazivZone() {
-		if(zona != null) {
-			return zona.getNaziv();
+		Zone zonaGet = this.getZona();
+		if(zonaGet != null) {
+			return zonaGet.getNaziv();
 		}else {
 			return " ";
 		}
@@ -210,7 +213,8 @@ public class Javljanja implements Serializable {
 	}
 
 	public SistemAlarmi getSistemAlarmi() {
-		return this.sistemAlarmi;
+		//Hibernate.initialize(sistemAlarmi);
+		return sistemAlarmi;
 	}
 
 	public void setSistemAlarmi(SistemAlarmi sistemAlarmi) {
@@ -218,7 +222,8 @@ public class Javljanja implements Serializable {
 	}
 
 	public Objekti getObjekti() {
-		return this.objekti;
+		//Hibernate.initialize(objekti);
+		return objekti;
 	}
 
 	public void setObjekti(Objekti objekti) {
@@ -242,14 +247,15 @@ public class Javljanja implements Serializable {
 	}
 
 	public Obd getBd() {
-		return bd;
+		return obd;
 	}
 
 	public void setBd(Obd bd) {
-		this.bd = bd;
+		this.obd = bd;
 	}
 
 	public Zone getZona() {
+		//Hibernate.initialize(zona);
 		return zona;
 	}
 

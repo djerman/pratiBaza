@@ -81,5 +81,11 @@ public class KorisniciServisImpl implements KorisniciServis{
 	public ArrayList<Korisnici> nadjiSveKorisnikeVozace(Korisnici korisnik, boolean aktivan) {
 		return korisnikDAO.nadjiSveKorisnikeVozace(korisnik, aktivan);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Korisnici> nadjiSveKorisnikeVozace(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
+		return korisnikDAO.nadjiSveKorisnikeVozace(pretplatnik, organizacija, aktivan);
+	}
 	
 }

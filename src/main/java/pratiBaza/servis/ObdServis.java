@@ -3,6 +3,7 @@ package pratiBaza.servis;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import pratiBaza.pomocne.PredjeniPutOBD;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 
@@ -14,9 +15,13 @@ public interface ObdServis {
 	
 	void izbrisiObd(Obd obd);
 	
-	Obd nadjiObdPoslednji(Objekti objekat);
+	Obd nadjiObdPoslednji(Objekti objekat, Timestamp datumVreme);
+	
+	ArrayList<Obd> nadjiObdPoslednji(ArrayList<Objekti> objekti, Timestamp datumVreme);
 	
 	ArrayList<Obd> nadjiObdPoObjektuOdDo(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo);
+	
+	ArrayList<PredjeniPutOBD> nadjiPredjeniPutOBD(ArrayList<Objekti> objekti, Timestamp datumVremeOd, Timestamp datumVremeDo);
 	
 	ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo);
 	
