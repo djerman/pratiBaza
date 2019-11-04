@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="partneri")
+@Table(name="bg_partneri")
 @NamedQuery(name="Partneri.findAll", query="SELECT p FROM Partneri p")
 public class Partneri implements Serializable{
 

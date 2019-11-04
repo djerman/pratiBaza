@@ -87,10 +87,12 @@ public class VozilaNaloziDAOImpl implements VozilaNaloziDAO{
 	public ArrayList<VozilaNalozi> nadjiSveVozilaNaloge(Korisnici korisnik) {
 		ArrayList<VozilaNalozi> lista = new ArrayList<VozilaNalozi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaNalozi.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozilo", "v");
 			criteria.createAlias("v.objekti", "o");
@@ -121,8 +123,9 @@ public class VozilaNaloziDAOImpl implements VozilaNaloziDAO{
 	public ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(ArrayList<Objekti> objekti, Timestamp pocetak, Timestamp kraj) {
 		ArrayList<VozilaNalozi> lista = new ArrayList<VozilaNalozi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaNalozi.class);
-		criteria.createAlias("vozilo", "v");
-		criteria.add(Restrictions.in("v.objekti", objekti));
+		//criteria.createAlias("vozilo", "v");
+		//criteria.add(Restrictions.in("v.objekti", objekti));
+		criteria.add(Restrictions.in("vozilo", objekti));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		ArrayList<VozilaNalozi> lista2 = (ArrayList<VozilaNalozi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="voziloOprema")
+@Table(name="bh_voziloOprema")
 @NamedQuery(name="VozilaOprema.findAll", query="SELECT vo FROM VozilaOprema vo")
 public class VozilaOprema implements Serializable{
 	private static final long serialVersionUID = 1L;

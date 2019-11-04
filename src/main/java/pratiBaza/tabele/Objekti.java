@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Table(name="objekti")
+@Table(name="bb_objekti")
 @NamedQuery(name="Objekti.findAll", query="SELECT o FROM Objekti o")
 public class Objekti implements Serializable {
 	
@@ -60,11 +60,10 @@ public class Objekti implements Serializable {
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
 
-	//bi-directional many-to-one association to Uredjaji
-	@ManyToOne
-	@JoinColumn(name="uredjajId")
+	//one to one
+	@OneToOne(mappedBy = "objekti", cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
 	private Uredjaji uredjaji;
-
+ 
 
 	//bi-directional many-to-one association to Objekti
 	@ManyToOne
@@ -243,14 +242,22 @@ public class Objekti implements Serializable {
 		this.sistemPretplatnici = sistemPretplatnici;
 	}
 
+	
 	public Uredjaji getUredjaji() {
 		return this.uredjaji;
 	}
 
 	public void setUredjaji(Uredjaji uredjaji) {
-		this.uredjaji = uredjaji;
-	}
-
+        if (uredjaji == null) {
+            if (this.uredjaji != null) {
+                this.uredjaji.setObjekti(null);
+            }
+        }else {
+        	uredjaji.setObjekti(this);;
+        }
+        this.uredjaji = uredjaji;
+    }
+	
 	public Vozila getObjektiDetalji() {
 		return objektiDetalji;
 	}

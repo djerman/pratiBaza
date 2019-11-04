@@ -6,7 +6,7 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="vozilo")
+@Table(name="cj_vozilo")
 @NamedQuery(name="Vozila.findAll", query="SELECT v FROM Vozila v")
 public class Vozila implements Serializable {
 	private static final long serialVersionUID = 1L;

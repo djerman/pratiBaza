@@ -56,10 +56,12 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));		
-			}
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));
 			criteria.add(Restrictions.eq("izbrisan", false));
@@ -116,8 +118,11 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
 		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));

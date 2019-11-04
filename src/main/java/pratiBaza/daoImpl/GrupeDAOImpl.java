@@ -53,10 +53,12 @@ public class GrupeDAOImpl implements GrupeDAO{
 	public ArrayList<Grupe> vratiGrupe(Korisnici korisnik) {
 		ArrayList<Grupe> lista = new ArrayList<Grupe>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
 		}

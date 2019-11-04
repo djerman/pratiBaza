@@ -43,7 +43,9 @@ public class ZoneDAOImpl implements ZoneDAO{
 	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Zone> lista = new ArrayList<Zone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

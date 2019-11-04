@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="sistemSesije")
+@Table(name="dy_sistemSesije")
 @NamedQuery(name="SistemSesije.findAll", query="SELECT s FROM SistemSesije s")
 public class SistemSesije implements Serializable {
 	private static final long serialVersionUID = 1L;

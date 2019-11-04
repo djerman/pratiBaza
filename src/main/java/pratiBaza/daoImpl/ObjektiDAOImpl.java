@@ -28,7 +28,8 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		objekat.setVersion(0);
 		objekat.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		objekat.setKreirano(new Timestamp((new Date()).getTime()));
-		sessionFactory.getCurrentSession().persist(objekat);
+		//sessionFactory.getCurrentSession().persist(objekat);
+		sessionFactory.getCurrentSession().saveOrUpdate(objekat);
 	}
 
 	public void azurirajObjekte(Objekti objekat) {
@@ -59,10 +60,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));
 			criteria.add(Restrictions.eq("izbrisan", false));
@@ -106,10 +109,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik) {
 		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("tip", true));

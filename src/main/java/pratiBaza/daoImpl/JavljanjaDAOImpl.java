@@ -307,7 +307,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {
-		//ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
 		Disjunction disjunction = Restrictions.disjunction();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
@@ -315,6 +314,9 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.addOrder(Order.desc("datumVreme"));
 		//for(Iterator iterator = integerArray.iterator; iterator.hasNext())
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(javljanja2 == null) {
+			javljanja2 = new ArrayList<Javljanja>();
+		}
 		for(Iterator<Javljanja> iterator = javljanja2.iterator(); iterator.hasNext();) {
 			disjunction.add(Restrictions.lt("brzina", 6));
 		}

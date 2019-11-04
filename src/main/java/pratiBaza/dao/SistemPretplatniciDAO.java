@@ -17,4 +17,6 @@ public interface SistemPretplatniciDAO {
 	SistemPretplatnici nadjiPretplatnikaPoId(int id);
 	
 	ArrayList<SistemPretplatnici> nadjiSveAktivnePretplatnike();
+	
+	ArrayList<SistemPretplatnici> nadjiSveAktivneSistemskePretplatnike();
 }

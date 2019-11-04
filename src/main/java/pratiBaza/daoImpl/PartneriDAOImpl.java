@@ -59,9 +59,12 @@ public class PartneriDAOImpl implements PartneriDAO{
 	public ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan) {
 		ArrayList<Partneri> lista = new ArrayList<Partneri>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			}
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
 		if(izbrisan) {
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

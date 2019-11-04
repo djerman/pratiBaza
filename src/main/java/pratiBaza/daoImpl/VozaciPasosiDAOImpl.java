@@ -89,10 +89,12 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 	public ArrayList<VozaciPasosi> nadjiSveVozacPasos(Korisnici korisnik) {
 		ArrayList<VozaciPasosi> lista = new ArrayList<VozaciPasosi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciPasosi.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozaci", "v");
 			criteria.createAlias("v.korisnici", "k");

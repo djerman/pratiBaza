@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="voziloSaobracajna2")
+@Table(name="dh_voziloSaobracajna2")
 @NamedQuery(name="VozilaSaobracajne2.findAll", query="SELECT vss FROM VozilaSaobracajne2 vss")
 public class VozilaSaobracajne2 implements Serializable{
 

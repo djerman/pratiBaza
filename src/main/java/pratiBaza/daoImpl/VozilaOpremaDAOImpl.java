@@ -56,10 +56,12 @@ public class VozilaOpremaDAOImpl implements VozilaOpremaDAO{
 	public ArrayList<VozilaOprema> nadjiSveVozilaOprema(Korisnici korisnik) {
 		ArrayList<VozilaOprema> lista = new ArrayList<VozilaOprema>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaOprema.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
 		criteria.addOrder(Order.desc("naziv"));

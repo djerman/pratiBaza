@@ -54,7 +54,9 @@ public class OrganizacijeDAOImpl implements OrganizacijeDAO{
 	public ArrayList<Organizacije> nadjiSveOrganizacije(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Organizacije> lista = new ArrayList<Organizacije>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Organizacije.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

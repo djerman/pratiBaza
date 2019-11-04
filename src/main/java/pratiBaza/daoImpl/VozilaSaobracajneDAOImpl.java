@@ -68,10 +68,12 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 	public ArrayList<VozilaSaobracajne> nadjiSveSaobracajne(Korisnici korisnik, boolean izbrisan) {
 		ArrayList<VozilaSaobracajne> lista = new ArrayList<VozilaSaobracajne>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaSaobracajne.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozilo", "v");
 			criteria.createAlias("v.objekti", "o");

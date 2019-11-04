@@ -142,6 +142,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/JavljanjaServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/SistemAlarmi.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/StavkaPrijema.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/StanjeOBD.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/GrupeDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SimDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/ObjektiPoslednje.java

@@ -62,10 +62,12 @@ public class SimDAOImpl implements SimDAO{
 	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Sim> lista = new ArrayList<Sim>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));
 			criteria.add(Restrictions.eq("izbrisan", false));

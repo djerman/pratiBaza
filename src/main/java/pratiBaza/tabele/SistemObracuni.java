@@ -6,7 +6,7 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="sistemObracuni")
+@Table(name="dz_sistemObracuni")
 @NamedQuery(name="SistemObracuni.findAll", query="SELECT s FROM SistemObracuni s")
 public class SistemObracuni implements Serializable {
 	private static final long serialVersionUID = 1L;

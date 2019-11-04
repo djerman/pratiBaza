@@ -3,9 +3,10 @@ package pratiBaza.tabele;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
-@Table(name="uredjaji")
+@Table(name="bc_uredjaji")
 @NamedQuery(name="Uredjaji.findAll", query="SELECT u FROM Uredjaji u")
 public class Uredjaji implements Serializable {
 	
@@ -27,25 +28,16 @@ public class Uredjaji implements Serializable {
 
 	private String serijskiBr;
 
-	//private BigInteger simId;
-	@ManyToOne
-	@JoinColumn(name="simId")
-	private Sim sim;
-
-	//private BigInteger simId2;
-	@ManyToOne
-	@JoinColumn(name="simId2")
-	private Sim sim2;
+	@OneToMany(mappedBy="uredjaji", fetch = FetchType.EAGER)
+	private List<Sim> sims;
+	
+	//private Sim sim, sim2;
 	
 	private int version;
 
 	private boolean zauzet;
 	
 	private boolean izbrisan;
-
-	//bi-directional many-to-one association to Objekti
-	//@OneToMany(mappedBy="uredjaji")
-	//private List<Objekti> objektis;
 
 	//bi-directional many-to-one association to SistemUredjajiModeli
 	@ManyToOne
@@ -57,8 +49,7 @@ public class Uredjaji implements Serializable {
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
 	
-	//bi-directional many-to-one association to SistemPretplatnici
-	@ManyToOne
+	@OneToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 	
@@ -127,36 +118,45 @@ public class Uredjaji implements Serializable {
 		this.serijskiBr = serijskiBr;
 	}
 
-	/*public BigInteger getSimId() {
-		return this.simId;
+	public List<Sim> getSims(){
+		return this.sims;
 	}
-
-	public void setSimId(BigInteger simId) {
-		this.simId = simId;
-	}
-
-	public BigInteger getSimId2() {
-		return this.simId2;
-	}
-
-	public void setSimId2(BigInteger simId2) {
-		this.simId2 = simId2;
-	}**/
-
+	
 	public Sim getSim() {
-		return sim;
+		if(getSims().size() > 0) {
+			return getSims().get(0);
+		}else {
+			return null;
+		}
+		
 	}
-
+	
 	public void setSim(Sim sim) {
-		this.sim = sim;
+		if(sim != null) {
+			getSims().add(sim);
+			sim.setUredjaji(this);
+		}
 	}
 
 	public Sim getSim2() {
-		return sim2;
+		if(getSims().size() > 1) {
+			return getSims().get(1);
+		}else {
+			return null;
+		}
+	}
+	
+	public void setSim2(Sim sim2) {
+		if(sim2 != null) {
+			getSims().add(sim2);
+			sim2.setUredjaji(this);
+		}
 	}
 
-	public void setSim2(Sim sim2) {
-		this.sim2 = sim2;
+	public Sim removeSim(Sim sim) {
+		getSims().remove(sim);
+		sim.setUredjaji(null);
+		return sim;
 	}
 	
 	public int getVersion() {

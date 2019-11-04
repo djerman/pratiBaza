@@ -52,5 +52,11 @@ public class SistemPretplatniciServisImpl implements SistemPretplatniciServis{
 	public ArrayList<SistemPretplatnici> nadjiSveAktivnePretplatnike() {
 		return sistemPretplatnikDAO.nadjiSveAktivnePretplatnike();
 	}
+
+	@Transactional
+	@Override
+	public ArrayList<SistemPretplatnici> nadjiSveAktivneSistemskePretplatnike() {
+		return sistemPretplatnikDAO.nadjiSveAktivneSistemskePretplatnike();
+	}
 	
 }

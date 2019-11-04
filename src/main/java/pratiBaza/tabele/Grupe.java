@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Table(name="grupe")
+@Table(name="be_grupe")
 @NamedQuery(name="Grupe.findAll", query="SELECT g FROM Grupe g")
 public class Grupe implements Serializable {
 	

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="obd")
+@Table(name="cg_obd")
 @NamedQuery(name="Obd.findAll", query="SELECT o FROM Obd o")
 public class Obd implements Serializable {
 	private static final long serialVersionUID = 1L;

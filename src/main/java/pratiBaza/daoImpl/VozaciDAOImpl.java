@@ -90,12 +90,13 @@ public class VozaciDAOImpl implements VozaciDAO{
 	@Override
 	public ArrayList<Vozaci> nadjiSveVozace(Korisnici korisnik) {
 		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
-
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("korisnici", "ko");
 			criteria.add(Restrictions.eq("ko.organizacija", korisnik.getOrganizacija()));

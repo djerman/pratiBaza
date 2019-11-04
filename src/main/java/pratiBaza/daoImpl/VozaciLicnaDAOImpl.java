@@ -88,10 +88,12 @@ public class VozaciLicnaDAOImpl implements VozaciLicnaDAO{
 	public ArrayList<VozaciLicna> nadjiSveVozacLicna(Korisnici korisnik) {
 		ArrayList<VozaciLicna> lista = new ArrayList<VozaciLicna>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicna.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozaci", "v");
 			criteria.createAlias("v.korisnici", "k");

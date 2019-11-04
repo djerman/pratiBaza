@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="alarmiKorisnik")
+@Table(name="cc_alarmiKorisnik")
 @NamedQuery(name="AlarmiKorisnik.findAll", query="SELECT a FROM AlarmiKorisnik a")
 public class AlarmiKorisnik implements Serializable {
 	private static final long serialVersionUID = 1L;

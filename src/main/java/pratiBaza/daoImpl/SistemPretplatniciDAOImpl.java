@@ -84,5 +84,22 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 		SistemPretplatnici pretplatnik = (SistemPretplatnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return pretplatnik;
 	}
+
+	@Override
+	public ArrayList<SistemPretplatnici> nadjiSveAktivneSistemskePretplatnike() {
+		ArrayList<SistemPretplatnici> lista = new ArrayList<SistemPretplatnici>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.eq("aktivan", true));
+		criteria.add(Restrictions.eq("sistem", true));
+		criteria.addOrder(Order.asc("naziv"));
+		@SuppressWarnings("unchecked")
+		ArrayList<SistemPretplatnici> lista2 = (ArrayList<SistemPretplatnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			return lista2;
+		}else {
+			return lista;
+		}
+	}
 	
 }

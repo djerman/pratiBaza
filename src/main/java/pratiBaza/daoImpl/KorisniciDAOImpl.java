@@ -88,10 +88,12 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));
 			criteria.add(Restrictions.eq("izbrisan", false));
@@ -147,9 +149,8 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	public ArrayList<Korisnici> nadjiSveKorisnikeVozace(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
 			}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));

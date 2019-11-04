@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name="sistemGoriva")
+@Table(name="ae_sistemGoriva")
 @NamedQuery(name="SistemGoriva.findAll", query="SELECT s FROM SistemGoriva s")
 public class SistemGoriva implements Serializable {
 	private static final long serialVersionUID = 1L;

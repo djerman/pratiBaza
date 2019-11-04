@@ -87,10 +87,12 @@ public class VozilaPrimoPredajeDAOImpl implements VozilaPrimoPredajeDAO{
 	public ArrayList<VozilaPrimoPredaje> nadjiSveVozilaPrimoPredaje(Korisnici korisnik) {
 		ArrayList<VozilaPrimoPredaje> lista = new ArrayList<VozilaPrimoPredaje>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaPrimoPredaje.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozilo", "v");
 			criteria.createAlias("v.objekti", "o");

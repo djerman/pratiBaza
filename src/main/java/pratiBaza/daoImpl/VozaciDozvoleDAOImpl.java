@@ -87,10 +87,12 @@ public class VozaciDozvoleDAOImpl implements VozaciDozvoleDAO{
 	public ArrayList<VozaciDozvole> nadjiSveVozacDozvole(Korisnici korisnik) {
 		ArrayList<VozaciDozvole> lista = new ArrayList<VozaciDozvole>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciDozvole.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozaci", "v");
 			criteria.createAlias("v.korisnici", "k");

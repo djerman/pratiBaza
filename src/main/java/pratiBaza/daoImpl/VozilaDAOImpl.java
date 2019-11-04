@@ -81,10 +81,12 @@ public class VozilaDAOImpl implements VozilaDAO{
 	public ArrayList<Vozila> vratisvaVozila(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Vozila> lista = new ArrayList<Vozila>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}

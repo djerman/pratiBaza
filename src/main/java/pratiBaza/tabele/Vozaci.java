@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="vozaci")
+@Table(name="ci_vozaci")
 @NamedQuery(name="Vozaci.findAll", query="SELECT v FROM Vozaci v")
 public class Vozaci implements Serializable{
 

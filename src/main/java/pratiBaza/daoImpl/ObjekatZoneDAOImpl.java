@@ -104,10 +104,12 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 	public ArrayList<ObjekatZone> vratiSveObjekatZone(Korisnici korisnik, boolean aktivan) {
 		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+			
+		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
-			}
+		}
 		if(aktivan) {
 			criteria.add(Restrictions.eq("aktivan", true));
 			criteria.add(Restrictions.eq("izbrisan", false));

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="sistemPretplatnici")
+@Table(name="ab_sistemPretplatnici")
 @NamedQuery(name="SistemPretplatnici.findAll", query="SELECT s FROM SistemPretplatnici s")
 public class SistemPretplatnici implements Serializable {
 	
@@ -28,6 +28,8 @@ public class SistemPretplatnici implements Serializable {
 	private Timestamp izmenjeno;
 
 	private Timestamp kreirano;
+	
+	private boolean sistem;
 
 	private String naziv;
 
@@ -146,6 +148,14 @@ public class SistemPretplatnici implements Serializable {
 
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
+	}
+
+	public boolean isSistem() {
+		return sistem;
+	}
+
+	public void setSistem(boolean sistem) {
+		this.sistem = sistem;
 	}
 
 	public int getVersion() {
