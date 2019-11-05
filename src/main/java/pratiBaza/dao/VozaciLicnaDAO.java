@@ -2,7 +2,6 @@ package pratiBaza.dao;
 
 import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLicna;
 
 public interface VozaciLicnaDAO {
@@ -15,9 +14,9 @@ public interface VozaciLicnaDAO {
 	
 	VozaciLicna nadjiVozacLicnaPoId(int id);
 	
-	VozaciLicna nadjiVozacLicnaPoVozacu(Vozaci vozac);
+	VozaciLicna nadjiVozacLicnaPoVozacu(Korisnici vozac);
 	
-	ArrayList<VozaciLicna> nadjiSveVozacLicnaPoVozacu(Vozaci vozac);
+	ArrayList<VozaciLicna> nadjiSveVozacLicnaPoVozacu(Korisnici vozac);
 	
 	ArrayList<VozaciLicna> nadjiSveVozacLicna(Korisnici korisnik);
 }

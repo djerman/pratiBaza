@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.VozaciPasosiDAO;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciPasosi;
 
 @Repository("vozacPasosDAO")
@@ -56,7 +55,7 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 	}
 
 	@Override
-	public VozaciPasosi nadjiVozacPasosPoVozacu(Vozaci vozac) {
+	public VozaciPasosi nadjiVozacPasosPoVozacu(Korisnici vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciPasosi.class);
 		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -70,11 +69,10 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciPasosi> nadjiSveVozacPasosPoVozacu(Vozaci vozac) {
+	public ArrayList<VozaciPasosi> nadjiSveVozacPasosPoVozacu(Korisnici vozac) {
 		ArrayList<VozaciPasosi> lista = new ArrayList<VozaciPasosi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciPasosi.class);
-		criteria.createAlias("vozaci", "v");
-		criteria.add(Restrictions.eq("v.korisnici", vozac));
+		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		ArrayList<VozaciPasosi> lista2 = (ArrayList<VozaciPasosi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
@@ -97,8 +95,7 @@ public class VozaciPasosiDAOImpl implements VozaciPasosiDAO{
 		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozaci", "v");
-			criteria.createAlias("v.korisnici", "k");
-			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
+			criteria.add(Restrictions.eq("v.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));

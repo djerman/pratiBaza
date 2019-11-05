@@ -39,8 +39,8 @@ public class VozaciPasosi implements Serializable{
 	
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
-	@JoinColumn(name="vozacId")
-	private Vozaci vozaci;
+	@JoinColumn(name="korisnikId")
+	private Korisnici vozaci;
 	
 	private String brojPasosa;
 	
@@ -92,11 +92,11 @@ public class VozaciPasosi implements Serializable{
 		this.organizacija = organizacija;
 	}
 
-	public Vozaci getVozaci() {
+	public Korisnici getVozaci() {
 		return vozaci;
 	}
 
-	public void setVozaci(Vozaci vozaci) {
+	public void setVozaci(Korisnici vozaci) {
 		this.vozaci = vozaci;
 	}
 

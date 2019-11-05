@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import pratiBaza.dao.VozaciLekarskoDAO;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLekarsko;
 
 @Repository("vozacLekarskoDAO")
@@ -56,7 +55,7 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 	}
 
 	@Override
-	public VozaciLekarsko nadjiVozacLekarskoPoVozacu(Vozaci vozac) {
+	public VozaciLekarsko nadjiVozacLekarskoPoVozacu(Korisnici vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLekarsko.class);
 		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -70,7 +69,7 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciLekarsko> nadjiSveVozacLekarskePoVozacu(Vozaci vozac) {
+	public ArrayList<VozaciLekarsko> nadjiSveVozacLekarskePoVozacu(Korisnici vozac) {
 		ArrayList<VozaciLekarsko> lista = new ArrayList<VozaciLekarsko>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLekarsko.class);
 		criteria.add(Restrictions.eq("vozaci", vozac));
@@ -98,8 +97,7 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozaci", "v");
-			criteria.createAlias("v.korisnici", "k");
-			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
+			criteria.add(Restrictions.eq("v.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));

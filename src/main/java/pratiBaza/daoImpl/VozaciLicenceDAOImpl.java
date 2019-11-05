@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozaciLicenceDAO;
 import pratiBaza.tabele.Korisnici;
-import pratiBaza.tabele.Vozaci;
 import pratiBaza.tabele.VozaciLicence;
 
 
@@ -55,7 +54,7 @@ public class VozaciLicenceDAOImpl implements VozaciLicenceDAO{
 	}
 
 	@Override
-	public VozaciLicence nadjiVozacLicencaPoVozacu(Vozaci vozac) {
+	public VozaciLicence nadjiVozacLicencaPoVozacu(Korisnici vozac) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicence.class);
 		criteria.add(Restrictions.eq("vozaci", vozac));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -69,7 +68,7 @@ public class VozaciLicenceDAOImpl implements VozaciLicenceDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozaciLicence> nadjiSveVozacLicencaPoVozacu(Vozaci vozac) {
+	public ArrayList<VozaciLicence> nadjiSveVozacLicencaPoVozacu(Korisnici vozac) {
 		ArrayList<VozaciLicence> lista = new ArrayList<VozaciLicence>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicence.class);
 		criteria.add(Restrictions.eq("vozaci", vozac));
@@ -95,8 +94,7 @@ public class VozaciLicenceDAOImpl implements VozaciLicenceDAO{
 		}
 		if(korisnik.getOrganizacija() != null) {
 			criteria.createAlias("vozaci", "v");
-			criteria.createAlias("v.korisnici", "k");
-			criteria.add(Restrictions.eq("k.organizacija", korisnik.getOrganizacija()));
+			criteria.add(Restrictions.eq("v.organizacija", korisnik.getOrganizacija()));
 			}
 		criteria.addOrder(Order.asc("sistemPretplatnici"));
 		criteria.addOrder(Order.asc("izbrisan"));
