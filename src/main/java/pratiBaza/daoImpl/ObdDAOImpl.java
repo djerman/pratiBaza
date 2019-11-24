@@ -1,8 +1,13 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -42,13 +47,49 @@ public class ObdDAOImpl implements ObdDAO{
 
 	@Override
 	public Obd nadjiObdPoslednji(Objekti objekat, Timestamp datumVreme) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		if(datumVreme != null) {
-			criteria.add(Restrictions.lt("datumVreme", datumVreme));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM cg_obd where objekatId = :objId and datumVreme < :dV "
+				+ "order by datumVreme desc limit 1");
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> obdData = query
+				.setTimestamp("dV", datumVreme)
+				.setLong("objId", objekat.getId()).list();
+		
+		Obd obd = new Obd();
+		if(!obdData.isEmpty() && obdData != null) {
+			for (Object[] row : obdData) {
+				if(row[0].toString() != null && !row[0].toString().equals("")) {
+					obd.setId(Long.parseLong(row[0].toString()));
+					obd.setVersion(Integer.parseInt(row[1].toString()));
+					obd.setObjekti(objekat);
+					obd.setRpm(Integer.parseInt(row[4].toString()));
+					obd.setTemperatura(Integer.parseInt(row[5].toString()));
+					obd.setOpterecenje(Float.parseFloat(row[6].toString()));
+					obd.setGas(Float.parseFloat(row[7].toString()));
+					obd.setNivoGoriva(Float.parseFloat(row[8].toString()));
+					obd.setAkumulator(Float.parseFloat(row[9].toString()));
+					obd.setTripKm(Float.parseFloat(row[10].toString()));
+					obd.setTripGorivo(Float.parseFloat(row[11].toString()));
+					obd.setUkupnoVreme(Float.parseFloat(row[12].toString()));
+					obd.setUkupnoKm(Integer.parseInt(row[13].toString()));
+					obd.setUkupnoGorivo(Float.parseFloat(row[14].toString()));
+					obd.setProsecnaPotrosnja(Float.parseFloat(row[15].toString()));
+					obd.setGreske(row[16].toString());
+					try {
+						obd.setDatumVreme(sdf.parse(row[3].toString()));
+						} catch (ParseException e) {
+							e.printStackTrace();
+							}
+				}else {
+					obd = null;
+				}
+			}
+		}else {
+			obd = null;
 		}
-		criteria.addOrder(Order.desc("id")).setMaxResults(1);
-		return (Obd) criteria.uniqueResult();
+		return obd;
+	
 	}
 
 	@Override
@@ -74,10 +115,9 @@ public class ObdDAOImpl implements ObdDAO{
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-			}else {
-				return lista;
-				}
+			lista.addAll(lista2);
+			}
+		return lista;
 		}
 
 	@Override
@@ -138,10 +178,9 @@ public class ObdDAOImpl implements ObdDAO{
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-			}else {
-				return lista;
-				}
+			lista.addAll(lista2);
+			}
+		return lista;
 	}
 
 }

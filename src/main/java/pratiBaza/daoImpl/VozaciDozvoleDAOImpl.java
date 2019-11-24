@@ -87,8 +87,6 @@ public class VozaciDozvoleDAOImpl implements VozaciDozvoleDAO{
 		ArrayList<VozaciDozvole> lista = new ArrayList<VozaciDozvole>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciDozvole.class);
 		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

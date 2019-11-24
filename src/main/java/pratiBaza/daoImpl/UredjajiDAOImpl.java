@@ -56,9 +56,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
@@ -83,9 +81,10 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}
 	}
 
-	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, Uredjaji uredjaj) {
+	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
+		criteria.add(Restrictions.isNull("objekti"));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		if(pretplatnik != null ) {
@@ -94,15 +93,25 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		if(organizacija != null) {
 			criteria.add(Restrictions.eq("organizacija",  organizacija));
 		}
-		criteria.add(Restrictions.isNull("objekti"));
-		criteria.addOrder(Order.desc("id"));
+		criteria.addOrder(Order.asc("id"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Uredjaji> lista2 = (ArrayList<Uredjaji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+			lista.addAll(lista2);
 		}
+		return lista;
+	}
+
+	@Override
+	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjaje(Korisnici korisnik, SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Uredjaji> lista = nadjiSveAktivneSlobodneUredjajePoPretplatniku(pretplatnik, organizacija);
+		if(korisnik.getSistemPretplatnici().isSistem()) {
+			ArrayList<Uredjaji> lista2 = nadjiSveAktivneSlobodneUredjajePoPretplatniku(korisnik.getSistemPretplatnici(), null);
+			if(lista2 != null) {
+				lista.addAll(lista2);
+			}
+		}
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {

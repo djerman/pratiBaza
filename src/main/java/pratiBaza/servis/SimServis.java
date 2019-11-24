@@ -19,4 +19,6 @@ public interface SimServis {
 	Sim nadjiSimPoID(int id);
 	
 	ArrayList<Sim> vratiSveAktivneSimKartice(SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim);
+	
+	ArrayList<Sim> vratiSveSlobodneSim(Korisnici korisnik, SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim);
 }

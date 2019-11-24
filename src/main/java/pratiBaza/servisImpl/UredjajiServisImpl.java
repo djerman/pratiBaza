@@ -38,8 +38,8 @@ public class UredjajiServisImpl implements UredjajiServis{
 	}
 
 	@Transactional
-	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, Uredjaji uredjaj) {
-		return uredjajDAO.nadjiSveAktivneSlobodneUredjajePoPretplatniku(pretplatnik, organizacija, uredjaj);
+	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return uredjajDAO.nadjiSveAktivneSlobodneUredjajePoPretplatniku(pretplatnik, organizacija);
 	}
 
 	@Transactional
@@ -66,6 +66,12 @@ public class UredjajiServisImpl implements UredjajiServis{
 	@Transactional
 	public Uredjaji nadjiUredjajPoKodu(String kod) {
 		return uredjajDAO.nadjiUredjajPoKodu(kod);
+	}
+
+	@Transactional
+	@Override
+	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjaje(Korisnici korisnik, SistemPretplatnici pretplatnik,Organizacije organizacija) {
+		return uredjajDAO.nadjiSveAktivneSlobodneUredjaje(korisnik, pretplatnik, organizacija);
 	}
 	
 }

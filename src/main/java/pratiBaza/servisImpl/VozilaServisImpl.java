@@ -77,5 +77,24 @@ public class VozilaServisImpl implements VozilaServis{
 	public ArrayList<Vozila> nadjisvaVozilaPoOrganizaciji(Organizacije organizacija) {
 		return voziloDAO.nadjisvaVozilaPoOrganizaciji(organizacija);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozila> nadjisvaVozilaPoObjektima(ArrayList<Objekti> objekti) {
+		return voziloDAO.nadjisvaVozilaPoObjektima(objekti);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozila> nadjiSvaVozilaBezSaobracajne(Korisnici korisnik, boolean aktivan) {
+		return voziloDAO.nadjiSvaVozilaBezSaobracajne(korisnik, aktivan);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozila> nadjiSvaVozilaBezSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik,
+			Organizacije organizacija) {
+		return voziloDAO.nadjiSvaVozilaBezSaobracajnePoPretplatniku(pretplatnik, organizacija);
+	}
 	
 }

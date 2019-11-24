@@ -21,7 +21,11 @@ public class StanjeOBD implements Serializable{
 		this.ukupnoKm = ukupnoKm;
 		this.ukupnoGorivo = ukupnoGorivo;
 		this.ukupnoVreme = ukupnoVreme;
-		this.potrosnja = (ukupnoGorivo * 100)/ukupnoKm;
+		if(ukupnoKm == 0) {
+			this.potrosnja = 0.0f;
+		}else {
+			this.potrosnja = (ukupnoGorivo * 100)/ukupnoKm;
+		}
 	}
 
 	public String getObjekatNaziv() {

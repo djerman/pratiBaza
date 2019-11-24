@@ -62,9 +62,7 @@ public class SimDAOImpl implements SimDAO{
 	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Sim> lista = new ArrayList<Sim>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
@@ -81,10 +79,9 @@ public class SimDAOImpl implements SimDAO{
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<Sim> lista2 = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
+			lista.addAll(lista2);
+			}
+		return lista;
 	}
 
 	@Override
@@ -104,31 +101,38 @@ public class SimDAOImpl implements SimDAO{
 	@Override
 	public ArrayList<Sim> vratiSveAktivneSimKartice(SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
 		ArrayList<Sim> lista = new ArrayList<Sim>();
+		if(sim != null) {
+			lista.add(sim);
+		}
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
+		criteria.add(Restrictions.isNull("uredjaji"));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		if(pretplatnici != null) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnici));
-		}else {
-			criteria.add(Restrictions.eq("izbrisan", false));
 		}
 		if(organizacija != null) {
 			criteria.add(Restrictions.eq("organizacija", organizacija));
 		}
-		criteria.add(Restrictions.isNull("uredjaji"));
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<Sim> lista2 = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			if(sim != null) {
-				lista2.add(sim);
-			}
-			return lista2;
-		}else {
-			if(sim != null) {
-				lista.add(sim);
-			}
-			return lista;
+			lista.addAll(lista2);
 		}
+		return lista;
 	}
+
+	@Override
+	public ArrayList<Sim> vratiSveSlobodneSim(Korisnici korisnik, SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
+		ArrayList<Sim> lista = vratiSveAktivneSimKartice(pretplatnici, organizacija, sim);
+		if(korisnik.getSistemPretplatnici().isSistem()) {
+			ArrayList<Sim> lista2 = vratiSveAktivneSimKartice(korisnik.getSistemPretplatnici(), null, null);
+			if(lista2 != null) {
+				lista.addAll(lista2);
+			}
+		}
+		return lista;
+	}
+	
 	
 }

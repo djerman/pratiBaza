@@ -89,9 +89,7 @@ public class VozaciLekarskoDAOImpl implements VozaciLekarskoDAO{
 	public ArrayList<VozaciLekarsko> nadjiSveVozacLekarske(Korisnici korisnik) {
 		ArrayList<VozaciLekarsko> lista = new ArrayList<VozaciLekarsko>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLekarsko.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="javljanjaPoslednja")
+@Table(name="cf_javljanjaPoslednja")
 @NamedQuery(name="JavljanjaPoslednja.findAll", query="SELECT j FROM JavljanjaPoslednja j")
 public class JavljanjaPoslednja implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -55,9 +55,9 @@ public class JavljanjaPoslednja implements Serializable {
 	private SistemAlarmi sistemAlarmi;
 	
 	//bi-directional many-to-one association to Obd
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="obdId")
-	private Obd obd;
+	private Obd obd;**/
 	
 	//bi-directional many-to-one association to Obd
 	@ManyToOne
@@ -217,13 +217,13 @@ public class JavljanjaPoslednja implements Serializable {
 		this.korisnik = korisnik;
 	}
 
-	public Obd getObd() {
+	/*public Obd getObd() {
 		return obd;
 	}
 
 	public void setObd(Obd obd) {
 		this.obd = obd;
-	}
+	}**/
 
 	public Zone getZona() {
 		return zona;

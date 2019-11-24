@@ -39,7 +39,9 @@ public interface JavljanjaServis {
 	
 	ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
 	
-	Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo);
+	Javljanja vratiJavljanjeObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo);
+	
+	Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo);
 	
 	ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat);
 	

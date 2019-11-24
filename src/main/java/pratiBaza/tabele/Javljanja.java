@@ -14,60 +14,34 @@ public class Javljanja implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
-	private int brzina;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date datumVreme;
-
-	private String eventData;
-
-	private String ibutton;
-
-	private Timestamp izmenjeno;
-
-	private boolean kontakt;
-
-	private Timestamp kreirano;
-
-	private double lat;
-
-	private double lon;
-
-	private float pravac;
-
-	private boolean valid;
-
 	private int version;
-
-	private float visina;
-	
-	private float virtualOdo;
-
-	//bi-directional many-to-one association to SistemAlarmi
-	@ManyToOne//(fetch = FetchType.LAZY)
-	@JoinColumn(name="alarmId")
-	private SistemAlarmi sistemAlarmi;
-
-	//bi-directional many-to-one association to Obd
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="obdId")
-	private Obd obd;
-	
-	//bi-directional many-to-one association to Obd
-	@ManyToOne//(fetch = FetchType.LAZY)
-	@JoinColumn(name="zona")
-	private Zone zona;
-
-	//bi-directional many-to-one association to Objekti
+	private boolean valid;
+    //bi-directional many-to-one association to Objekti
 	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
-	
-	//bi-directional many-to-one association to Objekti
-	@ManyToOne//(fetch = FetchType.LAZY)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date datumVreme;
+	private double lon;
+	private double lat;
+	private float pravac;
+	private float visina;
+	private int brzina;
+	private boolean kontakt;
+	@ManyToOne
+	@JoinColumn(name="alarmId")
+	private SistemAlarmi sistemAlarmi;
+	private float virtualOdo;
+	private String eventData;
+	@ManyToOne
+	@JoinColumn(name="zona")
+	private Zone zona;
+	private String ibutton;
+	@ManyToOne
 	@JoinColumn(name="korisnikId")
 	private Korisnici korisnik;
+	private Timestamp izmenjeno;
+	private Timestamp kreirano;
 
 	public Javljanja() {
 		
@@ -246,13 +220,13 @@ public class Javljanja implements Serializable {
 		this.korisnik = korisnik;
 	}
 
-	public Obd getBd() {
+	/*public Obd getBd() {
 		return obd;
 	}
 
 	public void setBd(Obd bd) {
 		this.obd = bd;
-	}
+	}**/
 
 	public Zone getZona() {
 		//Hibernate.initialize(zona);

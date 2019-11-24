@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozilaSaobracajneDAO;
 import pratiBaza.tabele.Korisnici;
+import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.VozilaSaobracajne;
 
 @Repository("saobracajnaDAO")
@@ -68,9 +70,7 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 	public ArrayList<VozilaSaobracajne> nadjiSveSaobracajne(Korisnici korisnik, boolean izbrisan) {
 		ArrayList<VozilaSaobracajne> lista = new ArrayList<VozilaSaobracajne>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaSaobracajne.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() && !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
@@ -84,10 +84,9 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<VozilaSaobracajne> lista2 = (ArrayList<VozilaSaobracajne>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+			lista.addAll(lista2);
 		}
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -96,6 +95,56 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<VozilaSaobracajne> nadjiSlobodneSaobracajne(Korisnici korisnik, boolean izbrisan) {
+		ArrayList<VozilaSaobracajne> lista = new ArrayList<VozilaSaobracajne>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaSaobracajne.class);
+		if(!korisnik.getSistemPretplatnici().isSistem() && !korisnik.isSistem()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+		}
+		if(korisnik.getOrganizacija() != null) {
+			criteria.createAlias("vozilo", "v");
+			criteria.createAlias("v.objekti", "o");
+			criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
+			}
+		if(izbrisan) {
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
+		criteria.add(Restrictions.isNull("saobracajna2"));
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<VozilaSaobracajne> lista2 = (ArrayList<VozilaSaobracajne>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<VozilaSaobracajne> nadjiSlobodneSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<VozilaSaobracajne> lista = new ArrayList<VozilaSaobracajne>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaSaobracajne.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		if(organizacija != null) {
+			criteria.createAlias("vozilo", "v");
+			criteria.createAlias("v.objekti", "o");
+			criteria.add(Restrictions.eq("o.organizacija", organizacija));
+			}
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.isNull("saobracajna2"));
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<VozilaSaobracajne> lista2 = (ArrayList<VozilaSaobracajne>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
 	}
 
 }

@@ -87,9 +87,7 @@ public class VozaciLicnaDAOImpl implements VozaciLicnaDAO{
 	public ArrayList<VozaciLicna> nadjiSveVozacLicna(Korisnici korisnik) {
 		ArrayList<VozaciLicna> lista = new ArrayList<VozaciLicna>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicna.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

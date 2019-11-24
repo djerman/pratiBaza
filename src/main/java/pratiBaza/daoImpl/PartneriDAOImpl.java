@@ -54,31 +54,6 @@ public class PartneriDAOImpl implements PartneriDAO{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan) {
-		ArrayList<Partneri> lista = new ArrayList<Partneri>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Partneri> lista2 = (ArrayList<Partneri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-	}
-
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -98,4 +73,45 @@ public class PartneriDAOImpl implements PartneriDAO{
 			return null;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan) {
+		ArrayList<Partneri> lista = new ArrayList<Partneri>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+		}
+		if(izbrisan) {
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Partneri> lista2 = (ArrayList<Partneri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Partneri> nadjiSvePartnerePoPretplatniku(SistemPretplatnici pretplatnik, boolean izbrisan) {
+		ArrayList<Partneri> lista = new ArrayList<Partneri>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		if(izbrisan) {
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
+		criteria.addOrder(Order.asc("sistemPretplatnici"));
+		criteria.addOrder(Order.asc("izbrisan"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Partneri> lista2 = (ArrayList<Partneri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
+	}
+	
 }

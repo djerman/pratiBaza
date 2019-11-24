@@ -20,7 +20,7 @@ public interface ObjektiServis {
 	
 	ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan);
 	
-	ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik);
+	ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan);
 	
 	ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa);
 	
@@ -31,4 +31,6 @@ public interface ObjektiServis {
 	ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
 	Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj);
+	
+	ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

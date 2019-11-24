@@ -88,9 +88,7 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 	public ArrayList<Korisnici> nadjiSveKorisnike(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Korisnici> lista = new ArrayList<Korisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

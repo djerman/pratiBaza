@@ -28,4 +28,10 @@ public interface VozilaServis {
 	ArrayList<Vozila> nadjisvaVozilaPoPretplatniku(SistemPretplatnici pretplatnik);
 	
 	ArrayList<Vozila> nadjisvaVozilaPoOrganizaciji(Organizacije organizacija);
+	
+	ArrayList<Vozila> nadjisvaVozilaPoObjektima(ArrayList<Objekti> objekti);
+	
+	ArrayList<Vozila> nadjiSvaVozilaBezSaobracajne(Korisnici korisnik, boolean aktivan);
+	
+	ArrayList<Vozila> nadjiSvaVozilaBezSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

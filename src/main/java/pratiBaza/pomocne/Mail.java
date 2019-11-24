@@ -33,7 +33,7 @@ public class Mail implements Serializable{
 	    session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
 	    	@Override
 	    	protected PasswordAuthentication getPasswordAuthentication() {
-	    		return new PasswordAuthentication("prati@atekom.rs","Djerman1975");
+	    		return new PasswordAuthentication("prati@atekom.rs","!Mostar1990");
 	    		}
 	    	});
 	}

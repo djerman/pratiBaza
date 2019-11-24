@@ -60,9 +60,7 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
@@ -106,17 +104,17 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik) {
+	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Objekti> lista = new ArrayList<Objekti>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
-		criteria.add(Restrictions.eq("aktivan", true));
-		criteria.add(Restrictions.eq("izbrisan", false));
+		if(aktivan) {
+			criteria.add(Restrictions.eq("aktivan", true));
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
 		criteria.add(Restrictions.eq("tip", true));
 		if(korisnik.getOrganizacija() != null) {
 			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
@@ -201,6 +199,26 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		}else {
 			return null;
 		}
+	}
+
+	@Override
+	public ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
+		criteria.add(Restrictions.isNotNull("vozilo"));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.eq("aktivan", true));
+		if(organizacija != null) {
+			criteria.add(Restrictions.eq("organizacija", organizacija));
+		}
+		criteria.addOrder(Order.desc("id"));
+		@SuppressWarnings("unchecked")
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
 	}
 	
 }

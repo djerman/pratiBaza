@@ -28,5 +28,7 @@ public interface GrupeObjektiServis {
 	
 	ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa);
 	
+	ArrayList<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa);
+	
 	ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe);
 }

@@ -8,6 +8,7 @@ pratiBaza/servis/VozilaOpremaPrijemServis.class
 pratiBaza/daoImpl/VozilaPrimoPredajeDAOImpl.class
 pratiBaza/servisImpl/VozilaOpremaPrijemServisImpl.class
 pratiBaza/tabele/ObjektiPoslednje.class
+pratiBaza/servisImpl/TroskoviServisImpl.class
 pratiBaza/dao/VozilaSaobracajneDAO.class
 pratiBaza/dao/ObdDAO.class
 pratiBaza/pomocne/StavkaPrijema.class
@@ -79,10 +80,12 @@ pratiBaza/tabele/Uredjaji.class
 pratiBaza/tabele/VozilaNalozi.class
 pratiBaza/daoImpl/JavljanjaDAOImpl.class
 pratiBaza/tabele/Partneri.class
+pratiBaza/daoImpl/TroskoviDAOImpl.class
 pratiBaza/servisImpl/GrupeServisImpl.class
 pratiBaza/servisImpl/VozaciLekarskoServisImpl.class
 pratiBaza/daoImpl/ZoneDAOImpl.class
 pratiBaza/dao/ZoneDAO.class
+pratiBaza/dao/TroskoviDAO.class
 pratiBaza/daoImpl/SistemSesijeDAOImpl.class
 pratiBaza/servis/OrganizacijeServis.class
 pratiBaza/tabele/Korisnici.class
@@ -93,6 +96,7 @@ pratiBaza/servis/VozilaNaloziServis.class
 pratiBaza/tabele/VozaciLicence.class
 pratiBaza/tabele/VozilaPrimoPredaje.class
 pratiBaza/dao/VozilaNaloziDAO.class
+pratiBaza/tabele/Troskovi.class
 pratiBaza/servis/ObjektiServis.class
 pratiBaza/dao/VozaciDAO.class
 pratiBaza/dao/AlarmiKorisnikDAO.class
@@ -127,6 +131,7 @@ pratiBaza/tabele/GrupeObjekti.class
 pratiBaza/daoImpl/SistemPretplatniciDAOImpl.class
 pratiBaza/servis/ObdServis.class
 pratiBaza/daoImpl/ProcedureDAOImpl.class
+pratiBaza/servis/TroskoviServis.class
 pratiBaza/pomocne/PredjeniPut.class
 pratiBaza/tabele/Vozila.class
 pratiBaza/pomocne/PredjeniPutGPS.class

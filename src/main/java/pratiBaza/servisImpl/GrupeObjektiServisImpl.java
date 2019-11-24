@@ -77,12 +77,17 @@ public class GrupeObjektiServisImpl implements GrupeObjektiServis{
 	public ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa) {
 		return grupaObjekatDAO.nadjiSveObjektePoGrupi(grupa);
 	}
+	
+	@Override
+	@Transactional
+	public ArrayList<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa) {
+		return grupaObjekatDAO.nadjiSveObjektePoGrupiSaVozilom(grupa);
+	}
 
 	@Override
 	@Transactional
 	public ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe) {
 		return grupaObjekatDAO.nadjiSveObjektePoGrupama(grupe);
 	}
-	
 
 }

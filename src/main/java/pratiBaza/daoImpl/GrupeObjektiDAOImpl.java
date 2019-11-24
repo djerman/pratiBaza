@@ -111,10 +111,9 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		criteria.add(Restrictions.in("grupe", grupe));
 		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(grupaObjekti2 != null) {
-			return grupaObjekti2;
-		}else {
-			return grupaObjekti;
+			grupaObjekti.addAll(grupaObjekti2);
 		}
+		return grupaObjekti;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,10 +123,30 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		criteria.add(Restrictions.in("grupe", grupa));
 		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
-		if(grupaObjekti != null) {
+		if(grupaObjekti != null && grupaObjekti.size() > 0 && !grupaObjekti.isEmpty()) {
 			for(GrupeObjekti grupaObjekat : grupaObjekti) {
 				if(!objekti.contains(grupaObjekat.getObjekti())) {
 					objekti.add(grupaObjekat.getObjekti());			
+					}
+				}
+		}
+		return objekti;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
+		criteria.add(Restrictions.in("grupe", grupa));
+		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
+		if(grupaObjekti != null && grupaObjekti.size() > 0 && !grupaObjekti.isEmpty()) {
+			for(GrupeObjekti grupaObjekat : grupaObjekti) {
+				if(!objekti.contains(grupaObjekat.getObjekti())) {
+					Objekti objekat = grupaObjekat.getObjekti();
+					if(objekat.getVozilo() != null) {
+						objekti.add(objekat);
+						}			
 					}
 				}
 		}

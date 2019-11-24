@@ -22,18 +22,14 @@ public class VozilaSaobracajne2 implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
 	private int version;
-	
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
-	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="organizacijaId")
 	private Organizacije organizacija;
-	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="saobracajnaId")
@@ -43,9 +39,7 @@ public class VozilaSaobracajne2 implements Serializable{
 	mestaStajanje, kupljenoDoniranoOd, nabavljenoPoRacunuSert, dobavljacDonator;
 	
 	private Timestamp izmenjeno;
-
 	private Timestamp kreirano;
-	
 	private boolean izbrisan;
 	
 	public VozilaSaobracajne2() {

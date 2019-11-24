@@ -25,65 +25,40 @@ public class VozilaSaobracajne implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
 	private int version;
-	
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
-	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="organizacijaId")
 	private Organizacije organizacija;
-	
 	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="voziloId")
 	private Vozila vozilo;
-	
 	private String brojSaobracajne;
-	
 	@Temporal(TemporalType.DATE)
 	private Date datumIzdavanja;
-	
 	private String izdao;
-	
 	private String homologacija;
-	
 	private String sasija;
-	
 	private String brojMotora;
-	
 	private double snagaMotora;
-	
 	private int zapreminaMotora;
-	
 	private int zapreminaRezervoara;
-	
 	private int zapreminaRezervoaraAdBlue;
-	
 	private String boja;
-	
 	private String masa;
-	
 	private String ukupnaMasa;
-	
 	private String kategorija;
-	
 	private String nosivost;
-	
 	private int mestaSedenja;
-	
-	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="saobracajna2Id")
 	private VozilaSaobracajne2 saobracajna2;
-	
 	private Timestamp izmenjeno;
-
 	private Timestamp kreirano;
-	
 	private boolean izbrisan;
 	
 	public VozilaSaobracajne() {

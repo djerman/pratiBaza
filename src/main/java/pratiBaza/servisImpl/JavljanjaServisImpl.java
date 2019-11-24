@@ -94,10 +94,16 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 
 	@Override
 	@Transactional
-	public Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo) {
-		return javljanjeDAO.vratiJavljanjePoslednjeObjektaDo(objekat, vremeDo);
+	public Javljanja vratiJavljanjeObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		return javljanjeDAO.vratiJavljanjeObjektaDoIliOd(objekat, datumVreme, vremeDo);
 	}
 
+	@Override
+	@Transactional
+	public Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		return javljanjeDAO.vratiObdObjektaDoIliOd(objekat, datumVreme, vremeDo);
+	}
+	
 	@Override
 	@Transactional
 	public ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {

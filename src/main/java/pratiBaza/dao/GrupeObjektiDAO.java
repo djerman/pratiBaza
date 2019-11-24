@@ -8,25 +8,27 @@ import pratiBaza.tabele.Objekti;
 
 public interface GrupeObjektiDAO {
 	
-	void unesiGrupaObjekat(GrupeObjekti grupaObjekat);
+	public void unesiGrupaObjekat(GrupeObjekti grupaObjekat);
 	
-	void azurirajGrupaObjekat(GrupeObjekti grupaObjekat);
+	public void azurirajGrupaObjekat(GrupeObjekti grupaObjekat);
 	
-	void izbrisiGrupaObjekat(GrupeObjekti grupaObjekat);
+	public void izbrisiGrupaObjekat(GrupeObjekti grupaObjekat);
 
-	GrupeObjekti nadjiGrupaObjekatPoId(int id);
+	public GrupeObjekti nadjiGrupaObjekatPoId(int id);
 	
-	void izbrisiSveGrupaObjekti(Grupe grupa);
+	public void izbrisiSveGrupaObjekti(Grupe grupa);
 	
-	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa);
+	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa);
 	
-	void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat);
+	public void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat);
 	
-	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat);
+	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat);
 	
-	ArrayList<GrupeObjekti> nadjiSveGrupeObjektePoGrupama(ArrayList<Grupe> grupe);
+	public ArrayList<GrupeObjekti> nadjiSveGrupeObjektePoGrupama(ArrayList<Grupe> grupe);
 	
-	ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa);
+	public ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa);
 	
-	ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe);
+	public ArrayList<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa);
+	
+	public ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe);
 }

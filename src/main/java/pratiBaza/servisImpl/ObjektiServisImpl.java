@@ -55,8 +55,8 @@ public class ObjektiServisImpl implements ObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik) {
-		return objekatDAO.vratiSvaVozila(korisnik);
+	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan) {
+		return objekatDAO.vratiSvaVozila(korisnik, aktivan);
 	}
 
 	@Transactional
@@ -85,6 +85,11 @@ public class ObjektiServisImpl implements ObjektiServis{
 	public ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return objekatDAO.vratiSveObjekteVozila(pretplatnik, organizacija);
 	}
-	
+
+	@Override
+	@Transactional
+	public ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return objekatDAO.nadjiSveObjekteSavozilom(pretplatnik, organizacija);
+	}
 
 }

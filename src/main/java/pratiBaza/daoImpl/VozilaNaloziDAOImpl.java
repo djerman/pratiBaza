@@ -87,9 +87,7 @@ public class VozilaNaloziDAOImpl implements VozilaNaloziDAO{
 	public ArrayList<VozilaNalozi> nadjiSveVozilaNaloge(Korisnici korisnik) {
 		ArrayList<VozilaNalozi> lista = new ArrayList<VozilaNalozi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaNalozi.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

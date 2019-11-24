@@ -36,6 +36,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/VozilaServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/VozaciLicenceServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/JavljanjaPoslednjaServis.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/TroskoviServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/PartneriServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/SistemUredjajiModeliDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ProcedureServis.java
@@ -65,6 +66,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ZoneServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/SistemPretplatnici.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/SistemObracuni.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Troskovi.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/SimServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/ZoneServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SistemUredjajiModeliDAO.java
@@ -91,6 +93,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/GrupeKorisnici.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SistemDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/SistemGoriva.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/TroskoviDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/SistemAlarmiDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/GrupeKorisniciDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/SistemSesijeServis.java
@@ -147,6 +150,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SimDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/ObjektiPoslednje.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/SistemGorivoServis.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/TroskoviServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/ObdDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/ObjektiDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/OrganizacijeDAOImpl.java
@@ -155,6 +159,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/SistemUredjajiModeli.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/SistemUredjajiProizvodjaciServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/VozilaSaobracajneDAOImpl.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/TroskoviDAOImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/OrganizacijeServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ObdServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/VozilaPrimoPredaje.java

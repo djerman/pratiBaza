@@ -1,10 +1,14 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
@@ -17,9 +21,11 @@ import pratiBaza.pomocne.PredjeniPut;
 import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.tabele.Javljanja;
+import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
+import pratiBaza.tabele.Zone;
 
 @Repository("javljanjeDAO")
 public class JavljanjaDAOImpl implements JavljanjaDAO{
@@ -88,71 +94,45 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.add(Restrictions.ge("datumVreme", vremeOd));
 		criteria.add(Restrictions.lt("datumVreme", vremeDo));
 		criteria.add(Restrictions.eq("valid", true));
-		criteria.createAlias("sistemAlarmi", "alarmi").add(Restrictions.ne("alarmi.sifra","0"));
+		criteria.createAlias("sistemAlarmi", "alarmi");
+		criteria.add(Restrictions.ne("alarmi.sifra","0"));
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(javljanja2 != null) {
+			javljanja.addAll(javljanja2);
+		}
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().clear();
-		if(javljanja2 != null) {
-			return javljanja2;
-		}else {
-			return javljanja;
-		}
+		return javljanja;
 	}
 
 	@Override
 	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Javljanja> lista = new ArrayList<Javljanja>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class)
-				.add(Restrictions.eq("objekti", objekat))
-				.add(Restrictions.ge("datumVreme", datumVremeOd))
-				.add(Restrictions.lt("datumVreme", datumVremeDo))
-				.add(Restrictions.eq("valid", true))
-				.addOrder(Order.asc("datumVreme"))
-				.setMaxResults(1);
-		if(criteria.uniqueResult() != null) {
-			lista.add((Javljanja)criteria.uniqueResult());
+		Javljanja prvo = vratiJavljanjeObjektaDoIliOd(objekat, datumVremeOd, false);
+		if(prvo != null) {
+			lista.add(prvo);
+			Javljanja poslednje = vratiJavljanjeObjektaDoIliOd(objekat, datumVremeDo, true);
+			if(poslednje != null) {
+				lista.add(poslednje);
+			}
 		}
-		
-		Criteria criteria2 = sessionFactory.getCurrentSession().createCriteria(Javljanja.class)
-				.add(Restrictions.eq("objekti", objekat))
-				.add(Restrictions.ge("datumVreme", datumVremeOd))
-				.add(Restrictions.lt("datumVreme", datumVremeDo))
-				.add(Restrictions.eq("valid", true))
-				.addOrder(Order.desc("datumVreme"))
-				.setMaxResults(1);
-		if(criteria2.uniqueResult() != null){
-			lista.add((Javljanja)criteria2.uniqueResult());
-		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
+		/*sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();**/
 		return lista;
 	}
 	
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class)
-				.add(Restrictions.eq("objekti", objekat))
-				.add(Restrictions.ge("datumVreme", datumVremeOd))
-				.add(Restrictions.lt("datumVreme", datumVremeDo))
-				.addOrder(Order.asc("datumVreme"))
-				.setMaxResults(1);
-		if(criteria.uniqueResult() != null) {
-			lista.add((Obd)criteria.uniqueResult());
+		Obd prvo = vratiObdObjektaDoIliOd(objekat, datumVremeOd, false);
+		if(prvo != null) {
+			lista.add(prvo);
+			Obd poslednje = vratiObdObjektaDoIliOd(objekat, datumVremeDo, true);
+			if(poslednje != null) {
+				lista.add(poslednje);
+			}
 		}
-		
-		Criteria criteria2 = sessionFactory.getCurrentSession().createCriteria(Obd.class)
-				.add(Restrictions.eq("objekti", objekat))
-				.add(Restrictions.ge("datumVreme", datumVremeOd))
-				.add(Restrictions.lt("datumVreme", datumVremeDo))
-				.addOrder(Order.desc("datumVreme"))
-				.setMaxResults(1);
-		if(criteria2.uniqueResult() != null){
-			lista.add((Obd)criteria2.uniqueResult());
-		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
@@ -193,7 +173,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				criteriaObd.add(Restrictions.eq("objekti", objekat));
 				criteriaObd.add(Restrictions.ge("datumVreme", vremeOd));
 				criteriaObd.add(Restrictions.lt("datumVreme", vremeDo));
-				System.out.println(objekat.getOznaka() + " " + criteriaObd.list().size());
 				if(!criteriaObd.list().isEmpty()) {
 					criteriaObd.setProjection(Projections.min("ukupnoGorivo"));
 					Float gorivoMin = (Float)criteria.uniqueResult();
@@ -216,7 +195,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				}
 				lista.add(put);
 			}
-			
 		}
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().clear();
@@ -290,18 +268,155 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	}
 
 	@Override
-	public Javljanja vratiJavljanjePoslednjeObjektaDo(Objekti objekat, Timestamp vremeDo) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		//criteria.add(Restrictions.lt("datumVreme", vremeDo));
-		criteria.add(Restrictions.eq("valid", true));
-		criteria.addOrder(Order.desc("datumVreme"));
-		criteria.setMaxResults(1);
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+	public Javljanja vratiJavljanjeObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SQLQuery query;
+		if(vremeDo) {
+			query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM prati.ce_javljanja where objekatId = :objId and datumVreme < :dV "
+				+ "order by datumVreme desc limit 1");
 		}else {
-			return null;
+			query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM prati.ce_javljanja where objekatId = :objId and datumVreme > :dV "
+				+ "order by datumVreme asc limit 1");
 		}
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> javljanjeData = query
+				.setTimestamp("dV", datumVreme)
+				.setLong("objId", objekat.getId()).list();
+		
+		Javljanja javljanje = new Javljanja();
+		if(!javljanjeData.isEmpty() && javljanjeData != null) {
+			for (Object[] row : javljanjeData) {
+				Criteria criteriaAlarm = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
+				Criteria criteriaZona = sessionFactory.getCurrentSession().createCriteria(Zone.class);
+				Criteria criteriaKorisnik = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
+				if(row[0].toString() != null && !row[0].toString().equals("")) {
+					javljanje.setId(Long.parseLong(row[0].toString()));
+					javljanje.setVersion(Integer.parseInt(row[1].toString()));
+					javljanje.setValid(Boolean.valueOf(row[2].toString()));
+					javljanje.setObjekti(objekat);
+					try {
+						javljanje.setDatumVreme(sdf.parse(row[4].toString()));
+						} catch (ParseException e) {
+							e.printStackTrace();
+							}
+					javljanje.setLon(Double.parseDouble(row[5].toString()));
+					javljanje.setLat(Double.parseDouble(row[6].toString()));
+					javljanje.setPravac(Float.parseFloat(row[7].toString()));
+					javljanje.setVisina(Float.parseFloat(row[8].toString()));
+					javljanje.setBrzina(Integer.parseInt(row[9].toString()));
+					javljanje.setKontakt(Boolean.parseBoolean(row[10].toString()));
+			
+					String alarm = row[11].toString();
+					if(alarm != null && !alarm.isEmpty()) {
+						long id = Long.parseLong(alarm);
+						criteriaAlarm.add(Restrictions.eq("id", id));
+						if(criteriaAlarm.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+							javljanje.setSistemAlarmi((SistemAlarmi)criteriaAlarm.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult());
+							}else {
+								javljanje.setSistemAlarmi(null);
+								}
+						}else {
+							javljanje.setSistemAlarmi(null);
+							}
+					javljanje.setVirtualOdo(Float.parseFloat(row[12].toString()));
+					javljanje.setEventData(row[13].toString());
+					
+					if(row[14] != null) {
+						String zona = row[14].toString();
+						if(zona != null && !zona.isEmpty()) {
+							long zonaId = Long.parseLong(zona);
+							criteriaZona.add(Restrictions.eq("id", zonaId));
+							if(criteriaZona.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+								javljanje.setZona((Zone)criteriaZona.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult());
+								}else {
+									javljanje.setZona(null);
+								}
+							}else {
+								javljanje.setZona(null);
+							}
+						}else {
+							javljanje.setZona(null);
+							}
+					
+					javljanje.setIbutton(row[15].toString());
+					
+					if(row[16] != null) {
+						String korisnik = row[16].toString();
+						if(korisnik != null && !korisnik.isEmpty()) {
+							long korisnikId = Long.parseLong(korisnik);
+							criteriaKorisnik.add(Restrictions.eq("id", korisnikId));
+							if(criteriaKorisnik.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+								javljanje.setKorisnik((Korisnici)criteriaKorisnik.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult());
+								}else {
+									javljanje.setKorisnik(null);
+									}
+							}else {
+								javljanje.setKorisnik(null);
+							}
+						}else {
+							javljanje.setKorisnik(null);
+						}
+					}else {
+						javljanje = null;
+					}
+				}
+			}else {
+				javljanje = null;
+				}
+		return javljanje;
+	}
+
+	@Override
+	public Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SQLQuery query;
+		if(vremeDo) {
+			query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM cg_obd where objekatId = :objId and datumVreme < :dV "
+				+ "order by datumVreme desc limit 1");
+		}else {
+			query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM cg_obd where objekatId = :objId and datumVreme > :dV "
+				+ "order by datumVreme asc limit 1");
+		}
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> obdData = query
+				.setTimestamp("dV", datumVreme)
+				.setLong("objId", objekat.getId()).list();
+		
+		Obd obd = new Obd();
+		if(!obdData.isEmpty() && obdData != null) {
+			for (Object[] row : obdData) {
+				if(row[0].toString() != null && !row[0].toString().equals("")) {
+					obd.setId(Long.parseLong(row[0].toString()));
+					obd.setVersion(Integer.parseInt(row[1].toString()));
+					obd.setObjekti(objekat);
+					obd.setRpm(Integer.parseInt(row[4].toString()));
+					obd.setTemperatura(Integer.parseInt(row[5].toString()));
+					obd.setOpterecenje(Float.parseFloat(row[6].toString()));
+					obd.setGas(Float.parseFloat(row[7].toString()));
+					obd.setNivoGoriva(Float.parseFloat(row[8].toString()));
+					obd.setAkumulator(Float.parseFloat(row[9].toString()));
+					obd.setTripKm(Float.parseFloat(row[10].toString()));
+					obd.setTripGorivo(Float.parseFloat(row[11].toString()));
+					obd.setUkupnoVreme(Float.parseFloat(row[12].toString()));
+					obd.setUkupnoKm(Integer.parseInt(row[13].toString()));
+					obd.setUkupnoGorivo(Float.parseFloat(row[14].toString()));
+					obd.setProsecnaPotrosnja(Float.parseFloat(row[15].toString()));
+					obd.setGreske(row[16].toString());
+					try {
+						obd.setDatumVreme(sdf.parse(row[3].toString()));
+						} catch (ParseException e) {
+							e.printStackTrace();
+							}
+				}else {
+					obd = null;
+				}
+			}
+		}else {
+			obd = null;
+		}
+		return obd;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -394,8 +509,12 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.addOrder(Order.desc("datumVreme"));
 		criteria.setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			sessionFactory.getCurrentSession().flush();
+			sessionFactory.getCurrentSession().clear();
 			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		}else {
+			sessionFactory.getCurrentSession().flush();
+			sessionFactory.getCurrentSession().clear();
 			return null;
 		}
 	}
@@ -424,8 +543,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				}
 			lista.add(predjeniPut);
 			}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
 		}
 

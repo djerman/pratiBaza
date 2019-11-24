@@ -91,9 +91,7 @@ public class VozaciDAOImpl implements VozaciDAO{
 	public ArrayList<Vozaci> nadjiSveVozace(Korisnici korisnik) {
 		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

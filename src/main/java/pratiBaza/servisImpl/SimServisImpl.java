@@ -56,5 +56,11 @@ public class SimServisImpl implements SimServis{
 	public ArrayList<Sim> vratiSveAktivneSimKartice(SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
 		return simDAO.vratiSveAktivneSimKartice(pretplatnici, organizacija, sim);
 	}
+
+	@Override
+	@Transactional
+	public ArrayList<Sim> vratiSveSlobodneSim(Korisnici korisnik, SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
+		return simDAO.vratiSveSlobodneSim(korisnik, pretplatnici, organizacija, sim);
+	}
 	
 }

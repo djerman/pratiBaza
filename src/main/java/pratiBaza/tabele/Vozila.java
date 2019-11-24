@@ -26,7 +26,7 @@ public class Vozila implements Serializable {
 	private SistemPretplatnici sistemPretplatnici;
 
 	//bi-directional many-to-one association to SistemPretplatnici
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 
@@ -66,7 +66,11 @@ public class Vozila implements Serializable {
 	
 	private String serijskiBroj;
 	
-	private Date datumRegistracije;
+	private Date datumRegistracije, datumPoslednjeRegistracije, maliPoslednjiDatum, velikiPoslednjiDatum;
+	
+	private int maliServisKm, velikiServisKm, maliServisMeseci, velikiServisMeseci, maliPoslednjiOBDkm, velikiPoslednjiOBDkm;
+	
+	private float maliPoslednjiGPSkm, velikiPoslednjiGPSkm;
 	
 	private boolean teretno;
 
@@ -240,6 +244,94 @@ public class Vozila implements Serializable {
 
 	public void setIzbrisan(boolean izbrisan) {
 		this.izbrisan = izbrisan;
+	}
+
+	public int getMaliServisKm() {
+		return maliServisKm;
+	}
+
+	public void setMaliServisKm(int maliServisKm) {
+		this.maliServisKm = maliServisKm;
+	}
+
+	public int getVelikiServisKm() {
+		return velikiServisKm;
+	}
+
+	public void setVelikiServisKm(int velikiServisKm) {
+		this.velikiServisKm = velikiServisKm;
+	}
+
+	public int getMaliServisMeseci() {
+		return maliServisMeseci;
+	}
+
+	public void setMaliServisMeseci(int maliServisMeseci) {
+		this.maliServisMeseci = maliServisMeseci;
+	}
+
+	public int getVelikiServisMeseci() {
+		return velikiServisMeseci;
+	}
+
+	public void setVelikiServisMeseci(int velikiServisMeseci) {
+		this.velikiServisMeseci = velikiServisMeseci;
+	}
+
+	public Date getDatumPoslednjeRegistracije() {
+		return datumPoslednjeRegistracije;
+	}
+
+	public void setDatumPoslednjeRegistracije(Date datumPoslednjeRegistracije) {
+		this.datumPoslednjeRegistracije = datumPoslednjeRegistracije;
+	}
+
+	public Date getMaliPoslednjiDatum() {
+		return maliPoslednjiDatum;
+	}
+
+	public void setMaliPoslednjiDatum(Date maliPoslednjiDatum) {
+		this.maliPoslednjiDatum = maliPoslednjiDatum;
+	}
+
+	public Date getVelikiPoslednjiDatum() {
+		return velikiPoslednjiDatum;
+	}
+
+	public void setVelikiPoslednjiDatum(Date velikiPoslednjiDatum) {
+		this.velikiPoslednjiDatum = velikiPoslednjiDatum;
+	}
+
+	public int getMaliPoslednjiOBDkm() {
+		return maliPoslednjiOBDkm;
+	}
+
+	public void setMaliPoslednjiOBDkm(int maliPoslednjiOBDkm) {
+		this.maliPoslednjiOBDkm = maliPoslednjiOBDkm;
+	}
+
+	public int getVelikiPoslednjiOBDkm() {
+		return velikiPoslednjiOBDkm;
+	}
+
+	public void setVelikiPoslednjiOBDkm(int velikiPoslednjiOBDkm) {
+		this.velikiPoslednjiOBDkm = velikiPoslednjiOBDkm;
+	}
+
+	public float getMaliPoslednjiGPSkm() {
+		return maliPoslednjiGPSkm;
+	}
+
+	public void setMaliPoslednjiGPSkm(float maliPoslednjiGPSkm) {
+		this.maliPoslednjiGPSkm = maliPoslednjiGPSkm;
+	}
+
+	public float getVelikiPoslednjiGPSkm() {
+		return velikiPoslednjiGPSkm;
+	}
+
+	public void setVelikiPoslednjiGPSkm(float velikiPoslednjiGPSkm) {
+		this.velikiPoslednjiGPSkm = velikiPoslednjiGPSkm;
 	}
 
 }

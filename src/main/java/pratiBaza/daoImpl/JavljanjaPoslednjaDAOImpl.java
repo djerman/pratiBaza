@@ -42,16 +42,16 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 	@Override
 	public ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
 		ArrayList<JavljanjaPoslednja> lista = new ArrayList<JavljanjaPoslednja>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
-		criteria.add(Restrictions.in("objekti", objekti));
-		ArrayList<JavljanjaPoslednja> lista2 = (ArrayList<JavljanjaPoslednja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista2.sort(Comparator.comparing(JavljanjaPoslednja::getDatumVreme).reversed());
-			return lista2;
-		}else {
-			lista.sort(Comparator.comparing(JavljanjaPoslednja::getDatumVreme).reversed());
-			return lista;
-		}
+		if(objekti != null && !objekti.isEmpty()) {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
+			criteria.add(Restrictions.in("objekti", objekti));
+			ArrayList<JavljanjaPoslednja> lista2 = (ArrayList<JavljanjaPoslednja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+			if(lista2 != null) {
+				lista.addAll(lista2);
+				lista.sort(Comparator.comparing(JavljanjaPoslednja::getDatumVreme).reversed());
+				}
+			}
+		return lista;
 	}
 
 	@Override
@@ -63,6 +63,5 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 		}else {
 			return null;
 		}
-		
 	}
 }

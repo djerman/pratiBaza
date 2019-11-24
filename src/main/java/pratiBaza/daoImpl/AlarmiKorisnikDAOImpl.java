@@ -99,9 +99,7 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
 		ArrayList<AlarmiKorisnik> lista = new ArrayList<AlarmiKorisnik>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 		}
 		if(korisnik.getOrganizacija() != null) {

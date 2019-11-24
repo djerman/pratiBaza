@@ -39,7 +39,7 @@ public class SistemSesijeDAOImpl implements SistemSesijeDAO{
 	public ArrayList<SistemSesije> nadjiSveSesije(Korisnici korisnik) {
 		ArrayList<SistemSesije> lista = new ArrayList<SistemSesije>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemSesije.class);
-		if(korisnik.getSistemPretplatnici() != null && korisnik.isAdmin()) {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 			}

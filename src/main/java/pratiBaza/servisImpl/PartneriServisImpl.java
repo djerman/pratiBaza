@@ -40,12 +40,6 @@ public class PartneriServisImpl implements PartneriServis{
 		return partnerDAO.nadjiPartneraPoId(id);
 	}
 
-	@Override
-	@Transactional
-	public ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan) {
-		return partnerDAO.nadjiSvePartnere(korisnik, izbrisan);
-	}
-
 	@Transactional
 	public PartneriDAO getPartnerDAO() {
 		return partnerDAO;
@@ -60,6 +54,18 @@ public class PartneriServisImpl implements PartneriServis{
 	@Transactional
 	public Partneri nadjiPartneraPoPibu(SistemPretplatnici pretplatnik, int pib) {
 		return partnerDAO.nadjiPartneraPoPibu(pretplatnik, pib);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan) {
+		return partnerDAO.nadjiSvePartnere(korisnik, izbrisan);
+	}
+	
+	@Override
+	@Transactional
+	public ArrayList<Partneri> nadjiSvePartnerePoPretplatniku(SistemPretplatnici pretplatnik, boolean izbrisan) {
+		return partnerDAO.nadjiSvePartnerePoPretplatniku(pretplatnik, izbrisan);
 	}
 
 }

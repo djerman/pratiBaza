@@ -81,9 +81,7 @@ public class VozilaDAOImpl implements VozilaDAO{
 	public ArrayList<Vozila> vratisvaVozila(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Vozila> lista = new ArrayList<Vozila>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
@@ -100,10 +98,9 @@ public class VozilaDAOImpl implements VozilaDAO{
 		criteria.addOrder(Order.desc("id"));
 		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+			lista.addAll(lista2);
 		}
+		return lista;
 	}
 
 	@Override
@@ -145,10 +142,74 @@ public class VozilaDAOImpl implements VozilaDAO{
 		criteria.addOrder(Order.asc("id"));
 		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+			lista.addAll(lista2);
 		}
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozila> nadjisvaVozilaPoObjektima(ArrayList<Objekti> objekti) {
+		ArrayList<Vozila> lista = new ArrayList<Vozila>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.in("objekti", objekti));
+		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozila> nadjiSvaVozilaBezSaobracajne(Korisnici korisnik, boolean aktivan) {
+		ArrayList<Vozila> lista = new ArrayList<Vozila>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
+			criteria.add(Restrictions.eq("izbrisan", false));
+		}
+		if(aktivan) {
+			criteria.add(Restrictions.eq("izbrisan", false));
+			}
+		criteria.add(Restrictions.isNull("saobracajna"));
+		if(korisnik.getOrganizacija() != null) {
+			criteria.createAlias("objekti", "o");
+			criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
+			}
+		criteria.addOrder(Order.desc("sistemPretplatnici"));
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("objekti"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Vozila> nadjiSvaVozilaBezSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Vozila> lista = new ArrayList<Vozila>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		criteria.add(Restrictions.eq("izbrisan", false));
+
+		criteria.add(Restrictions.isNull("saobracajna"));
+		if(organizacija != null) {
+			criteria.createAlias("objekti", "o");
+			criteria.add(Restrictions.eq("o.organizacija", organizacija));
+			}
+		criteria.addOrder(Order.desc("izbrisan"));
+		criteria.addOrder(Order.desc("objekti"));
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
 	}
 	
 }

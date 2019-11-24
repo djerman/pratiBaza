@@ -86,9 +86,7 @@ public class VozaciLicenceDAOImpl implements VozaciLicenceDAO{
 	public ArrayList<VozaciLicence> nadjiSveVozacLicenca(Korisnici korisnik) {
 		ArrayList<VozaciLicence> lista = new ArrayList<VozaciLicence>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozaciLicence.class);
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			
-		}else {
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}

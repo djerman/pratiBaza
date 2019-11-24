@@ -17,7 +17,9 @@ public interface UredjajiDAO {
 	
 	ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan);
 	
-	ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, Uredjaji uredjaj);
+	ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	
+	ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjaje(Korisnici korisnik, SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
 	ArrayList<Uredjaji> nadjiSveAktivneUredjaje(Korisnici korisnik, Uredjaji uredjaj);
 	

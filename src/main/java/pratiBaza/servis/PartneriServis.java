@@ -15,7 +15,9 @@ public interface PartneriServis {
 	
 	Partneri nadjiPartneraPoId(int id);
 	
+	Partneri nadjiPartneraPoPibu(SistemPretplatnici pretplatnik, int pib);
+	
 	ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan);
 	
-	Partneri nadjiPartneraPoPibu(SistemPretplatnici pretplatnik, int pib);
+	ArrayList<Partneri> nadjiSvePartnerePoPretplatniku(SistemPretplatnici pretplatnik, boolean izbrisan);
 }
