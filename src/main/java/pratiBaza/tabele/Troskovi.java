@@ -261,7 +261,9 @@ public class Troskovi implements Serializable{
 		    break;
 		case 3: tipServisaNaziv = "регистрација";
 		    break;
-		case 4: tipServisaNaziv = "сервис";
+		case 4: tipServisaNaziv = "одржавање";
+            break;
+		case 5: tipServisaNaziv = "остало";
             break;
 		default: tipServisaNaziv = "";
 			break;

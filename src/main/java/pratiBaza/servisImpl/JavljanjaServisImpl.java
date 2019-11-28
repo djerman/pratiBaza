@@ -13,6 +13,7 @@ import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
+import pratiBaza.tabele.Vozila;
 
 @Service("javljanjeServis")
 public class JavljanjaServisImpl implements JavljanjaServis{
@@ -140,6 +141,12 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	public ArrayList<PredjeniPutGPS> nadjiPredjeniPutGPS(ArrayList<Objekti> objekti, Timestamp vremeOd,
 			Timestamp vremeDo) {
 		return javljanjeDAO.nadjiPredjeniPutGPS(objekti, vremeOd, vremeDo);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Vozila> vratiVozilaZaServise(ArrayList<Objekti> objekti, int tipServisa, int doServisa) {
+		return javljanjeDAO.vratiVozilaZaServise(objekti, tipServisa, doServisa);
 	}
 	
 }

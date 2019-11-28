@@ -72,6 +72,12 @@ public class Vozila implements Serializable {
 	
 	private float maliPoslednjiGPSkm, velikiPoslednjiGPSkm;
 	
+	@Transient
+	private float kmOdGpsMs, kmOdGpsVs;
+	
+	@Transient
+	private int kmOdObdMs, kmOdObdVs, danaOdMs, danaOdVs, danaOdRegistracije;
+	
 	private boolean teretno;
 
 	public Vozila() {
@@ -332,6 +338,62 @@ public class Vozila implements Serializable {
 
 	public void setVelikiPoslednjiGPSkm(float velikiPoslednjiGPSkm) {
 		this.velikiPoslednjiGPSkm = velikiPoslednjiGPSkm;
+	}
+
+	public float getKmOdGpsMs() {
+		return kmOdGpsMs;
+	}
+
+	public void setKmOdGpsMs(float kmOdGpsMs) {
+		this.kmOdGpsMs = kmOdGpsMs;
+	}
+
+	public float getKmOdGpsVs() {
+		return kmOdGpsVs;
+	}
+
+	public void setKmOdGpsVs(float kmOdGpsVs) {
+		this.kmOdGpsVs = kmOdGpsVs;
+	}
+
+	public int getKmOdObdMs() {
+		return kmOdObdMs;
+	}
+
+	public void setKmOdObdMs(int kmOdObdMs) {
+		this.kmOdObdMs = kmOdObdMs;
+	}
+
+	public int getKmOdObdVs() {
+		return kmOdObdVs;
+	}
+
+	public void setKmOdObdVs(int kmOdObdVs) {
+		this.kmOdObdVs = kmOdObdVs;
+	}
+
+	public int getDanaOdMs() {
+		return danaOdMs;
+	}
+
+	public void setDanaOdMs(int danaOdMs) {
+		this.danaOdMs = danaOdMs;
+	}
+
+	public int getDanaOdVs() {
+		return danaOdVs;
+	}
+
+	public void setDanaOdVs(int danaOdVs) {
+		this.danaOdVs = danaOdVs;
+	}
+
+	public int getDanaOdRegistracije() {
+		return danaOdRegistracije;
+	}
+
+	public void setDanaOdRegistracije(int danaOdRegistracije) {
+		this.danaOdRegistracije = danaOdRegistracije;
 	}
 
 }

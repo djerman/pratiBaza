@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -12,7 +13,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +25,7 @@ import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.Zone;
 
 @Repository("javljanjeDAO")
@@ -94,8 +95,10 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		criteria.add(Restrictions.ge("datumVreme", vremeOd));
 		criteria.add(Restrictions.lt("datumVreme", vremeDo));
 		criteria.add(Restrictions.eq("valid", true));
+		
 		criteria.createAlias("sistemAlarmi", "alarmi");
 		criteria.add(Restrictions.ne("alarmi.sifra","0"));
+		
 		criteria.addOrder(Order.asc("datumVreme"));
 		ArrayList<Javljanja> javljanja2 = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(javljanja2 != null) {
@@ -156,36 +159,15 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	public ArrayList<PredjeniPut> nadjiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
 		ArrayList<PredjeniPut> lista = new ArrayList<PredjeniPut>();
 		for(Objekti objekat : objekti) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
-			criteria.add(Restrictions.eq("objekti", objekat));
-			criteria.add(Restrictions.ge("datumVreme", vremeOd));
-			criteria.add(Restrictions.lt("datumVreme", vremeDo));
-			criteria.add(Restrictions.eq("valid", true));
-			if(!criteria.list().isEmpty()) {
+			ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+			if(!javljanja.isEmpty()) {
 				PredjeniPut put = new PredjeniPut(objekat.getOznaka(), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-				criteria.setProjection(Projections.min("virtualOdo"));
-				Float gpsMin = (Float)criteria.uniqueResult();
-				criteria.setProjection(Projections.max("virtualOdo"));
-				Float gpsMax = (Float)criteria.uniqueResult();
-				put.setVirtualOdo(gpsMax.floatValue() - gpsMin.floatValue());
+				put.setVirtualOdo(javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo());
 				
-				Criteria criteriaObd = sessionFactory.getCurrentSession().createCriteria(Obd.class);
-				criteriaObd.add(Restrictions.eq("objekti", objekat));
-				criteriaObd.add(Restrictions.ge("datumVreme", vremeOd));
-				criteriaObd.add(Restrictions.lt("datumVreme", vremeDo));
-				if(!criteriaObd.list().isEmpty()) {
-					criteriaObd.setProjection(Projections.min("ukupnoGorivo"));
-					Float gorivoMin = (Float)criteria.uniqueResult();
-					criteriaObd.setProjection(Projections.max("ukupnoGorivo"));
-					Float gorivoMax = (Float)criteria.uniqueResult();
-					put.setUkupnoGorivo(gorivoMax.floatValue() - gorivoMin.floatValue());
-					
-					criteriaObd.setProjection(Projections.min("ukupnoKm"));
-					Integer kmMin = (Integer)criteria.uniqueResult();
-					criteriaObd.setProjection(Projections.max("ukupnoKm"));
-					Integer kmMax = (Integer)criteria.uniqueResult();
-					put.setUkupnoKm(kmMax.intValue() - kmMin.intValue());
-					
+				ArrayList<Obd> obd = nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+				if(!obd.isEmpty()) {
+					put.setUkupnoGorivo(obd.get(1).getUkupnoGorivo() - obd.get(0).getUkupnoGorivo());
+					put.setUkupnoKm(obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm());
 					if(put.getVirtualOdo() != 0.0f) {
 						put.setProsPotGps(put.getUkupnoGorivo()/put.getVirtualOdo()/100);
 					}
@@ -522,7 +504,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	@Override
 	public ArrayList<PredjeniPut> vratiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
 		ArrayList<PredjeniPut> lista = new ArrayList<PredjeniPut>();
-		//ObdServis obdDAO = new ObdServ
 		for(Objekti objekat : objekti) {
 			ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
 			ArrayList<Obd> obd = nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
@@ -546,4 +527,74 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		return lista;
 		}
 
+	@Override
+	public ArrayList<Vozila> vratiVozilaZaServise(ArrayList<Objekti> objekti, int tipServisa, int doServisa){
+		ArrayList<Vozila> lista = new ArrayList<>();
+		long dan = 86400000;
+		Date sad = new Date();
+		Timestamp sada = new Timestamp(sad.getTime());
+		for(Objekti objekat : objekti) {
+			Vozila vozilo = objekat.getVozilo();
+			Javljanja poslednje = vratiJavljanjeObjektaDoIliOd(objekat, sada, true);
+			Obd poslednjeObd = vratiObdObjektaDoIliOd(objekat, sada, true);
+			float razlikaGps = 0;
+			int razlikaObd = 0;
+			int razlikaDana = 0;
+			if(poslednje != null && poslednje.isValid()) {
+				switch (tipServisa) {
+				//mali servis
+				case 2: razlikaGps = poslednje.getVirtualOdo() - vozilo.getMaliPoslednjiGPSkm();
+				        if(poslednjeObd != null) {
+				        	razlikaObd = poslednjeObd.getUkupnoKm() - vozilo.getMaliPoslednjiOBDkm();
+				        }
+				        if(vozilo.getMaliPoslednjiDatum() != null) {
+				        	razlikaDana = (int) ((sada.getTime() - vozilo.getMaliPoslednjiDatum().getTime()) / dan);
+				        }
+				        if(vozilo.getMaliServisKm() - razlikaGps < doServisa || vozilo.getMaliServisKm() - razlikaObd < doServisa || 
+				        		razlikaDana > vozilo.getMaliServisMeseci() * 30) {
+				        	vozilo.setKmOdGpsMs(razlikaGps);
+				        	vozilo.setDanaOdMs(razlikaDana);
+				        	if(poslednjeObd != null) {
+				        		vozilo.setKmOdObdMs(razlikaObd);
+				        		}
+				        	lista.add(vozilo);
+				        	}
+				     break;
+				//veliki servis
+				case 3: razlikaGps = poslednje.getVirtualOdo() - vozilo.getVelikiPoslednjiGPSkm();
+				        if(poslednjeObd != null) {
+				        	razlikaObd = poslednjeObd.getUkupnoKm() - vozilo.getVelikiPoslednjiOBDkm();
+				        }
+		                if(vozilo.getVelikiPoslednjiDatum() != null) {
+		                	razlikaDana = (int) ((sada.getTime() - vozilo.getVelikiPoslednjiDatum().getTime()) / dan);
+		                }
+		                if(vozilo.getVelikiServisKm() - razlikaGps < doServisa || vozilo.getVelikiServisKm() - razlikaObd < doServisa || 
+		                		razlikaDana > vozilo.getVelikiServisMeseci() * 30) {
+		                	vozilo.setKmOdGpsVs(razlikaGps);
+		                	vozilo.setDanaOdVs(razlikaDana);
+		                	if(poslednjeObd != null) {
+		                		vozilo.setKmOdObdVs(poslednjeObd.getUkupnoKm() - vozilo.getVelikiPoslednjiOBDkm());
+		                		}else {
+		                			vozilo.setKmOdObdVs(razlikaObd);
+		                		}
+		                	lista.add(vozilo);
+		                	}
+				     break;
+				//registracija
+				case 4: if(vozilo.getDatumPoslednjeRegistracije() != null) {
+					        razlikaDana = (int) ((sada.getTime() - vozilo.getDatumPoslednjeRegistracije().getTime()) / dan);
+					        if(razlikaDana > 365 - doServisa) {
+					        	vozilo.setDanaOdRegistracije(razlikaDana);
+					        	lista.add(vozilo);
+					        	}
+					        }
+				     break;
+				
+				default:
+				     break;
+				     }
+				}
+			}
+		return lista;
+	}
 }

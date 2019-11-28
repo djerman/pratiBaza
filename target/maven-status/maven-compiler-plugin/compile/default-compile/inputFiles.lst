@@ -61,6 +61,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/JavljanjaPoslednjaDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/VozaciLekarskoServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/VozaciLicnaDAO.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/TipServisa.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/SistemAlarmiServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/ObjektiPoslednjeServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ZoneServis.java

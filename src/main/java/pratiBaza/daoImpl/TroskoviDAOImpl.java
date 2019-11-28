@@ -245,19 +245,21 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 	@Override
 	public ArrayList<Troskovi> nadjiSveTroskoveUkupno(ArrayList<Objekti> vozila, Timestamp datumVremeOd, Timestamp datumVremeDo, Integer tipTroska){
 		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		criteria.add(Restrictions.in("objekti", vozila));
-		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
-		criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
-		if(tipTroska != null) {
-			criteria.add(Restrictions.eq("tipServisa", tipTroska));
-		}
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.asc("datumVreme"));
-		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}
+		if(vozila != null && !vozila.isEmpty()) {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+			criteria.add(Restrictions.in("objekti", vozila));
+			criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
+			criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
+			if(tipTroska != null) {
+				criteria.add(Restrictions.eq("tipServisa", tipTroska));
+				}
+			criteria.add(Restrictions.eq("izbrisan", false));
+			criteria.addOrder(Order.asc("datumVreme"));
+			ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+			if(lista2 != null) {
+				lista.addAll(lista2);
+				}
+			}
 		return lista;
 	}
 }

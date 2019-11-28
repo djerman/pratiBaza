@@ -10,6 +10,7 @@ import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
+import pratiBaza.tabele.Vozila;
 
 public interface JavljanjaServis {
 
@@ -50,4 +51,6 @@ public interface JavljanjaServis {
 	ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina);
 	
 	ArrayList<PredjeniPut> vratiPredjeniPut(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
+	
+	ArrayList<Vozila> vratiVozilaZaServise(ArrayList<Objekti> objekti, int tipServisa, int doServisa);
 }

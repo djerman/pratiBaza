@@ -1,7 +1,6 @@
 package pratiBaza.pomocne;
 
 import java.io.Serializable;
-
 import pratiBaza.tabele.VozilaOprema;
 
 public class StavkaPrijema implements Serializable{

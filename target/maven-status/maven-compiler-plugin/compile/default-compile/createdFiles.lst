@@ -105,6 +105,7 @@ pratiBaza/dao/ObjekatZoneDAO.class
 pratiBaza/servisImpl/PartneriServisImpl.class
 pratiBaza/daoImpl/GrupeObjektiDAOImpl.class
 pratiBaza/pomocne/StanjeOBD.class
+pratiBaza/pomocne/TipServisa.class
 pratiBaza/daoImpl/SistemUredjajiProizvodjaciDAOImpl.class
 pratiBaza/dao/JavljanjaDAO.class
 pratiBaza/daoImpl/SistemGorivoDAOImpl.class

@@ -123,23 +123,13 @@ public class ObdDAOImpl implements ObdDAO{
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class)
-				.add(Restrictions.eq("objekti", objekat))
-				.add(Restrictions.ge("datumVreme", datumVremeOd))
-				.add(Restrictions.lt("datumVreme", datumVremeDo))
-				.addOrder(Order.asc("datumVreme"))
-				.setMaxResults(1);
-		if(criteria.uniqueResult() != null) {
-			lista.add((Obd)criteria.uniqueResult());
-		}
-		Criteria criteria2 = sessionFactory.getCurrentSession().createCriteria(Obd.class)
-				.add(Restrictions.eq("objekti", objekat))
-				.add(Restrictions.ge("datumVreme", datumVremeOd))
-				.add(Restrictions.lt("datumVreme", datumVremeDo))
-				.addOrder(Order.desc("datumVreme"))
-				.setMaxResults(1);
-		if(criteria.uniqueResult() != null) {
-			lista.add((Obd)criteria2.uniqueResult());
+		Obd prvo = vratiObdObjektaDoIliOd(objekat, datumVremeOd, false);
+		if(prvo != null) {
+			lista.add(prvo);
+			Obd poslednje = vratiObdObjektaDoIliOd(objekat, datumVremeDo, true);
+			if(poslednje != null) {
+				lista.add(poslednje);
+			}
 		}
 		return lista;
 	}
@@ -181,6 +171,57 @@ public class ObdDAOImpl implements ObdDAO{
 			lista.addAll(lista2);
 			}
 		return lista;
+	}
+	
+	private Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SQLQuery query;
+		if(vremeDo) {
+			query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM cg_obd where objekatId = :objId and datumVreme < :dV "
+				+ "order by datumVreme desc limit 1");
+		}else {
+			query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM cg_obd where objekatId = :objId and datumVreme > :dV "
+				+ "order by datumVreme asc limit 1");
+		}
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> obdData = query
+				.setTimestamp("dV", datumVreme)
+				.setLong("objId", objekat.getId()).list();
+		
+		Obd obd = new Obd();
+		if(!obdData.isEmpty() && obdData != null) {
+			for (Object[] row : obdData) {
+				if(row[0].toString() != null && !row[0].toString().equals("")) {
+					obd.setId(Long.parseLong(row[0].toString()));
+					obd.setVersion(Integer.parseInt(row[1].toString()));
+					obd.setObjekti(objekat);
+					obd.setRpm(Integer.parseInt(row[4].toString()));
+					obd.setTemperatura(Integer.parseInt(row[5].toString()));
+					obd.setOpterecenje(Float.parseFloat(row[6].toString()));
+					obd.setGas(Float.parseFloat(row[7].toString()));
+					obd.setNivoGoriva(Float.parseFloat(row[8].toString()));
+					obd.setAkumulator(Float.parseFloat(row[9].toString()));
+					obd.setTripKm(Float.parseFloat(row[10].toString()));
+					obd.setTripGorivo(Float.parseFloat(row[11].toString()));
+					obd.setUkupnoVreme(Float.parseFloat(row[12].toString()));
+					obd.setUkupnoKm(Integer.parseInt(row[13].toString()));
+					obd.setUkupnoGorivo(Float.parseFloat(row[14].toString()));
+					obd.setProsecnaPotrosnja(Float.parseFloat(row[15].toString()));
+					obd.setGreske(row[16].toString());
+					try {
+						obd.setDatumVreme(sdf.parse(row[3].toString()));
+						} catch (ParseException e) {
+							e.printStackTrace();
+							}
+				}else {
+					obd = null;
+				}
+			}
+		}else {
+			obd = null;
+		}
+		return obd;
 	}
 
 }
