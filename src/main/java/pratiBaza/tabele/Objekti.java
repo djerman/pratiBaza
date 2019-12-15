@@ -68,7 +68,7 @@ public class Objekti implements Serializable {
 	//bi-directional many-to-one association to Objekti
 	@OneToOne
 	@JoinColumn(name="voziloId")
-	//@OneToOne(mappedBy = "objekti", cascade = CascadeType.ALL,fetch = FetchType.EAGER, optional = true)
+	//@OneToOne(mappedBy = "objekti", cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = true)
 	private Vozila vozilo;
 
 	//bi-directional many-to-one association to ZoneObjekti
@@ -242,20 +242,19 @@ public class Objekti implements Serializable {
 	public void setSistemPretplatnici(SistemPretplatnici sistemPretplatnici) {
 		this.sistemPretplatnici = sistemPretplatnici;
 	}
-
 	
 	public Uredjaji getUredjaji() {
 		return this.uredjaji;
 	}
 
 	public void setUredjaji(Uredjaji uredjaji) {
-        if (uredjaji == null) {
+        /*if (uredjaji == null) {
             if (this.uredjaji != null) {
                 this.uredjaji.setObjekti(null);
             }
         }else {
         	uredjaji.setObjekti(this);;
-        }
+        }**/
         this.uredjaji = uredjaji;
     }
 	
@@ -264,6 +263,13 @@ public class Objekti implements Serializable {
 	}
 
 	public void setVozilo(Vozila vozilo) {
+		if(vozilo == null) {
+			if(this.vozilo != null) {
+				this.vozilo.setObjekti(null);
+			}
+		}else {
+			vozilo.setObjekti(this);
+		}
 		this.vozilo = vozilo;
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaSaobracajne;
 
 public interface VozilaSaobracajneDAO {
@@ -23,4 +24,6 @@ public interface VozilaSaobracajneDAO {
 	ArrayList<VozilaSaobracajne> nadjiSlobodneSaobracajne(Korisnici korisnik, boolean izbrisan);
 	
 	ArrayList<VozilaSaobracajne> nadjiSlobodneSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	
+	VozilaSaobracajne nadjiSaobracajnuPoVozilu(Vozila vozilo);
 }

@@ -221,4 +221,26 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		return lista;
 	}
 	
+	@Override
+	public ArrayList<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		ArrayList<Objekti> lista = new ArrayList<Objekti>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
+		criteria.add(Restrictions.isNull("vozilo"));
+		/*criteria.createAlias("vozilo", "v");
+		criteria.add(Restrictions.isNull("v.id"));**/
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.add(Restrictions.eq("aktivan", true));
+		if(organizacija != null) {
+			criteria.add(Restrictions.eq("organizacija", organizacija));
+		}
+		criteria.addOrder(Order.desc("id"));
+		@SuppressWarnings("unchecked")
+		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
+	}
+	
 }

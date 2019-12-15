@@ -13,6 +13,7 @@ import pratiBaza.dao.VozilaSaobracajneDAO;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaSaobracajne;
 
 @Repository("saobracajnaDAO")
@@ -39,8 +40,7 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 
 	@Override
 	public void izbrisiSaobracajnu(VozilaSaobracajne saobracajna) {
-		saobracajna.setIzbrisan(true);
-		izmeniSaobracajnu(saobracajna);
+		sessionFactory.getCurrentSession().delete(saobracajna);
 	}
 
 	@Override
@@ -145,6 +145,17 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 			lista.addAll(lista2);
 		}
 		return lista;
+	}
+
+	@Override
+	public VozilaSaobracajne nadjiSaobracajnuPoVozilu(Vozila vozilo) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaSaobracajne.class);
+		criteria.add(Restrictions.eq("ivozilo", vozilo));
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			return (VozilaSaobracajne)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+		}else {
+			return null;
+		}
 	}
 
 }

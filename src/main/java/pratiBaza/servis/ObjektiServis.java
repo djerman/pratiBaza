@@ -33,4 +33,6 @@ public interface ObjektiServis {
 	Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj);
 	
 	ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	
+	ArrayList<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

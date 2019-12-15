@@ -92,4 +92,10 @@ public class ObjektiServisImpl implements ObjektiServis{
 		return objekatDAO.nadjiSveObjekteSavozilom(pretplatnik, organizacija);
 	}
 
+	@Override
+	@Transactional
+	public ArrayList<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		return objekatDAO.nadjiSveObjekteBezVozila(pretplatnik, organizacija);
+	}
+	
 }

@@ -35,4 +35,5 @@ public interface ObjektiDAO {
 	
 	ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
+	ArrayList<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

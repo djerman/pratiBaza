@@ -119,7 +119,11 @@ public class Uredjaji implements Serializable {
 	}
 
 	public List<Sim> getSims(){
-		return this.sims;
+		return sims;
+	}
+	
+	public void setSims(List<Sim> sims) {
+		this.sims = sims;
 	}
 	
 	public Sim getSim() {
@@ -135,6 +139,7 @@ public class Uredjaji implements Serializable {
 		if(sim != null) {
 			getSims().add(sim);
 			sim.setUredjaji(this);
+			sim.setZauzet(true);
 		}
 	}
 
@@ -150,6 +155,7 @@ public class Uredjaji implements Serializable {
 		if(sim2 != null) {
 			getSims().add(sim2);
 			sim2.setUredjaji(this);
+			sim2.setZauzet(true);
 		}
 	}
 

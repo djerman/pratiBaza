@@ -45,6 +45,11 @@ public class Troskovi implements Serializable{
 	
 	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
+	@JoinColumn(name="racunId")
+	private Racuni racun;
+	
+	//bi-directional many-to-one association to SistemPretplatnici
+	@ManyToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 	
@@ -114,6 +119,14 @@ public class Troskovi implements Serializable{
 
 	public Partneri getPartner() {
 		return partner;
+	}
+
+	public Racuni getRacun() {
+		return racun;
+	}
+
+	public void setRacun(Racuni racun) {
+		this.racun = racun;
 	}
 
 	public String getBrojRacuna() {

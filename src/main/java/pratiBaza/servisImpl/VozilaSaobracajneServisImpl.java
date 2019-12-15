@@ -10,6 +10,7 @@ import pratiBaza.servis.VozilaSaobracajneServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
+import pratiBaza.tabele.Vozila;
 import pratiBaza.tabele.VozilaSaobracajne;
 
 @Service("saobracajnaServis")
@@ -74,6 +75,12 @@ public class VozilaSaobracajneServisImpl implements VozilaSaobracajneServis{
 	public ArrayList<VozilaSaobracajne> nadjiSlobodneSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik,
 			Organizacije organizacija) {
 		return saobracajnaDAO.nadjiSlobodneSaobracajnePoPretplatniku(pretplatnik, organizacija);
+	}
+
+	@Override
+	@Transactional
+	public VozilaSaobracajne nadjiSaobracajnuPoVozilu(Vozila vozilo) {
+		return saobracajnaDAO.nadjiSaobracajnuPoVozilu(vozilo);
 	}
 
 }

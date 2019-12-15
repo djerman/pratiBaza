@@ -535,18 +535,19 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		Timestamp sada = new Timestamp(sad.getTime());
 		for(Objekti objekat : objekti) {
 			Vozila vozilo = objekat.getVozilo();
-			Javljanja poslednje = vratiJavljanjeObjektaDoIliOd(objekat, sada, true);
-			Obd poslednjeObd = vratiObdObjektaDoIliOd(objekat, sada, true);
-			float razlikaGps = 0;
-			int razlikaObd = 0;
-			int razlikaDana = 0;
-			if(poslednje != null && poslednje.isValid()) {
-				switch (tipServisa) {
-				//mali servis
-				case 2: razlikaGps = poslednje.getVirtualOdo() - vozilo.getMaliPoslednjiGPSkm();
-				        if(poslednjeObd != null) {
-				        	razlikaObd = poslednjeObd.getUkupnoKm() - vozilo.getMaliPoslednjiOBDkm();
-				        }
+			if(vozilo != null) {
+				Javljanja poslednje = vratiJavljanjeObjektaDoIliOd(objekat, sada, true);
+				Obd poslednjeObd = vratiObdObjektaDoIliOd(objekat, sada, true);
+				float razlikaGps = 0;
+				int razlikaObd = 0;
+				int razlikaDana = 0;
+				if(poslednje != null && poslednje.isValid()) {
+					switch (tipServisa) {
+					//mali servis
+					case 2: razlikaGps = poslednje.getVirtualOdo() - vozilo.getMaliPoslednjiGPSkm();
+					if(poslednjeObd != null) {
+						razlikaObd = poslednjeObd.getUkupnoKm() - vozilo.getMaliPoslednjiOBDkm();
+						}
 				        if(vozilo.getMaliPoslednjiDatum() != null) {
 				        	razlikaDana = (int) ((sada.getTime() - vozilo.getMaliPoslednjiDatum().getTime()) / dan);
 				        }
@@ -560,11 +561,11 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				        	lista.add(vozilo);
 				        	}
 				     break;
-				//veliki servis
-				case 3: razlikaGps = poslednje.getVirtualOdo() - vozilo.getVelikiPoslednjiGPSkm();
-				        if(poslednjeObd != null) {
-				        	razlikaObd = poslednjeObd.getUkupnoKm() - vozilo.getVelikiPoslednjiOBDkm();
-				        }
+				     //veliki servis
+				     case 3: razlikaGps = poslednje.getVirtualOdo() - vozilo.getVelikiPoslednjiGPSkm();
+				     if(poslednjeObd != null) {
+				    	 razlikaObd = poslednjeObd.getUkupnoKm() - vozilo.getVelikiPoslednjiOBDkm();
+				    	 }
 		                if(vozilo.getVelikiPoslednjiDatum() != null) {
 		                	razlikaDana = (int) ((sada.getTime() - vozilo.getVelikiPoslednjiDatum().getTime()) / dan);
 		                }
@@ -593,6 +594,7 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				default:
 				     break;
 				     }
+					}
 				}
 			}
 		return lista;

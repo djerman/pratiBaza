@@ -39,8 +39,7 @@ public class VozilaSaobracajne2DAOImpl implements VozilaSaobracajne2DAO{
 
 	@Override
 	public void izbrisiSaobracajnu2(VozilaSaobracajne2 saobracajna2) {
-		saobracajna2.setIzbrisan(true);
-		izmeniSaobracajnu2(saobracajna2);
+		sessionFactory.getCurrentSession().delete(saobracajna2);
 	}
 
 	@Override
