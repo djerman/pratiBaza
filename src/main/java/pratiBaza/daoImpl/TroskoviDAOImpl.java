@@ -15,6 +15,7 @@ import pratiBaza.dao.TroskoviDAO;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.Racuni;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Troskovi;
 
@@ -170,7 +171,7 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(izbrisan) {
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
-		criteria.add(Restrictions.eq("tipSevisa", 0));
+		criteria.add(Restrictions.eq("tipServisa", 0));
 		criteria.addOrder(Order.desc("datumVreme"));
 		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
@@ -184,14 +185,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 	public ArrayList<Troskovi> nadjiSvuPotrosnju(Korisnici korisnik) {
 		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-			if(!korisnik.isSistem() && !korisnik.getSistemPretplatnici().isSistem()) {
-				criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-				criteria.add(Restrictions.eq("izbrisan", false));
-			}
-			if(korisnik.getOrganizacija() != null) {
-				criteria.createAlias("objekti", "o");
-				criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
-			}
 			criteria.add(Restrictions.eq("tipServisa", 0));
 			criteria.addOrder(Order.desc("datumVreme"));
 			ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
@@ -201,7 +194,7 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 			}
 			return lista;
 		}else {
-			return nadjiSvaOdrzavanjaPoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
+			return nadjiSvuPotrosnjuPoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
 		}
 	}
 
@@ -260,6 +253,21 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 				lista.addAll(lista2);
 				}
 			}
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<Troskovi> nadjiSvuPotrosnjuPoRacunu(Racuni racun) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		criteria.add(Restrictions.eq("racun", racun));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		criteria.addOrder(Order.desc("datumVreme"));
+		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
 		return lista;
 	}
 }

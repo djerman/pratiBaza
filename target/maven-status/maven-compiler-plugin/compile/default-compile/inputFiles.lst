@@ -26,6 +26,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Javljanja.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/VozaciLicna.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/VozilaOpremaPrijemDAOImpl.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/EvidencijaVoznjiServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/PartneriServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/pomocne/RadnoVremePutGPS.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Sistem.java
@@ -46,6 +47,7 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SistemSesijeDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/VozilaNalozi.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/VozaciLekarsko.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/servisImpl/EvidencijaVoznjiServisImpl.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/ObdPoslednjiServis.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/JavljanjaPoslednja.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/VozilaPrimoPredajeDAO.java
@@ -153,7 +155,10 @@
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/VozilaDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/Objekti.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/servis/VozilaSaobracajneServis.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/EvidencijaVoznji.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/tabele/RacuniRaspodela.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/daoImpl/EvidencijaVoznjiDAOImpl.java
+/home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/EvidencijaVoznjiDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/AlarmiKorisnikDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/VozilaOpremaPrijemDAO.java
 /home/goran/git/pratiBaza/src/main/java/pratiBaza/dao/SifreDAO.java

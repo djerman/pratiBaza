@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.Racuni;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Troskovi;
 
@@ -36,4 +37,6 @@ public interface TroskoviDAO {
 	public ArrayList<Troskovi> nadjiSveTroskoveOd(Timestamp datumVremeOd, SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
 	public ArrayList<Troskovi> nadjiSveTroskoveUkupno(ArrayList<Objekti> vozila, Timestamp datumVremeOd, Timestamp datumVremeDo, Integer tipTroska);
+	
+	public ArrayList<Troskovi> nadjiSvuPotrosnjuPoRacunu(Racuni racun);
 }

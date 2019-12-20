@@ -11,6 +11,7 @@ import pratiBaza.servis.TroskoviServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Organizacije;
+import pratiBaza.tabele.Racuni;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Troskovi;
 
@@ -107,6 +108,12 @@ public class TroskoviServisImpl implements TroskoviServis{
 	@Transactional
 	public ArrayList<Troskovi> nadjiSveTroskoveUkupno(ArrayList<Objekti> vozila, Timestamp datumVremeOd, Timestamp datumVremeDo, Integer tipTroska) {
 		return trosakDAO.nadjiSveTroskoveUkupno(vozila, datumVremeOd, datumVremeDo, tipTroska);
+	}
+
+	@Override
+	@Transactional
+	public ArrayList<Troskovi> nadjiSvuPotrosnjuPoRacunu(Racuni racun) {
+		return trosakDAO.nadjiSvuPotrosnjuPoRacunu(racun);
 	}
 	
 }
