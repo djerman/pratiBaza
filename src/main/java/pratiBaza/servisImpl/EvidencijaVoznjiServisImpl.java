@@ -2,14 +2,12 @@ package pratiBaza.servisImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pratiBaza.dao.EvidencijaVoznjiDAO;
-import pratiBaza.dao.OrganizacijeDAO;
 import pratiBaza.servis.EvidencijaVoznjiServis;
 import pratiBaza.tabele.EvidencijaVoznji;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 @Service("evidencijaServis")
@@ -53,7 +51,7 @@ public class EvidencijaVoznjiServisImpl implements EvidencijaVoznjiServis{
 
 	@Transactional
 	@Override
-	public ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, OrganizacijeDAO organizacija,
+	public ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, Organizacije organizacija,
 			String nalog, String registracija, String vozac, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		return evidencijaDAO.vratiEvidencije(pretplatnik, organizacija, nalog, registracija, vozac, datumVremeOd, datumVremeDo);
 	}

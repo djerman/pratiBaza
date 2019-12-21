@@ -28,13 +28,13 @@ public class EvidencijaVoznji implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="organizacijaId")
 	private Organizacije organizacija;
-	private String voziloNalog, vozac, registracijaVozila, relacija, brojPutnogNaloga, preuzetoIz, vrstaRobe, magacin, otpremnica, sifra, program;
+	private String voziloNalog, vozac, registracijaVozila, relacija, brojPutnogNaloga, preuzetoIz, vrstaRobe, magacin, otpremnica, sifra, sifraPrograma, program;
 	private Timestamp datumVremePolaska, datumVremeDolaska, kreirano, izmenjeno; 
-	private float pocetnaKm, zavrsnaKm, razlikaKm, potrosnja, gorivoCena, prevozCena, putniTroskovi, troskoviGoriva, prevozPutniTrosak, utrosenoLitara;
+	private float pocetnaKm, zavrsnaKm, razlikaKm, potrosnja, gorivoCena, prevozCena, putniTroskovi, troskoviGoriva, prevozUkupno, prevozPutniTrosak, utrosenoLitara;
 	private int dana, sati, kolicina;
 	private boolean zakljucan;
 	@ManyToOne
-	@JoinColumn(name="korisnikId")
+	@JoinColumn(name="uradio")
 	private Korisnici uradio;
 	
 	public EvidencijaVoznji() {
@@ -161,6 +161,14 @@ public class EvidencijaVoznji implements Serializable{
 		this.program = program;
 	}
 
+	public String getSifraPrograma() {
+		return sifraPrograma;
+	}
+
+	public void setSifraPrograma(String sifraPrograma) {
+		this.sifraPrograma = sifraPrograma;
+	}
+
 	public Timestamp getDatumVremePolaska() {
 		return datumVremePolaska;
 	}
@@ -255,6 +263,14 @@ public class EvidencijaVoznji implements Serializable{
 
 	public void setTroskoviGoriva(float troskoviGoriva) {
 		this.troskoviGoriva = troskoviGoriva;
+	}
+
+	public float getPrevozUkupno() {
+		return prevozUkupno;
+	}
+
+	public void setPrevozUkupno(float prevozUkupno) {
+		this.prevozUkupno = prevozUkupno;
 	}
 
 	public float getPrevozPutniTrosak() {

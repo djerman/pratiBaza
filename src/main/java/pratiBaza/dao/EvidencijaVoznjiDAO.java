@@ -3,6 +3,7 @@ package pratiBaza.dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import pratiBaza.tabele.EvidencijaVoznji;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 public interface EvidencijaVoznjiDAO {
@@ -15,6 +16,6 @@ public interface EvidencijaVoznjiDAO {
 	
 	EvidencijaVoznji nadjiEvidencijuPoId(int id);
 	
-	ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, OrganizacijeDAO organizacija, String nalog,
+	ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, Organizacije organizacija, String nalog,
 			String registracija, String vozac, Timestamp datumVremeOd, Timestamp datumVremeDo);
 }

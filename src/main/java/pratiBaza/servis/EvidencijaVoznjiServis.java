@@ -2,8 +2,8 @@ package pratiBaza.servis;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import pratiBaza.dao.OrganizacijeDAO;
 import pratiBaza.tabele.EvidencijaVoznji;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 public interface EvidencijaVoznjiServis {
@@ -16,6 +16,6 @@ public interface EvidencijaVoznjiServis {
 	
 	EvidencijaVoznji nadjiEvidencijuPoId(int id);
 	
-	ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, OrganizacijeDAO organizacija, String nalog,
+	ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, Organizacije organizacija, String nalog,
 			String registracija, String vozac, Timestamp datumVremeOd, Timestamp datumVremeDo);
 }

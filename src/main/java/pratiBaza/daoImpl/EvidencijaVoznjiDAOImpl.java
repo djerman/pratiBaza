@@ -3,17 +3,15 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import pratiBaza.dao.EvidencijaVoznjiDAO;
-import pratiBaza.dao.OrganizacijeDAO;
 import pratiBaza.tabele.EvidencijaVoznji;
+import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 
 @Repository("evidencijaDAO")
@@ -65,7 +63,7 @@ public class EvidencijaVoznjiDAOImpl implements EvidencijaVoznjiDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, OrganizacijeDAO organizacija, String nalog,
+	public ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, Organizacije organizacija, String nalog,
 			String registracija, String vozac, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<EvidencijaVoznji> lista = new ArrayList<EvidencijaVoznji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EvidencijaVoznji.class);
