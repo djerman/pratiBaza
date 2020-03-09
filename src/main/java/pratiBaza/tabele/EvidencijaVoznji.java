@@ -2,6 +2,7 @@ package pratiBaza.tabele;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="dm_evidencijaVoznji")
@@ -28,8 +31,13 @@ public class EvidencijaVoznji implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="organizacijaId")
 	private Organizacije organizacija;
-	private String voziloNalog, vozac, registracijaVozila, relacija, brojPutnogNaloga, preuzetoIz, vrstaRobe, magacin, otpremnica, sifra, sifraPrograma, program;
-	private Timestamp datumVremePolaska, datumVremeDolaska, kreirano, izmenjeno; 
+	@ManyToOne
+	@JoinColumn(name="voziloNalog")
+	private VozilaNalozi voziloNalog;
+	private String vozac, registracijaVozila, relacija, brojPutnogNaloga, preuzetoIz, vrstaRobe, magacin, otpremnica, sifra, sifraPrograma, program;
+	private Timestamp kreirano, izmenjeno; 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date datumVremePolaska, datumVremeDolaska;
 	private float pocetnaKm, zavrsnaKm, razlikaKm, potrosnja, gorivoCena, prevozCena, putniTroskovi, troskoviGoriva, prevozUkupno, prevozPutniTrosak, utrosenoLitara;
 	private int dana, sati, kolicina;
 	private boolean zakljucan;
@@ -73,11 +81,11 @@ public class EvidencijaVoznji implements Serializable{
 		this.organizacija = organizacija;
 	}
 
-	public String getVoziloNalog() {
+	public VozilaNalozi getVoziloNalog() {
 		return voziloNalog;
 	}
 
-	public void setVoziloNalog(String voziloNalog) {
+	public void setVoziloNalog(VozilaNalozi voziloNalog) {
 		this.voziloNalog = voziloNalog;
 	}
 
@@ -169,16 +177,20 @@ public class EvidencijaVoznji implements Serializable{
 		this.sifraPrograma = sifraPrograma;
 	}
 
-	public Timestamp getDatumVremePolaska() {
+	public Date getDatumVremePolaska() {
 		return datumVremePolaska;
 	}
 
-	public void setDatumVremePolaska(Timestamp datumVremePolaska) {
+	public void setDatumVremePolaska(Date datumVremePolaska) {
 		this.datumVremePolaska = datumVremePolaska;
 	}
 
-	public Timestamp getDatumVremeDolaska() {
+	public Date getDatumVremeDolaska() {
 		return datumVremeDolaska;
+	}
+
+	public void setDatumVremeDolaska(Date datumVremeDolaska) {
+		this.datumVremeDolaska = datumVremeDolaska;
 	}
 
 	public void setDatumVremeDolaska(Timestamp datumVremeDolaska) {

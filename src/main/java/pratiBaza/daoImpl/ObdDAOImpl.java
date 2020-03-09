@@ -208,7 +208,12 @@ public class ObdDAOImpl implements ObdDAO{
 					obd.setUkupnoKm(Integer.parseInt(row[13].toString()));
 					obd.setUkupnoGorivo(Float.parseFloat(row[14].toString()));
 					obd.setProsecnaPotrosnja(Float.parseFloat(row[15].toString()));
-					obd.setGreske(row[16].toString());
+					try {
+						obd.setGreske(row[16].toString());
+					}catch (Exception e) {
+						obd.setGreske("");
+					}
+					
 					try {
 						obd.setDatumVreme(sdf.parse(row[3].toString()));
 						} catch (ParseException e) {

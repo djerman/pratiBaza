@@ -65,19 +65,17 @@ public class SifreDAOImpl implements SifreDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Sifre> nadjiSveSifre(Korisnici korisnik) {
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sifre.class);
-			criteria.addOrder(Order.desc("id"));
-			ArrayList<Sifre> lista = new ArrayList<>();
-			ArrayList<Sifre> lista2 = (ArrayList<Sifre>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				lista.addAll(lista2);
-			}
-			return lista;
-		}else {
-			
+		ArrayList<Sifre> lista = new ArrayList<>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sifre.class);
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 		}
-		return null;
+		criteria.addOrder(Order.desc("id"));
+		ArrayList<Sifre> lista2 = (ArrayList<Sifre>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		if(lista2 != null) {
+			lista.addAll(lista2);
+		}
+		return lista;
 	}
 
 	@SuppressWarnings("unchecked")

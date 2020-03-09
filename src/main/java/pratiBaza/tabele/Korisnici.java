@@ -85,7 +85,7 @@ public class Korisnici implements Serializable {
 	}
 
 	public String toString() {
-		return this.ime + " " + this.getPrezime();
+		return this.getIme() + " " + this.getPrezime();
 	}
 	
 	public Long getId() {
