@@ -96,5 +96,11 @@ public class VozilaServisImpl implements VozilaServis{
 			Organizacije organizacija) {
 		return voziloDAO.nadjiSvaVozilaBezSaobracajnePoPretplatniku(pretplatnik, organizacija);
 	}
+
+	@Override
+	@Transactional
+	public Vozila nadjiVoziloPoRegistraciji(SistemPretplatnici pretplatnik, String registracija) {
+		return voziloDAO.nadjiVoziloPoRegistraciji(pretplatnik, registracija);
+	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,6 +211,19 @@ public class VozilaDAOImpl implements VozilaDAO{
 			lista.addAll(lista2);
 		}
 		return lista;
+	}
+
+	@Override
+	public Vozila nadjiVoziloPoRegistraciji(SistemPretplatnici pretplatnik, String registracija) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		criteria.add(Restrictions.ilike("registracija", registracija, MatchMode.ANYWHERE));
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Vozila vozilo = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return vozilo;
+		}else {
+			return null;
+		}
 	}
 	
 }

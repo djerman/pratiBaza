@@ -34,7 +34,13 @@ public class EvidencijaVoznji implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="voziloNalog")
 	private VozilaNalozi voziloNalog;
-	private String vozac, registracijaVozila, relacija, brojPutnogNaloga, preuzetoIz, vrstaRobe, magacin, otpremnica, sifra, sifraPrograma, program;
+	@ManyToOne
+	@JoinColumn(name="voziloId")
+	private Objekti vozilo;
+	@ManyToOne
+	@JoinColumn(name="vozac")
+	private Korisnici vozac;
+	private String registracijaVozila, relacija, brojPutnogNaloga, preuzetoIz, vrstaRobe, magacin, otpremnica, sifra, sifraPrograma, program;
 	private Timestamp kreirano, izmenjeno; 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date datumVremePolaska, datumVremeDolaska;
@@ -89,11 +95,19 @@ public class EvidencijaVoznji implements Serializable{
 		this.voziloNalog = voziloNalog;
 	}
 
-	public String getVozac() {
+	public Objekti getVozilo() {
+		return vozilo;
+	}
+
+	public void setVozilo(Objekti vozilo) {
+		this.vozilo = vozilo;
+	}
+
+	public Korisnici getVozac() {
 		return vozac;
 	}
 
-	public void setVozac(String vozac) {
+	public void setVozac(Korisnici vozac) {
 		this.vozac = vozac;
 	}
 

@@ -34,4 +34,6 @@ public interface VozilaServis {
 	ArrayList<Vozila> nadjiSvaVozilaBezSaobracajne(Korisnici korisnik, boolean aktivan);
 	
 	ArrayList<Vozila> nadjiSvaVozilaBezSaobracajnePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	
+	Vozila nadjiVoziloPoRegistraciji(SistemPretplatnici pretplatnik, String registracija);
 }

@@ -11,6 +11,7 @@ import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozaci;
+import pratiBaza.tabele.Vozila;
 
 @Service("vozacServis")
 public class VozaciServisImpl implements VozaciServis{

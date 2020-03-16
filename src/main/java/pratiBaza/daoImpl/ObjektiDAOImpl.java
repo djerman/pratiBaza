@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -241,6 +242,20 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			lista.addAll(lista2);
 		}
 		return lista;
+	}
+
+	@Override
+	public Objekti nadjiObjekatSadrzi(SistemPretplatnici pretplatnik, String oznaka) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
+		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
+		criteria.add(Restrictions.ilike("oznaka", oznaka, MatchMode.ANYWHERE));
+		criteria.add(Restrictions.eq("aktivan", true));
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return objekat;
+		}else {
+			return null;
+		}
 	}
 	
 }
