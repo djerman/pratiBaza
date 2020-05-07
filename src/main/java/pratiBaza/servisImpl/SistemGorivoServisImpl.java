@@ -47,5 +47,11 @@ public class SistemGorivoServisImpl implements SistemGorivoServis{
 	public SistemGoriva nadjiGorivoPoId(int id) {
 		return sistemGorivoDAO.nadjiGorivoPoId(id);
 	}
+
+	@Override
+	@Transactional
+	public SistemGoriva nadjiGorivoPoNazivu(String gorivo) {
+		return sistemGorivoDAO.nadjiGorivoPoNazivu(gorivo);
+	}
 	
 }

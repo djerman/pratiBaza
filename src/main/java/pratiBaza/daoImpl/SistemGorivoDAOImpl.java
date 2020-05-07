@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,19 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 		criteria.add(Restrictions.eq("id", id));
 		SistemGoriva gorivo = (SistemGoriva)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		return gorivo;
+	}
+
+	@Override
+	public SistemGoriva nadjiGorivoPoNazivu(String gorivo) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		criteria.add(Restrictions.ilike("naziv", gorivo, MatchMode.ANYWHERE));
+		criteria.add(Restrictions.eq("izbrisan", false));
+		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			SistemGoriva g = (SistemGoriva)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
+			return g;
+		}else {
+			return null;
+		}
 	}
 	
 }

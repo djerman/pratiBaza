@@ -15,4 +15,6 @@ public interface SistemGorivaDAO {
 	ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan);
 	
 	SistemGoriva nadjiGorivoPoId(int id);
+	
+	SistemGoriva nadjiGorivoPoNazivu(String gorivo);
 }
