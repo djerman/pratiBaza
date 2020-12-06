@@ -1,7 +1,6 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -9,7 +8,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import pratiBaza.dao.SistemGorivaDAO;
 import pratiBaza.tabele.SistemGoriva;
 

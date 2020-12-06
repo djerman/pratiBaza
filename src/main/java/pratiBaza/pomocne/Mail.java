@@ -22,18 +22,18 @@ public class Mail implements Serializable{
     // Get the default Session object.
     private Session session;
     
-	public Mail() {
+	public Mail(String server, String port, String nalog, String lozinka) {
 		properties = System.getProperties();
-	    properties.put("mail.smtp.host", "mail.atekom.rs");
-	    properties.put("mail.smtp.socketFactory.port", "465");
+	    properties.put("mail.smtp.host", server);
+	    properties.put("mail.smtp.socketFactory.port", port);
 	    //properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 	    properties.put("mail.smtp.auth", "true");
-	    properties.put("mail.smtp.port", "465");
+	    properties.put("mail.smtp.port", port);
 	    properties.put("mail.smtp.ssl.enable", "true");
 	    session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
 	    	@Override
 	    	protected PasswordAuthentication getPasswordAuthentication() {
-	    		return new PasswordAuthentication("prati@atekom.rs","!Mostar1990");
+	    		return new PasswordAuthentication(nalog, lozinka);
 	    		}
 	    	});
 	}

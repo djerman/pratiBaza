@@ -2,7 +2,6 @@ package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;

@@ -19,11 +19,11 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje) {
-		sessionFactory.getCurrentSession().persist(javljanjePoslednje);
+		sessionFactory.getCurrentSession().saveOrUpdate(javljanjePoslednje);
 	}
 
 	public void azurirajJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje) {
-		sessionFactory.getCurrentSession().update(javljanjePoslednje);
+		sessionFactory.getCurrentSession().saveOrUpdate(javljanjePoslednje);
 	}
 
 	public void izbrisiJavljanjaPoslednja(JavljanjaPoslednja javljanjePoslednje) {

@@ -37,14 +37,20 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 
 	public void unesiJavljanja(Javljanja javljanje) {
 		sessionFactory.getCurrentSession().persist(javljanje);
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 	}
 
 	public void azurirajJavljanja(Javljanja javljanje) {
 		sessionFactory.getCurrentSession().update(javljanje);
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 	}
 
 	public void izbrisiJavljanja(Javljanja javljanje) {
 		sessionFactory.getCurrentSession().delete(javljanje);
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -60,10 +66,15 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat)).addOrder(Order.desc("datumVreme")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
+			sessionFactory.getCurrentSession().flush();
+			sessionFactory.getCurrentSession().clear();
 			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		}else {
+			sessionFactory.getCurrentSession().flush();
+			sessionFactory.getCurrentSession().clear();
 			return null;
 		}
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,8 +91,12 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().clear();
 		if(javljanja2 != null) {
+			sessionFactory.getCurrentSession().flush();
+			sessionFactory.getCurrentSession().clear();
 			return javljanja2;
 		}else {
+			sessionFactory.getCurrentSession().flush();
+			sessionFactory.getCurrentSession().clear();
 			return javljanja;
 		}
 	}
@@ -120,8 +135,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(poslednje);
 			}
 		}
-		/*sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();**/
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
@@ -136,6 +151,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(poslednje);
 			}
 		}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
@@ -151,6 +168,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(put);
 			}
 		}
+		sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
