@@ -1,15 +1,9 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.ObdDAO;
@@ -25,11 +19,11 @@ public class ObdDAOImpl implements ObdDAO{
 	private SessionFactory sessionFactory;
 
 	public void unesiObd(Obd obd) {
-		sessionFactory.getCurrentSession().persist(obd);
+		sessionFactory.getCurrentSession().saveOrUpdate(obd);
 	}
 
 	public void azurirajObd(Obd obd) {
-		sessionFactory.getCurrentSession().update(obd);
+		sessionFactory.getCurrentSession().saveOrUpdate(obd);
 	}
 
 	public void izbrisiObd(Obd obd) {
@@ -46,6 +40,15 @@ public class ObdDAOImpl implements ObdDAO{
 
 	@Override
 	public Obd nadjiObdPoslednji(Objekti objekat, Timestamp datumVreme) {
+		String upit = "SELECT o FROM Obd o where o.objekti = :objekat AND o.datumVreme < :datumVreme ORDER BY o.datumVreme desc";
+		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM cg_obd where objekatId = :objId and datumVreme < :dV "
 				+ "order by datumVreme desc limit 1");
@@ -88,7 +91,7 @@ public class ObdDAOImpl implements ObdDAO{
 			obd = null;
 		}
 		return obd;
-	
+		*/
 	}
 
 	@Override
@@ -103,10 +106,19 @@ public class ObdDAOImpl implements ObdDAO{
 		return lista;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDo(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
+		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo ORDER BY o.datumVreme";
+		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("datumVremeOd", datumVremeOd);
+		query.setParameter("datumVremeDo", datumVremeDo);
+		if(query.getResultList() != null) {
+			lista.addAll(query.getResultList());
+		}
+		return lista;
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
@@ -117,6 +129,7 @@ public class ObdDAOImpl implements ObdDAO{
 			lista.addAll(lista2);
 			}
 		return lista;
+		*/
 		}
 
 	@Override
@@ -157,10 +170,18 @@ public class ObdDAOImpl implements ObdDAO{
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Obd> nadjiObdPoslednjaStajanja(Objekti objekat, Timestamp datumVremeOd) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
+		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme > :datumVremeOd ORDER BY o.datumVreme asc";
+		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("datumVremeOd", datumVremeOd);
+		if(query.getResultList() != null) {
+			lista.addAll(query.getResultList());
+		}
+		return lista;
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.gt("datumVreme", datumVremeOd));
@@ -170,9 +191,26 @@ public class ObdDAOImpl implements ObdDAO{
 			lista.addAll(lista2);
 			}
 		return lista;
+		*/
 	}
 	
 	private Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		String upit = "";
+		if(vremeDo) {
+			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme < :datumVreme ORDER BY o.datumVreme desc";
+		}else {
+			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme > :datumVreme ORDER BY o.datumVreme asc";
+		}
+		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("datumVreme", datumVreme);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SQLQuery query;
 		if(vremeDo) {
@@ -226,6 +264,7 @@ public class ObdDAOImpl implements ObdDAO{
 			obd = null;
 		}
 		return obd;
+		*/
 	}
 
 }

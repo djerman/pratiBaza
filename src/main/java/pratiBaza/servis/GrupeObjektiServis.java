@@ -1,6 +1,7 @@
 package pratiBaza.servis;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.GrupeObjekti;
@@ -18,17 +19,17 @@ public interface GrupeObjektiServis {
 	
 	void izbrisiSveGrupaObjekti(Grupe grupa);
 	
-	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa);
+	List<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa);
 	
 	void izbrisiSveGrupeObjekatPoObjektu(Objekti objekat);
 	
-	ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat);
+	List<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat);
 	
-	ArrayList<GrupeObjekti> nadjiSveGraupeObjektePoGrupama(ArrayList<Grupe> grupe);
+	List<GrupeObjekti> nadjiSveGraupeObjektePoGrupama(ArrayList<Grupe> grupe);
 	
-	ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa);
+	List<Objekti> nadjiSveObjektePoGrupi(Grupe grupa);
 	
-	ArrayList<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa);
+	List<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa);
 	
 	ArrayList<Objekti> nadjiSveObjektePoGrupama(ArrayList<Grupe> grupe);
 }

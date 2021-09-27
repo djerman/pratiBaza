@@ -2,9 +2,8 @@ package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.ObjektiPoslednjeDAO;
@@ -40,6 +39,16 @@ public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
 
 	@Override
 	public ObjektiPoslednje nadjiObjekatPoslednjePoObjektu(Objekti objekat) {
+		String upit = "SELECT op ObjektiPoslednje FROM op WHERE op.objekti = :objekat";
+		TypedQuery<ObjektiPoslednje> query = sessionFactory.getCurrentSession().createQuery(upit, ObjektiPoslednje.class);
+		query.setParameter("objekat", objekat);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiPoslednje.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -48,6 +57,7 @@ public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -60,6 +70,16 @@ public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
 
 	@Override
 	public ObjektiPoslednje nadjiObjektiPoslednjePoId(int id) {
+		String upit = "SELECT op ObjektiPoslednje FROM op WHERE op.id = :id";
+		TypedQuery<ObjektiPoslednje> query = sessionFactory.getCurrentSession().createQuery(upit, ObjektiPoslednje.class);
+		query.setParameter("id", id);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjektiPoslednje.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -68,6 +88,7 @@ public class ObjektiPoslednjeDAOImpl implements ObjektiPoslednjeDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 
 }

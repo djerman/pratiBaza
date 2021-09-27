@@ -1,11 +1,10 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeKorisniciDAO;
@@ -44,6 +43,15 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 	}
 
 	public GrupeKorisnici nadjiGrupaKorisnikPoId(int id) {
+		String upit = "SELECT gk FROM GrupeKorisnici gk where gk.id = :id";
+		TypedQuery<GrupeKorisnici> query = sessionFactory.getCurrentSession().createQuery(upit, GrupeKorisnici.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -52,11 +60,15 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 		}else {
 			return null;
 		}
-		
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
-	public ArrayList<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik) {
+	public List<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik) {
+		String upit = "SELECT gk FROM GrupeKorisnici gk WHERE gk.korisnici = :korisnik";
+		TypedQuery<GrupeKorisnici> query = sessionFactory.getCurrentSession().createQuery(upit, GrupeKorisnici.class);
+		query.setParameter("korisnik", korisnik);
+		return query.getResultList();
+		/*
 		ArrayList<GrupeKorisnici> grupeKorisnik = new ArrayList<GrupeKorisnici>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("korisnici", korisnik));
@@ -66,11 +78,16 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 		}else {
 			return grupeKorisnik;
 		}
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Grupe> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+	public List<Grupe> vratiSveGrupePoKorisniku(Korisnici korisnik) {
+		String upit = "SELECT gk.grupe FROM GrupeKorisnici gk WHERE gk.korisnici = :korisnik";
+		TypedQuery<Grupe> query = sessionFactory.getCurrentSession().createQuery(upit, Grupe.class);
+		query.setParameter("korisnik", korisnik);
+		return query.getResultList();
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
 		criteria.add(Restrictions.eq("korisnici", korisnik));
 		ArrayList<GrupeKorisnici> grupeKorisnik2 = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
@@ -83,7 +100,6 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 			}
 		}
 		return grupe;
+		*/
 	}
-	
-	
 }

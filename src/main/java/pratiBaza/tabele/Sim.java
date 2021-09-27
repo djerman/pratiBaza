@@ -24,7 +24,6 @@ public class Sim implements Serializable {
 
 	private Timestamp kreirano;
 
-	@Lob
 	private String opis;
 
 	//private BigInteger pretplatnikId;

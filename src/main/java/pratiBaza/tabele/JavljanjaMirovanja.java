@@ -1,77 +1,60 @@
 package pratiBaza.tabele;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="ce_javljanja")
-@NamedQuery(name="Javljanja.findAll", query="SELECT j FROM Javljanja j")
-public class Javljanja implements Serializable {
+@Table(name="ce_javljanjaMirovanja")
+@NamedQuery(name="JavljanjaMirovanja.findAll", query="SELECT j FROM JavljanjaMirovanja j")
+public class JavljanjaMirovanja implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private int version;
-	private boolean valid;
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name="objekatId")
-	private Objekti objekti;
+	private int brzina;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date datumVreme;
-	private double lon;
-	private double lat;
-	private float pravac;
-	private float visina;
-	private int brzina;
+	private String eventData;
+	private String ibutton;
+	private Timestamp izmenjeno;
 	private boolean kontakt;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	private Timestamp kreirano;
+	private double lat;
+	private double lon;
+	private float pravac;
+	private boolean valid;
+	private int version;
+	private float visina;
+	private float virtualOdo;
+	@ManyToOne
+	@JoinColumn(name="objekatId")
+	private Objekti objekti;
+	@ManyToOne
 	@JoinColumn(name="alarmId")
 	private SistemAlarmi sistemAlarmi;
-	private float virtualOdo;
-	private String eventData;
 	@ManyToOne
 	@JoinColumn(name="zona")
 	private Zone zona;
-	private String ibutton;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="korisnikId")
 	private Korisnici korisnik;
-	private Timestamp izmenjeno;
-	private Timestamp kreirano;
 
-	public Javljanja() {
+	public JavljanjaMirovanja() {
 		
 	}
-
-	public String getNazivAlarma() {
-		SistemAlarmi alarm = this.getSistemAlarmi();
-		if(alarm != null) {
-			return alarm.getNaziv();
-			}else {
-				return " ";
-				}
-		}
-	
-	public String getNazivObjekta() {
-		Objekti objekat = this.getObjekti();
-		if(objekat != null) {
-			return objekat.getOznaka();
-			}else {
-				return " ";
-				}
-		}
-	
-	public String getNazivZone() {
-		Zone zonaGet = this.getZona();
-		if(zonaGet != null) {
-			return zonaGet.getNaziv();
-			}else {
-				return " ";
-				}
-		}
 
 	public Long getId() {
 		return this.id;
@@ -103,7 +86,7 @@ public class Javljanja implements Serializable {
 
 	public void setEventData(String eventData) {
 		if(eventData.length() > 255) {
-			this.eventData = eventData.substring(0, 254);
+			this.eventData = eventData.substring(0, 255);
 			}else {
 				this.eventData = eventData;
 				}
@@ -127,14 +110,6 @@ public class Javljanja implements Serializable {
 
 	public void setIzmenjeno(Timestamp izmenjeno) {
 		this.izmenjeno = izmenjeno;
-		}
-
-	public boolean isKontakt() {
-		return kontakt;
-		}
-
-	public void setKontakt(boolean kontakt) {
-		this.kontakt = kontakt;
 		}
 
 	public Timestamp getKreirano() {
@@ -168,7 +143,15 @@ public class Javljanja implements Serializable {
 	public void setPravac(float pravac) {
 		this.pravac = pravac;
 		}
-	
+
+	public boolean isKontakt() {
+		return kontakt;
+		}
+
+	public void setKontakt(boolean kontakt) {
+		this.kontakt = kontakt;
+		}
+
 	public boolean isValid() {
 		return valid;
 		}
@@ -193,22 +176,20 @@ public class Javljanja implements Serializable {
 		this.visina = visina;
 		}
 
-	public SistemAlarmi getSistemAlarmi() {
-		//Hibernate.initialize(sistemAlarmi);
-		return sistemAlarmi;
-		}
-
-	public void setSistemAlarmi(SistemAlarmi sistemAlarmi) {
-		this.sistemAlarmi = sistemAlarmi;
-		}
-
 	public Objekti getObjekti() {
-		//Hibernate.initialize(objekti);
-		return objekti;
+		return this.objekti;
 		}
 
 	public void setObjekti(Objekti objekti) {
 		this.objekti = objekti;
+		}
+
+	public SistemAlarmi getSistemAlarmi() {
+		return this.sistemAlarmi;
+		}
+
+	public void setSistemAlarmi(SistemAlarmi sistemAlarmi) {
+		this.sistemAlarmi = sistemAlarmi;
 		}
 
 	public float getVirtualOdo() {
@@ -227,21 +208,11 @@ public class Javljanja implements Serializable {
 		this.korisnik = korisnik;
 		}
 
-	/*public Obd getBd() {
-		return obd;
-	}
-
-	public void setBd(Obd bd) {
-		this.obd = bd;
-	}**/
-
 	public Zone getZona() {
-		//Hibernate.initialize(zona);
 		return zona;
 		}
 
 	public void setZona(Zone zona) {
 		this.zona = zona;
 		}
-	
 	}

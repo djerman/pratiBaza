@@ -2,6 +2,8 @@ package pratiBaza.servisImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.JavljanjaDAO;
@@ -20,16 +22,19 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	//mora da se doda i get i set metode za objekat AkcijeDAO jer ne radi spring bez toga
 	JavljanjaDAO javljanjeDAO;
 
+	@Override
 	@Transactional
 	public void unesiJavljanja(Javljanja javljanje) {
 		javljanjeDAO.unesiJavljanja(javljanje);
 	}
 
+	@Override
 	@Transactional
 	public void azurirajJavljanja(Javljanja javljanje) {
 		javljanjeDAO.azurirajJavljanja(javljanje);
 	}
 
+	@Override
 	@Transactional
 	public void izbrisiJavljanja(Javljanja javljanje) {
 		javljanjeDAO.izbrisiJavljanja(javljanje);
@@ -53,13 +58,13 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 
 	@Override
 	@Transactional
-	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDo(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
+	public List<Javljanja> vratiJavljanjaObjektaOdDo(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
 		return javljanjeDAO.vratiJavljanjaObjektaOdDo(objekat, vremeOd, vremeDo);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmima(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
+	public List<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmima(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
 		return javljanjeDAO.vratiJavljanjaObjektaOdDoSaAlarmima(objekat, vremeOd, vremeDo);
 	}
 
@@ -77,19 +82,19 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 	
 	@Override
 	@Transactional
-	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi) {
+	public List<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo, ArrayList<SistemAlarmi> alarmi) {
 		return javljanjeDAO.vratiJavljanjaObjektaOdDoSaAlarmimaZona(objekat, vremeOd, vremeDo, alarmi);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, boolean pregled) {
+	public List<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, boolean pregled) {
 		return javljanjeDAO.vratiJavljanjaObjekataOdDoSaAlarmima(objekti, vremeOd, vremeDo, pregled);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+	public List<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
 		return javljanjeDAO.vratiJavljanjaObjekataOdDoSaBrzinama(objekti, vremeOd, vremeDo);
 	}
 

@@ -63,6 +63,7 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/JavljanjaDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/ObdDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/SimServisImpl.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/JavljanjaMirovanjaDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/SistemSesijeServis.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/AlarmiKorisnikDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/SistemOperateriServis.java
@@ -118,6 +119,7 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/SistemAlarmiDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/SistemSesije.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/ZoneDAO.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/JavljanjaMirovanja.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/ProjektiDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/ObjektiServisImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/EvidencijaVoznjiDAOImpl.java
@@ -156,6 +158,7 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/RacuniDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/ProjektiDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/JavljanjaPoslednja.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/JavljanjaMirovanjaServis.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/SistemOperateriServisImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/pomocne/RadnoVremePutGPS.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/VozaciDozvoleDAO.java
@@ -224,6 +227,7 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/GrupeDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/ObjekatZone.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/SistemSesijeDAO.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/JavljanjaMirovanjaDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/SifreServis.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/VozaciLicence.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/AlarmiKorisnik.java
@@ -231,6 +235,7 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/UredjajiServis.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/RacuniRaspodelaServis.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/SifreServisImpl.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/JavljanjaMirovanjaServisImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/UredjajiDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/KorisniciDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/RacuniRaspodela.java

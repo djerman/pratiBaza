@@ -1,19 +1,11 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.JavljanjaDAO;
@@ -21,12 +13,10 @@ import pratiBaza.pomocne.PredjeniPut;
 import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
 import pratiBaza.tabele.Javljanja;
-import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
 import pratiBaza.tabele.Vozila;
-import pratiBaza.tabele.Zone;
 
 @Repository("javljanjeDAO")
 public class JavljanjaDAOImpl implements JavljanjaDAO{
@@ -35,22 +25,19 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Override
 	public void unesiJavljanja(Javljanja javljanje) {
-		sessionFactory.getCurrentSession().persist(javljanje);
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
+		sessionFactory.getCurrentSession().saveOrUpdate(javljanje);
 	}
 
+	@Override
 	public void azurirajJavljanja(Javljanja javljanje) {
-		sessionFactory.getCurrentSession().update(javljanje);
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
+		sessionFactory.getCurrentSession().saveOrUpdate(javljanje);
 	}
 
+	@Override
 	public void izbrisiJavljanja(Javljanja javljanje) {
 		sessionFactory.getCurrentSession().delete(javljanje);
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -63,23 +50,36 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 
 	@Override
 	public Javljanja nadjiPoslednjeJavljanjePoObjektu(Objekti objekat) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat ORDER BY jv.datumVreme desc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekat", objekat);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+			}catch (Exception e) {
+				return null;
+				}
+		
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat)).addOrder(Order.desc("datumVreme")).setMaxResults(1);
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			sessionFactory.getCurrentSession().flush();
-			sessionFactory.getCurrentSession().clear();
 			return (Javljanja) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		}else {
-			sessionFactory.getCurrentSession().flush();
-			sessionFactory.getCurrentSession().clear();
 			return null;
 		}
-		
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDo(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
+	public List<Javljanja> vratiJavljanjaObjektaOdDo(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo ORDER BY jv.datumVreme asc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("vremeOd", vremeOd);
+		query.setParameter("vremeDo", vremeDo);
+		return query.getResultList();
+		/*
 		ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
@@ -99,11 +99,19 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			sessionFactory.getCurrentSession().clear();
 			return javljanja;
 		}
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmima(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
+	public List<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmima(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo "
+				+ "AND jv.valid = TRUE AND jv.sistemAlarmi.sifra <> 0 ORDER BY jv.datumVreme asc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("vremeOd", vremeOd);
+		query.setParameter("vremeDo", vremeDo);
+		return query.getResultList();
+		/*
 		ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
@@ -122,6 +130,7 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().clear();
 		return javljanja;
+		*/
 	}
 
 	@Override
@@ -135,8 +144,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(poslednje);
 			}
 		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
@@ -151,8 +158,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(poslednje);
 			}
 		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
@@ -168,8 +173,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(put);
 			}
 		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 	
@@ -197,14 +200,20 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				lista.add(put);
 			}
 		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo,  ArrayList<SistemAlarmi> alarmi) {
+	public List<Javljanja> vratiJavljanjaObjektaOdDoSaAlarmimaZona(Objekti objekat, Timestamp vremeOd, Timestamp vremeDo,  ArrayList<SistemAlarmi> alarmi) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.valid = TRUE AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo "
+				+ "AND jv.sistemAlarmi IN :alarmi ORDER BY jv.datumVreme asc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("vremeOd", vremeOd);
+		query.setParameter("vremeDo", vremeDo);
+		query.setParameter("alarmi", alarmi);
+		return query.getResultList();
+		/*
 		ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
@@ -221,11 +230,26 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		}else {
 			return javljanja;
 		}
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd,Timestamp vremeDo, boolean pregled) {
+	public List<Javljanja> vratiJavljanjaObjekataOdDoSaAlarmima(ArrayList<Objekti> objekti, Timestamp vremeOd,Timestamp vremeDo, boolean pregled) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti IN :objekti AND jv.valid = TRUE AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo "
+				+ "AND jv.sistemAlarmi <> 0 ORDER BY jv.datumVreme asc";
+		String upit2 = "SELECT jv FROM Javljanja jv where jv.objekti IN :objekti AND jv.valid = TRUE AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo "
+				+ "AND jv.sistemAlarmi <> 0 AND jv.sistemAlarmi.pregled = TRUE ORDER BY jv.datumVreme asc";
+		TypedQuery<Javljanja> query;
+		if(pregled) {
+			query = sessionFactory.getCurrentSession().createQuery(upit2, Javljanja.class);
+		}else {
+			query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		}
+		query.setParameter("objekti", objekti);
+		query.setParameter("vremeOd", vremeOd);
+		query.setParameter("vremeDo", vremeDo);
+		return query.getResultList();
+		/*
 		ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
 		for(Objekti objekat : objekti) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
@@ -245,11 +269,20 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().clear();
 		return javljanja;
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+	public List<Javljanja> vratiJavljanjaObjekataOdDoSaBrzinama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti IN :objekti AND jv.valid = TRUE AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo "
+				+ "AND jv.sistemAlarmi <> 0 ORDER BY jv.brzina desc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekti", objekti);
+		query.setParameter("vremeOd", vremeOd);
+		query.setParameter("vremeDo", vremeDo);
+		query.setMaxResults(10);
+		return query.getResultList();
+		/*
 		ArrayList<Javljanja> javljanja = new ArrayList<Javljanja>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.in("objekti", objekti));
@@ -266,10 +299,28 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		}else {
 			return javljanja;
 		}
+		*/
 	}
 
 	@Override
 	public Javljanja vratiJavljanjeObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		String vreme = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.valid = TRUE AND jv.datumVreme <= :datumVreme ORDER BY jv.datumVreme desc";
+		String vremeOd = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.valid = TRUE AND jv.datumVreme >= :datumVreme ORDER BY jv.datumVreme asc";
+		TypedQuery<Javljanja> query ;
+		if(vremeDo) {
+			query = sessionFactory.getCurrentSession().createQuery(vreme, Javljanja.class);
+		}else {
+			query = sessionFactory.getCurrentSession().createQuery(vremeOd, Javljanja.class);
+		}
+		query.setParameter("objekat", objekat);
+		query.setParameter("datumVreme", datumVreme);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SQLQuery query;
 		if(vremeDo) {
@@ -366,10 +417,29 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				javljanje = null;
 				}
 		return javljanje;
+		*/
 	}
 
 	@Override
 	public Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
+		String vreme = "SELECT ob FROM Obd ob where ob.objekti = :objekat AND ob.datumVreme <= :datumVreme ORDER BY ob.datumVreme desc";
+		String vremeOd = "SELECT ob FROM Obd ob where ob.objekti = :objekat AND ob.datumVreme >= :datumVreme ORDER BY ob.datumVreme asc";
+		TypedQuery<Obd> query ;
+		if(vremeDo) {
+			query = sessionFactory.getCurrentSession().createQuery(vreme, Obd.class);
+		}else {
+			query = sessionFactory.getCurrentSession().createQuery(vremeOd, Obd.class);
+		}
+		query.setParameter("objekat", objekat);
+		query.setParameter("datumVreme", datumVreme);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		
+		/*
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SQLQuery query;
 		if(vremeDo) {
@@ -418,11 +488,17 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			obd = null;
 		}
 		return obd;
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
+	//metod nije pozvan u ServisImpl
 	@Override
-	public ArrayList<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {
+	public List<Javljanja> vratiJavljanjaZaStajanja(Objekti objekat) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.valid = TRUE ORDER BY jv.datumVreme asc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekat", objekat);
+		return query.getResultList();
+		/*
 		Disjunction disjunction = Restrictions.disjunction();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
@@ -439,13 +515,20 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().clear();
 		return javljanja2;
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina) {
+	public ArrayList<StajanjeMirovanje> vratiStajanjaMirovanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo, int duzina) {			
 		ArrayList<StajanjeMirovanje> lista = new ArrayList<StajanjeMirovanje>();
 		for(Objekti objekat: objekti) {
+			String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.valid = TRUE AND jv.datumVreme BETWEEN :vremeOd AND :vremeDo ORDER BY jv.datumVreme asc";
+			TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+			query.setParameter("objekat", objekat);
+			query.setParameter("vremeOd", vremeOd);
+			query.setParameter("vremeDo", vremeDo);
+			List<Javljanja> javljanja = query.getResultList();
+			/*
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 			criteria.add(Restrictions.eq("objekti", objekat));
 			criteria.add(Restrictions.ge("datumVreme", vremeOd));
@@ -453,6 +536,7 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			criteria.add(Restrictions.eq("valid", true));
 			criteria.addOrder(Order.asc("datumVreme"));
 			ArrayList<Javljanja> javljanja = (ArrayList<Javljanja>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+			*/
 			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 2) {
 				ArrayList<Javljanja> stajanje = new ArrayList<Javljanja>();//brzina < 6
 				ArrayList<Javljanja> mirovanje = new ArrayList<Javljanja>(); //kontakt true
@@ -496,19 +580,29 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				}
 			}
 		}
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
 		return lista;
+		
 	}
 
 	@Override
 	public Javljanja vratiJavljanjeZaStajanje(Objekti objekat) {
+		String upit = "SELECT jv FROM Javljanja jv where jv.objekti = :objekat AND jv.valid = TRUE AND jv.brzina > 5 ORDER BY jv.datumVreme desc";
+		TypedQuery<Javljanja> query = sessionFactory.getCurrentSession().createQuery(upit, Javljanja.class);
+		query.setParameter("objekat", objekat);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Javljanja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.eq("valid", true));
 		criteria.add(Restrictions.gt("brzina", 5));
 		criteria.addOrder(Order.desc("datumVreme"));
-		criteria.setMaxResults(1);
+		criteria.setMaxResults(1);//ovde je problem
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
 			sessionFactory.getCurrentSession().flush();
 			sessionFactory.getCurrentSession().clear();
@@ -518,6 +612,7 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			sessionFactory.getCurrentSession().clear();
 			return null;
 		}
+		*/
 	}
 
 	@Override

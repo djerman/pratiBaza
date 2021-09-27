@@ -1,12 +1,10 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.UredjajiDAO;
@@ -52,8 +50,30 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		izmeniUredjaj(uredjaj);
 	}
 
-	public ArrayList<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan) {
-		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
+	public List<Uredjaji> nadjiSveUredjaje(Korisnici korisnik, boolean aktivan) {
+		String pretp = "";
+		String akt = "";
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			pretp = "u.sistemPretplatnici = :pretplatnik AND u.izbrisan = false AND ";
+		}
+		if(aktivan) {
+			akt = " AND u.aktivan = :akt";
+		}
+		
+		String upit = "Select u FROM Uredjaji u where " + pretp + "(:organizacija is null or u.organizacija = :organizacija) "
+				+ akt + " ORDER BY u.sistemPretplatnici.naziv, u.id, u.izbrisan, u.aktivan desc";
+		
+		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
+		
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		}
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		if(aktivan) {
+			query.setParameter("akt", aktivan);
+		}
+		return query.getResultList();
+		/*ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -78,9 +98,21 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 
-	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	public List<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		String upit = "SELECT u FROM Uredjaji u where u.objekti IS NULL AND (:pretplatnik IS NULL or u.sistemPretplatnici = :pretplatnik) AND "
+				+ "(:organizacija IS NULL or u.organizacija = :organizacija) "
+				+ "AND u.aktivan = true AND u.izbrisan = false ORDER BY u.id asc";
+		
+		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
+		
+		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("organizacija", organizacija);
+
+		return query.getResultList();
+		/*
 		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.isNull("objekti"));
@@ -99,18 +131,16 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 			lista.addAll(lista2);
 		}
 		return lista;
+		*/
 	}
 
 	@Override
-	public ArrayList<Uredjaji> nadjiSveAktivneSlobodneUredjaje(Korisnici korisnik, SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		ArrayList<Uredjaji> lista = nadjiSveAktivneSlobodneUredjajePoPretplatniku(pretplatnik, organizacija);
+	public List<Uredjaji> nadjiSveAktivneSlobodneUredjaje(Korisnici korisnik, SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		if(korisnik.getSistemPretplatnici().isSistem()) {
-			ArrayList<Uredjaji> lista2 = nadjiSveAktivneSlobodneUredjajePoPretplatniku(korisnik.getSistemPretplatnici(), null);
-			if(lista2 != null) {
-				lista.addAll(lista2);
-			}
+			return nadjiSveAktivneSlobodneUredjajePoPretplatniku(null, null);
+		}else {
+			return nadjiSveAktivneSlobodneUredjajePoPretplatniku(pretplatnik, organizacija);
 		}
-		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -121,7 +151,27 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	public ArrayList<Uredjaji> nadjiSveAktivneUredjaje(Korisnici korisnik, Uredjaji uredjaj) {
+	public List<Uredjaji> nadjiSveAktivneUredjaje(Korisnici korisnik, Uredjaji uredjaj) {
+		String pretp = "";
+		if(!korisnik.getSistemPretplatnici().isSistem() && !korisnik.isSistem()) {
+			
+		}else {
+			pretp = "u.sistemPretplatnici = :pretplatnik AND u.izbrisan = false AND ";
+		}
+		
+		String upit = "Select u FROM Uredjaji u where " + pretp + "(:organizacija is null or u.organizacija = :organizacija) AND u.objekti IS NULL"
+				+ " AND u.aktivan = true AND u.izbrisan = false ORDER BY u.sistemPretplatnici.naziv, u.id, u.izbrisan, u.aktivan desc";
+		
+		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
+		
+		if(!korisnik.getSistemPretplatnici().isSistem() && !korisnik.isSistem()) {
+			query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		}else {
+			
+		}
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		return query.getResultList();
+		/*
 		ArrayList<Uredjaji> lista = new ArrayList<Uredjaji>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("aktivan", true));
@@ -144,10 +194,20 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 
 	@Override
 	public Uredjaji nadjiUredjajPoId(int id) {
+		String upit = "SELECT u FROM Uredjaji u where u.id = :id";
+		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -156,10 +216,20 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 
 	@Override
 	public Uredjaji nadjiUredjajPoKodu(String kod) {
+		String upit = "SELECT u FROM Uredjaji u where u.kod = :kod";
+		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
+		query.setParameter("kod", kod);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Uredjaji.class);
 		criteria.add(Restrictions.eq("kod", kod));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -168,6 +238,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 	
 }

@@ -4,14 +4,12 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pratiBaza.dao.VozaciDAO;
 import pratiBaza.servis.VozaciServis;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;
 import pratiBaza.tabele.Vozaci;
-import pratiBaza.tabele.Vozila;
 
 @Service("vozacServis")
 public class VozaciServisImpl implements VozaciServis{

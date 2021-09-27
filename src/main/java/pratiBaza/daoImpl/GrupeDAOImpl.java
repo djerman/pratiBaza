@@ -1,12 +1,10 @@
 package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.GrupeDAO;
@@ -22,6 +20,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Override
 	public void unesiGrupu(Grupe grupa) {
 		grupa.setVersion(0);
 		grupa.setIzmenjeno(new Timestamp((new Date()).getTime()));
@@ -29,12 +28,14 @@ public class GrupeDAOImpl implements GrupeDAO{
 		sessionFactory.getCurrentSession().persist(grupa);
 	}
 
+	@Override
 	public void azurirajGrupu(Grupe grupa) {
 		grupa.setVersion(grupa.getVersion() + 1);
 		grupa.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(grupa);
 	}
 
+	@Override
 	public void izbrisiGrupu(Grupe grupa) {
 		grupa.setAktivan(false);
 		grupa.setIzbrisan(true);
@@ -49,8 +50,23 @@ public class GrupeDAOImpl implements GrupeDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
-	public ArrayList<Grupe> vratiGrupe(Korisnici korisnik) {
+	@Override
+	public List<Grupe> vratiGrupe(Korisnici korisnik) {
+		String pretp = "";
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			pretp = "g.sistemPretplatnici = :pretplatnik AND g.izbrisan = false AND ";
+		}
+		String upit = "Select g FROM Grupe g where " + pretp + "(:organizacija is null or g.organizacija = :organizacija) "
+				+ " ORDER BY g.sistemPretplatnici.naziv, g.id, g.izbrisan, g.aktivan desc";
+		TypedQuery<Grupe> query = sessionFactory.getCurrentSession().createQuery(upit, Grupe.class);
+		
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		}
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+
+		return query.getResultList();
+		/*
 		ArrayList<Grupe> lista = new ArrayList<Grupe>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
@@ -70,9 +86,20 @@ public class GrupeDAOImpl implements GrupeDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 
+	@Override
 	public Grupe nadjiGrupuPoId(int id) {
+		String upit = "SELECT g FROM Grupe g where g.id = :id";
+		TypedQuery<Grupe> query = sessionFactory.getCurrentSession().createQuery(upit, Grupe.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -81,10 +108,20 @@ public class GrupeDAOImpl implements GrupeDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
-	public ArrayList<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	@Override
+	public List<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+		String upit = "Select g FROM Grupe g where g.sistemPretplatnici = :pretplatnik AND g.izbrisan = false AND (:organizacija is null or g.organizacija = :organizacija)"
+				+ " AND g.aktivan = true ORDER BY g.naziv asc";
+		TypedQuery<Grupe> query = sessionFactory.getCurrentSession().createQuery(upit, Grupe.class);
+		
+		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("organizacija", organizacija);
+
+		return query.getResultList();
+		/*
 		ArrayList<Grupe> lista = new ArrayList<Grupe>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
@@ -100,6 +137,7 @@ public class GrupeDAOImpl implements GrupeDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 	
 }

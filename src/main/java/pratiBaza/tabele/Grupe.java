@@ -22,7 +22,6 @@ public class Grupe implements Serializable {
 
 	private String naziv;
 
-	@Lob
 	private String opis;
 
 	private int version;

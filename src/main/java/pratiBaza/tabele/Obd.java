@@ -56,6 +56,7 @@ public class Obd implements Serializable {
 	private Objekti objekti;
 
 	public Obd() {
+		
 	}
 
 	public Long getId() {

@@ -1,6 +1,7 @@
 package pratiBaza.servisImpl;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,22 +46,22 @@ public class ObjektiServisImpl implements ObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
+	public List<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan) {
 		return objekatDAO.vratiSveObjekte(korisnik, aktivan);
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
+	public List<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
 		return objekatDAO.vratiObjektePoPretplatniku(pretplatnik, organizacija, aktivan);
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan) {
+	public List<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan) {
 		return objekatDAO.vratiSvaVozila(korisnik, aktivan);
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa) {
+	public List<Objekti> vratiObjektePoGrupi(Grupe grupa) {
 		return objekatDAO.vratiObjektePoGrupi(grupa);
 	}
 
@@ -70,7 +71,7 @@ public class ObjektiServisImpl implements ObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	public List<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return objekatDAO.vratiSveObjekte(pretplatnik, organizacija);
 	}
 
@@ -82,19 +83,19 @@ public class ObjektiServisImpl implements ObjektiServis{
 
 	@Override
 	@Transactional
-	public ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	public List<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return objekatDAO.vratiSveObjekteVozila(pretplatnik, organizacija);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	public List<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return objekatDAO.nadjiSveObjekteSavozilom(pretplatnik, organizacija);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	public List<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return objekatDAO.nadjiSveObjekteBezVozila(pretplatnik, organizacija);
 	}
 

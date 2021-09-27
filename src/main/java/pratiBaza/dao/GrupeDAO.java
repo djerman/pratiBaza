@@ -1,7 +1,6 @@
 package pratiBaza.dao;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
@@ -15,9 +14,9 @@ public interface GrupeDAO {
 	
 	void izbrisiGrupu(Grupe grupa);
 	
-	ArrayList<Grupe> vratiGrupe(Korisnici korisnik);
+	List<Grupe> vratiGrupe(Korisnici korisnik);
 	
 	Grupe nadjiGrupuPoId(int id);
 
-	ArrayList<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	List<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija);
 }

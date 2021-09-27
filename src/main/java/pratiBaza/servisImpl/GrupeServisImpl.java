@@ -1,10 +1,8 @@
 package pratiBaza.servisImpl;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import pratiBaza.dao.GrupeDAO;
 import pratiBaza.servis.GrupeServis;
 import pratiBaza.tabele.Grupe;
@@ -43,7 +41,7 @@ public class GrupeServisImpl implements GrupeServis{
 	}
 
 	@Transactional
-	public ArrayList<Grupe> vratiGrupe(Korisnici korisnik) {
+	public List<Grupe> vratiGrupe(Korisnici korisnik) {
 		return grupaDAO.vratiGrupe(korisnik);
 	}
 
@@ -53,7 +51,7 @@ public class GrupeServisImpl implements GrupeServis{
 	}
 
 	@Transactional
-	public ArrayList<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija) {
+	public List<Grupe> vratiGrupeAktivne(SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		return grupaDAO.vratiGrupeAktivne(pretplatnik, organizacija);
 	}
 	

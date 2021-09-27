@@ -1,6 +1,6 @@
 package pratiBaza.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 import pratiBaza.tabele.AlarmiKorisnik;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
@@ -10,7 +10,7 @@ public interface AlarmiKorisnikDAO {
 	
 	void unesiAlarmiKorisnik(AlarmiKorisnik alarmKorisnik);
 	
-	ArrayList<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje);
+	List<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje);
 	
 	void azurirajAlarmiKorisnik(AlarmiKorisnik alarmKorisnik);
 	
@@ -20,8 +20,8 @@ public interface AlarmiKorisnikDAO {
 	
 	AlarmiKorisnik nadjiAlarmePoKorisnikObjekatAlarm(Korisnici korisnik, Objekti objekat, SistemAlarmi alarm);
 	
-	ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje);
+	List<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje);
 	
-	ArrayList<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat);
+	List<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat);
 
 }

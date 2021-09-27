@@ -1,7 +1,6 @@
 package pratiBaza.dao;
 
-import java.util.ArrayList;
-
+import java.util.List;
 import pratiBaza.tabele.Grupe;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
@@ -17,25 +16,25 @@ public interface ObjektiDAO {
 	
 	void izbrisiObjekte(Objekti objekat);
 	
-	ArrayList<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan);
+	List<Objekti> vratiSveObjekte(Korisnici korisnik, boolean aktivan);
 	
-	ArrayList<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan);
+	List<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan);
 	
-	ArrayList<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan);
+	List<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan);
 	
-	ArrayList<Objekti> vratiObjektePoGrupi(Grupe grupa);
+	List<Objekti> vratiObjektePoGrupi(Grupe grupa);
 	
 	Objekti nadjiObjekatPoId(int id);
 	
-	ArrayList<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	List<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
-	ArrayList<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	List<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
 	Objekti nadjiObjekatPoUredjaju(Uredjaji uredjaj);
 	
-	ArrayList<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	List<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
-	ArrayList<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
+	List<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija);
 	
 	Objekti nadjiObjekatSadrzi(SistemPretplatnici pretplatnik, String oznaka);
 }

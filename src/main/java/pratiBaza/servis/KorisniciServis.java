@@ -1,7 +1,6 @@
 package pratiBaza.servis;
 
 import java.util.ArrayList;
-
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Organizacije;
 import pratiBaza.tabele.SistemPretplatnici;

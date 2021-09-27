@@ -18,11 +18,12 @@ public class Mail implements Serializable{
 
     // Get system properties
     private Properties properties;
-
     // Get the default Session object.
     private Session session;
+    private String from;
     
 	public Mail(String server, String port, String nalog, String lozinka) {
+		from = nalog;
 		properties = System.getProperties();
 	    properties.put("mail.smtp.host", server);
 	    properties.put("mail.smtp.socketFactory.port", port);
@@ -38,7 +39,7 @@ public class Mail implements Serializable{
 	    	});
 	}
 	
-	public void posaljiMail(String from, String to, String subject, String text) {
+	public void posaljiMail(String to, String subject, String text) {
 
 	      try {
 	    	  // Create a default MimeMessage object.

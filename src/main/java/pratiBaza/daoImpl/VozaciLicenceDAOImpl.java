@@ -9,8 +9,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import pratiBaza.dao.VozaciLicenceDAO;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.VozaciLicence;

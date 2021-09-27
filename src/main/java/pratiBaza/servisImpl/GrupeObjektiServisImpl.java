@@ -1,6 +1,7 @@
 package pratiBaza.servisImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,7 @@ public class GrupeObjektiServisImpl implements GrupeObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa) {
+	public List<GrupeObjekti> nadjiSveGrupaObjektePoGrupi(Grupe grupa) {
 		return grupaObjekatDAO.nadjiSveGrupaObjektePoGrupi(grupa);
 	}
 
@@ -62,25 +63,25 @@ public class GrupeObjektiServisImpl implements GrupeObjektiServis{
 	}
 
 	@Transactional
-	public ArrayList<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat) {
+	public List<GrupeObjekti> nadjiSveGrupaObjektePoObjektu(Objekti objekat) {
 		return grupaObjekatDAO.nadjiSveGrupaObjektePoObjektu(objekat);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<GrupeObjekti> nadjiSveGraupeObjektePoGrupama(ArrayList<Grupe> grupe) {
+	public List<GrupeObjekti> nadjiSveGraupeObjektePoGrupama(ArrayList<Grupe> grupe) {
 		return grupaObjekatDAO.nadjiSveGrupeObjektePoGrupama(grupe);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<Objekti> nadjiSveObjektePoGrupi(Grupe grupa) {
+	public List<Objekti> nadjiSveObjektePoGrupi(Grupe grupa) {
 		return grupaObjekatDAO.nadjiSveObjektePoGrupi(grupa);
 	}
 	
 	@Override
 	@Transactional
-	public ArrayList<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa) {
+	public List<Objekti> nadjiSveObjektePoGrupiSaVozilom(Grupe grupa) {
 		return grupaObjekatDAO.nadjiSveObjektePoGrupiSaVozilom(grupa);
 	}
 

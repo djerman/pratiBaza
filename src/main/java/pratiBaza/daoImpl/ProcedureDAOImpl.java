@@ -20,7 +20,7 @@ public class ProcedureDAOImpl implements ProcedureDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<RadnoVremePutGPS> radnoVremePutGPS(int idObjekta, Timestamp pocetak, Timestamp kraj, int satiOd, int satiDo) {
 		DateFormat datum = new SimpleDateFormat("yyyy-MM-dd");

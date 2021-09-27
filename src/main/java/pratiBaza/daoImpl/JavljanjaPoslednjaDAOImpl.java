@@ -1,10 +1,9 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import org.hibernate.Criteria;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.JavljanjaPoslednjaDAO;
@@ -38,10 +37,13 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
-		ArrayList<JavljanjaPoslednja> lista = new ArrayList<JavljanjaPoslednja>();
+	public List<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
+		String upit = "SELECT jp FROM JavljanjaPoslednja jp where jp.objekti IN :objekti ORDER BY jp.datumVreme desc";
+		TypedQuery<JavljanjaPoslednja> query = sessionFactory.getCurrentSession().createQuery(upit, JavljanjaPoslednja.class);
+		query.setParameter("objekti", objekti);
+		return query.getResultList();
+		/*ArrayList<JavljanjaPoslednja> lista = new ArrayList<JavljanjaPoslednja>();
 		if(objekti != null && !objekti.isEmpty()) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
 			criteria.add(Restrictions.in("objekti", objekti));
@@ -52,10 +54,21 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 				}
 			}
 		return lista;
+		*/
 	}
 
 	@Override
 	public JavljanjaPoslednja nadjiJavljanjaPoslednjaPoObjektu(Objekti objekat) {
+		String upit = "SELECT jp FROM JavljanjaPoslednja jp where jp.objekti = :objekat ORDER BY jp.datumVreme desc";
+		TypedQuery<JavljanjaPoslednja> query = sessionFactory.getCurrentSession().createQuery(upit, JavljanjaPoslednja.class);
+		query.setParameter("objekat", objekat);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JavljanjaPoslednja.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -63,5 +76,6 @@ public class JavljanjaPoslednjaDAOImpl implements JavljanjaPoslednjaDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 }

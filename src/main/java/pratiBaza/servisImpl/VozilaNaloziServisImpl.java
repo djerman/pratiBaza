@@ -2,6 +2,8 @@ package pratiBaza.servisImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.VozilaNaloziDAO;
@@ -70,7 +72,7 @@ public class VozilaNaloziServisImpl implements VozilaNaloziServis{
 
 	@Transactional
 	@Override
-	public ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(ArrayList<Objekti> objekti, Timestamp pocetak, Timestamp kraj) {
+	public ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(List<Objekti> objekti, Timestamp pocetak, Timestamp kraj) {
 		return voziloNalogDAO.nadjiNalogeZaGrupuUPeriodu(objekti, pocetak, kraj);
 	}
 

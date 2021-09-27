@@ -1,6 +1,6 @@
 package pratiBaza.servisImpl;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.AlarmiKorisnikDAO;
@@ -21,7 +21,7 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 	}
 
 	@Transactional
-	public ArrayList<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
+	public List<AlarmiKorisnik> vratiAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
 		return alarmKorisnikDAO.vratiAlarmePoKorisniku(korisnik, aktivno, email, obavestenje);
 	}
 
@@ -58,13 +58,13 @@ public class AlarmiKorisnikServisImpl implements AlarmiKorisnikServis{
 
 	@Override
 	@Transactional
-	public ArrayList<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
+	public List<AlarmiKorisnik> nadjiSveAlarmePoKorisniku(Korisnici korisnik, boolean aktivno, boolean email, boolean obavestenje) {
 		return alarmKorisnikDAO.nadjiSveAlarmePoKorisniku(korisnik, aktivno, email, obavestenje);
 	}
 
 	@Override
 	@Transactional
-	public ArrayList<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat) {
+	public List<AlarmiKorisnik> nadjiSveAlarmeKorisnikePoObjektu(Objekti objekat) {
 		return alarmKorisnikDAO.nadjiSveAlarmeKorisnikePoObjektu(objekat);
 	}
 	

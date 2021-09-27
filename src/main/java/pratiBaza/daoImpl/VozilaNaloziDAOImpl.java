@@ -3,6 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -118,7 +120,7 @@ public class VozilaNaloziDAOImpl implements VozilaNaloziDAO{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(ArrayList<Objekti> objekti, Timestamp pocetak, Timestamp kraj) {
+	public ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(List<Objekti> objekti, Timestamp pocetak, Timestamp kraj) {
 		ArrayList<VozilaNalozi> lista = new ArrayList<VozilaNalozi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaNalozi.class);
 		//criteria.createAlias("vozilo", "v");

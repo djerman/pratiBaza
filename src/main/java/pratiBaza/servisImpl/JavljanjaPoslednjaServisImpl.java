@@ -1,6 +1,7 @@
 package pratiBaza.servisImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class JavljanjaPoslednjaServisImpl implements JavljanjaPoslednjaServis{
 	}
 
 	@Transactional
-	public ArrayList<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
+	public List<JavljanjaPoslednja> vratiListuJavljanjaPoslednjih(ArrayList<Objekti> objekti) {
 		return javljanjePoslednjeDAO.vratiListuJavljanjaPoslednjih(objekti);
 	}
 

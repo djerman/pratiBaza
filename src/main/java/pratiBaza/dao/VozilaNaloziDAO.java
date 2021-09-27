@@ -2,6 +2,7 @@ package pratiBaza.dao;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import pratiBaza.tabele.Korisnici;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.Vozila;
@@ -23,5 +24,5 @@ public interface VozilaNaloziDAO {
 	
 	ArrayList<VozilaNalozi> nadjiSveVozilaNaloge(Korisnici korisnik);
 	
-	ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(ArrayList<Objekti> objekti, Timestamp pocetak, Timestamp kraj);
+	ArrayList<VozilaNalozi> nadjiNalogeZaGrupuUPeriodu(List<Objekti> objekti, Timestamp pocetak, Timestamp kraj);
 }

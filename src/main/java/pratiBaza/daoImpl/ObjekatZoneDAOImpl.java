@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.ObjekatZoneDAO;
@@ -36,8 +34,16 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		sessionFactory.getCurrentSession().delete(zonaObjekat);
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<ObjekatZone> nadjiZoneObjektePoObjektu(Objekti objekat) {
+		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
+		String upit = "SELECT oz FROM ObjekatZone oz WHERE oz.objekti = :objekat";
+		TypedQuery<ObjekatZone> query = sessionFactory.getCurrentSession().createQuery(upit, ObjekatZone.class);
+		query.setParameter("objekat", objekat);
+		if(query.getResultList() != null) {
+			lista.addAll(query.getResultList());
+		}
+		return lista;
+		/*
 		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
@@ -47,10 +53,19 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<ObjekatZone> nadjiZoneObjektePoZoni(Zone zona) {
+		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
+		String upit = "SELECT oz FROM ObjekatZone oz WHERE oz.zone = :zona";
+		TypedQuery<ObjekatZone> query = sessionFactory.getCurrentSession().createQuery(upit, ObjekatZone.class);
+		query.setParameter("zona", zona);
+		if(query.getResultList() != null) {
+			lista.addAll(query.getResultList());
+			}
+		return lista;
+		/*
 		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("zone", zona));
@@ -60,6 +75,7 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -88,6 +104,15 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 
 	@Override
 	public ObjekatZone nadjiObjekatZoniPoId(int id) {
+		String upit = "SELECT oz FROM ObjekatZone oz where oz.id = :id";
+		TypedQuery<ObjekatZone> query = sessionFactory.getCurrentSession().createQuery(upit, ObjekatZone.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -96,12 +121,37 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<ObjekatZone> vratiSveObjekatZone(Korisnici korisnik, boolean aktivan) {
 		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
+		String pretp = "";
+		String akt = "";
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			pretp = "oz.sistemPretplatnici = :pretplatnik AND oz.izbrisan = false AND ";
+		}
+		if(aktivan) {
+			akt = " AND oz.aktivan = :akt";
+		}
+		
+		String upit = "SELECT oz FROM ObjekatZone oz where " + pretp + "(:organizacija is null or oz.organizacija = :organizacija) "
+				+ akt + " ORDER BY oz.sistemPretplatnici.naziv, oz.id, oz.izbrisan, oz.aktivan desc";
+		
+		TypedQuery<ObjekatZone> query = sessionFactory.getCurrentSession().createQuery(upit, ObjekatZone.class);
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		}
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		if(aktivan) {
+			query.setParameter("akt", aktivan);
+		}
+		if(query.getResultList() != null) {
+			lista.addAll(query.getResultList());
+			}
+		return lista;
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -124,6 +174,7 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}else {
 			return lista;
 		}
+		*/
 	}
 
 	@Override
@@ -137,6 +188,17 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 
 	@Override
 	public ObjekatZone nadjiObjekatZonuPoZoniObjektu(Objekti objekat, Zone zona) {
+		String upit = "SELECT oz FROM ObjekatZone oz where oz.objekti = :objekat AND oz.zone = :zona ORDER BY oz.id desc";
+		TypedQuery<ObjekatZone> query = sessionFactory.getCurrentSession().createQuery(upit, ObjekatZone.class);
+		query.setParameter("objekat", objekat);
+		query.setParameter("zona", zona);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
 		criteria.add(Restrictions.eq("objekti", objekat));
 		criteria.add(Restrictions.eq("zone", zona));
@@ -146,5 +208,6 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}else {
 			return null;
 		}
+		*/
 	}
 }
