@@ -54,4 +54,9 @@ public class SistemGorivoServisImpl implements SistemGorivoServis{
 		return sistemGorivoDAO.nadjiGorivoPoNazivu(gorivo);
 	}
 	
+	@Override
+	@Transactional
+	public SistemGoriva pretraziGorivoPoNazivu(String gorivo) {
+		return sistemGorivoDAO.pretraziGorivoPoNazivu(gorivo);
+	}
 }

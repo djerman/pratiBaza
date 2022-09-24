@@ -16,7 +16,7 @@ public class Javljanja implements Serializable {
 	private Long id;
 	private int version;
 	private boolean valid;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(/*cascade = CascadeType.MERGE*/)
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -27,7 +27,7 @@ public class Javljanja implements Serializable {
 	private float visina;
 	private int brzina;
 	private boolean kontakt;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(/*cascade = CascadeType.MERGE*/)
 	@JoinColumn(name="alarmId")
 	private SistemAlarmi sistemAlarmi;
 	private float virtualOdo;
@@ -36,7 +36,7 @@ public class Javljanja implements Serializable {
 	@JoinColumn(name="zona")
 	private Zone zona;
 	private String ibutton;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(/*cascade = CascadeType.MERGE*/)
 	@JoinColumn(name="korisnikId")
 	private Korisnici korisnik;
 	private Timestamp izmenjeno;

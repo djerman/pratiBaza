@@ -39,4 +39,5 @@ public interface TroskoviDAO {
 	public ArrayList<Troskovi> nadjiSveTroskoveUkupno(ArrayList<Objekti> vozila, Timestamp datumVremeOd, Timestamp datumVremeDo, Integer tipTroska);
 	
 	public ArrayList<Troskovi> nadjiSvuPotrosnjuPoRacunu(Racuni racun);
+	
 }

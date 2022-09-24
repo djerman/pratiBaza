@@ -6,15 +6,17 @@ import pratiBaza.tabele.SistemGoriva;
 
 public interface SistemGorivaDAO {
 
-	void unesiGorivo(SistemGoriva gorivo);
+	public void unesiGorivo(SistemGoriva gorivo);
 	
-	void azurirajGorivo(SistemGoriva gorivo);
+	public void azurirajGorivo(SistemGoriva gorivo);
 	
-	void izbrisiGorivo(SistemGoriva gorivo);
+	public void izbrisiGorivo(SistemGoriva gorivo);
 	
-	ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan);
+	public ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan);
 	
-	SistemGoriva nadjiGorivoPoId(int id);
+	public SistemGoriva nadjiGorivoPoId(int id);
 	
-	SistemGoriva nadjiGorivoPoNazivu(String gorivo);
+	public SistemGoriva nadjiGorivoPoNazivu(String gorivo);
+	
+	public SistemGoriva pretraziGorivoPoNazivu(String gorivo);
 }

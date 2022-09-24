@@ -1,11 +1,8 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemGorivaDAO;
@@ -41,10 +38,14 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<SistemGoriva> vratiSvaGoriva(boolean izbrisan) {
 		ArrayList<SistemGoriva> lista = new ArrayList<SistemGoriva>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		String upit = "SELECT g FROM SistemGoriva g WHERE g.izbrisan = false"
+				+ " ORDER BY g.id desc";
+		TypedQuery<SistemGoriva> query = sessionFactory.getCurrentSession().createQuery(upit, SistemGoriva.class);
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
 		if(!izbrisan) {
 			criteria.add(Restrictions.eq("izbrisan", false));
 		}
@@ -55,19 +56,41 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 			return lista2;
 		}else {
 			return lista;
-		}
+		}*/
+		return lista;
 	}
 
 	public SistemGoriva nadjiGorivoPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		String upit = "SELECT g FROM SistemGoriva g WHERE g.id = :id";
+		TypedQuery<SistemGoriva> query = sessionFactory.getCurrentSession().createQuery(upit, SistemGoriva.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
 		criteria.add(Restrictions.eq("id", id));
 		SistemGoriva gorivo = (SistemGoriva)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return gorivo;
+		return gorivo;*/
 	}
 
 	@Override
 	public SistemGoriva nadjiGorivoPoNazivu(String gorivo) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
+		String upit = "SELECT g FROM SistemGoriva g WHERE g.izbrisan = false"
+				+ " AND (lower(g.naziv) = lower(:gorivo))";
+		TypedQuery<SistemGoriva> query = sessionFactory.getCurrentSession().createQuery(upit, SistemGoriva.class);
+		query.setParameter("gorivo", gorivo);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			try {
+				return query.getResultList().get(0);
+			}catch (Exception ee) {
+				return null;
+			}
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
 		criteria.add(Restrictions.ilike("naziv", gorivo, MatchMode.ANYWHERE));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
@@ -75,6 +98,23 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 			return g;
 		}else {
 			return null;
+		}*/
+	}
+	
+	@Override
+	public SistemGoriva pretraziGorivoPoNazivu(String gorivo) {
+		String upit = "SELECT g FROM SistemGoriva g WHERE g.izbrisan = false"
+				+ " AND (lower(g.naziv) like lower(concat('%',:gorivo,'%')))";
+		TypedQuery<SistemGoriva> query = sessionFactory.getCurrentSession().createQuery(upit, SistemGoriva.class);
+		query.setParameter("gorivo", gorivo);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			try {
+				return query.getResultList().get(0);
+			}catch (Exception ee) {
+				return null;
+			}
 		}
 	}
 	

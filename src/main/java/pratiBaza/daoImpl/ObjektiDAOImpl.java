@@ -77,31 +77,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			query.setParameter("akt", aktivan);
 		}
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.desc("sistemPretplatnici"));
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public List<Objekti> vratiObjektePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean aktivan) {
@@ -120,24 +95,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			query.setParameter("akt", aktivan);
 		}
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacije", organizacija));
-		}
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public List<Objekti> vratiSvaVozila(Korisnici korisnik, boolean aktivan) {
@@ -163,32 +120,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			query.setParameter("akt", aktivan);
 		}
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		criteria.add(Restrictions.eq("tip", true));
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.desc("sistemPretplatnici"));
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public List<Objekti> vratiObjektePoGrupi(Grupe grupa) {
@@ -205,16 +136,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return objekat;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	public List<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
@@ -227,26 +148,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("organizacija", organizacija);
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.add(Restrictions.eq("aktivan", true));
-		if(pretplatnik != null) {
-			criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
-		}
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -259,25 +160,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("organizacija", organizacija);
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.add(Restrictions.eq("aktivan", true));
-		criteria.add(Restrictions.eq("tip", true));
-		criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -290,16 +172,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("uredjaji", uredjaj));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return objekat;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	@Override
@@ -313,24 +185,6 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("organizacija", organizacija);
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
-		criteria.add(Restrictions.isNotNull("vozilo"));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.add(Restrictions.eq("aktivan", true));
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}
-		return lista;
-		*/
 	}
 	
 	@Override
@@ -344,51 +198,26 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("organizacija", organizacija);
 		return query.getResultList();
-		/*
-		ArrayList<Objekti> lista = new ArrayList<Objekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici",pretplatnik));
-		criteria.add(Restrictions.isNull("vozilo"));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.add(Restrictions.eq("aktivan", true));
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<Objekti> lista2 = (ArrayList<Objekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}
-		return lista;
-		*/
 	}
 
 	@Override
 	public Objekti nadjiObjekatSadrzi(SistemPretplatnici pretplatnik, String oznaka) {
-		String upit = "Select obj FROM Objekti obj where obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false AND "
-				+ "obj.oznaka like '@':oznaka'@' AND obj.aktivan = true ORDER BY obj.id desc";
-		
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
+				+ " AND (lower(obj.oznaka) like lower(concat('%',:oznaka,'%')))"
+				+ " AND obj.aktivan = true";
+				//+ " ORDER BY obj.id desc";
+		/*String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
+				+ " AND (lower(obj.oznaka) like lower(concat('%',:oznaka,'%')) OR lower(obj.vozilo.registracija) like lower(concat('%',:oznaka,'%')))"
+				+ " AND obj.aktivan = true";*/
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		
 		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("oznaka", oznaka);
 		try {
 			return query.getSingleResult();
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Objekti.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.ilike("oznaka", oznaka, MatchMode.ANYWHERE));
-		criteria.add(Restrictions.eq("aktivan", true));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Objekti objekat = (Objekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return objekat;
-		}else {
-			return null;
-		}
-		*/
 	}
 	
 }

@@ -40,9 +40,11 @@ public class ObdDAOImpl implements ObdDAO{
 
 	@Override
 	public Obd nadjiObdPoslednji(Objekti objekat, Timestamp datumVreme) {
-		String upit = "SELECT o FROM Obd o where o.objekti = :objekat AND o.datumVreme < :datumVreme ORDER BY o.datumVreme desc";
-		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
-		query.setMaxResults(1);
+		String upit = "SELECT o FROM Obd o where o.objekti = :objekat AND o.datumVreme <= :datumVreme ORDER BY o.datumVreme desc";
+		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class)
+				.setParameter("objekat", objekat)
+				.setParameter("datumVreme", datumVreme)
+				.setMaxResults(1);
 		try {
 			return query.getSingleResult();
 		}catch (Exception e) {
@@ -109,7 +111,7 @@ public class ObdDAOImpl implements ObdDAO{
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDo(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
-		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo ORDER BY o.datumVreme";
+		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo ORDER BY o.datumVreme asc";
 		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
 		query.setParameter("objekat", objekat);
 		query.setParameter("datumVremeOd", datumVremeOd);
@@ -118,18 +120,6 @@ public class ObdDAOImpl implements ObdDAO{
 			lista.addAll(query.getResultList());
 		}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
-		criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
-		criteria.addOrder(Order.asc("datumVreme"));
-		ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-			}
-		return lista;
-		*/
 		}
 
 	@Override
@@ -160,7 +150,7 @@ public class ObdDAOImpl implements ObdDAO{
 				float razlikaGorivo = krajGorivo - pocetakGorivo;
 				float prosPotrosnja = 0.0f;
 				if(razlikaKm != 0) {
-					prosPotrosnja = razlikaGorivo*100/razlikaKm;
+					prosPotrosnja = razlikaGorivo * 100 / razlikaKm;
 				}
 				
 				PredjeniPutOBD put = new PredjeniPutOBD(objekat.getOznaka(), pocetakKm, krajKm, razlikaKm,pocetakGorivo, krajGorivo, razlikaGorivo, prosPotrosnja);
@@ -181,30 +171,19 @@ public class ObdDAOImpl implements ObdDAO{
 			lista.addAll(query.getResultList());
 		}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obd.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.gt("datumVreme", datumVremeOd));
-		criteria.addOrder(Order.asc("datumVreme"));
-		ArrayList<Obd> lista2 = (ArrayList<Obd>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-			}
-		return lista;
-		*/
 	}
 	
 	private Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
 		String upit = "";
 		if(vremeDo) {
-			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme < :datumVreme ORDER BY o.datumVreme desc";
+			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme <= :datumVreme ORDER BY o.datumVreme desc";
 		}else {
-			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme > :datumVreme ORDER BY o.datumVreme asc";
+			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme >= :datumVreme ORDER BY o.datumVreme asc";
 		}
-		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
-		query.setParameter("objekat", objekat);
-		query.setParameter("datumVreme", datumVreme);
-		query.setMaxResults(1);
+		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class)
+				.setParameter("objekat", objekat)
+				.setParameter("datumVreme", datumVreme)
+				.setMaxResults(1);
 		try {
 			return query.getSingleResult();
 		}catch (Exception e) {

@@ -6,7 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.SQLQuery;
+import javax.persistence.Query;
+//import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,19 +21,21 @@ public class ProcedureDAOImpl implements ProcedureDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	//@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List<RadnoVremePutGPS> radnoVremePutGPS(int idObjekta, Timestamp pocetak, Timestamp kraj, int satiOd, int satiDo) {
 		DateFormat datum = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat datumVreme = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery("CALL radnoVremeGPS(:objekatId, :datumOd, :datumDo, :satiOd, :satiDo)");
+		Query query = sessionFactory.getCurrentSession().createSQLQuery("CALL radnoVremeGPS(:objekatId, :datumOd, :datumDo, :satiOd, :satiDo)");
+		//sessionFactory.getCurrentSession().createStoredProcedureQuery(null, null)
 		query.setParameter("objekatId", idObjekta);
 		query.setParameter("datumOd", pocetak);
 		query.setParameter("datumDo", kraj);
 		query.setParameter("satiOd", satiOd);
 		query.setParameter("satiDo", satiDo);
 		List<RadnoVremePutGPS> lista = new ArrayList<RadnoVremePutGPS>();
-		List<Object[]> redovi = query.list();
+		@SuppressWarnings("unchecked")
+		List<Object[]> redovi = query.getResultList();
 		for(Object[] red : redovi) {
 			RadnoVremePutGPS rv = new RadnoVremePutGPS();
 			try {

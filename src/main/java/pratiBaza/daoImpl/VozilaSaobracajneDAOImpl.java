@@ -41,7 +41,8 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 
 	@Override
 	public void izbrisiSaobracajnu(VozilaSaobracajne saobracajna) {
-		sessionFactory.getCurrentSession().delete(saobracajna);
+		if(saobracajna != null)
+			sessionFactory.getCurrentSession().delete(saobracajna);
 	}
 
 	@Override
@@ -151,7 +152,7 @@ public class VozilaSaobracajneDAOImpl implements VozilaSaobracajneDAO{
 	@Override
 	public VozilaSaobracajne nadjiSaobracajnuPoVozilu(Vozila vozilo) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(VozilaSaobracajne.class);
-		criteria.add(Restrictions.eq("ivozilo", vozilo));
+		criteria.add(Restrictions.eq("vozilo", vozilo));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
 			return (VozilaSaobracajne)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 		}else {

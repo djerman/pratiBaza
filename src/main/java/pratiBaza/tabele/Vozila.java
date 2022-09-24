@@ -14,70 +14,41 @@ public class Vozila implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	//bi-directional many-to-one association to Organizacija
 	@ManyToOne
 	@JoinColumn(name="organizacijaId")
 	private Organizacije organizacija;
-
-	//bi-directional many-to-one association to SistemPretplatnici
 	@ManyToOne
 	@JoinColumn(name="pretplatnikId")
 	private SistemPretplatnici sistemPretplatnici;
-
-	//bi-directional many-to-one association to SistemPretplatnici
 	@OneToOne
 	@JoinColumn(name="objekatId")
 	private Objekti objekti;
-
 	private int godina;
-
 	private Timestamp izmenjeno;
-
 	private Timestamp kreirano;
-
 	private String model;
-
 	private String marka;
-	
 	private String tip;
-	
 	private float potrosnja;
-
 	private String registracija;
-
 	private int rezervoar;
-	
-	//bi-directional many-to-one association to Uredjaji
 	@ManyToOne
 	@JoinColumn(name="gorivo")
 	private SistemGoriva sistemGoriva;
-
 	private int version;
-	
 	private boolean izbrisan;
-	
 	private String brojSaobracajne;
-	
-	//bi-directional many-to-one association to SistemPretplatnici
     @ManyToOne
 	@JoinColumn(name="saobracajnaId")
 	private VozilaSaobracajne saobracajna;
-	
 	private String serijskiBroj;
-	
 	private Date datumRegistracije, datumPoslednjeRegistracije, maliPoslednjiDatum, velikiPoslednjiDatum;
-	
 	private int maliServisKm, velikiServisKm, maliServisMeseci, velikiServisMeseci, maliPoslednjiOBDkm, velikiPoslednjiOBDkm;
-	
 	private float maliPoslednjiGPSkm, velikiPoslednjiGPSkm;
-	
 	@Transient
 	private float kmOdGpsMs, kmOdGpsVs;
-	
 	@Transient
 	private int kmOdObdMs, kmOdObdVs, danaOdMs, danaOdVs, danaOdRegistracije;
-	
 	private boolean teretno;
 
 	public Vozila() {

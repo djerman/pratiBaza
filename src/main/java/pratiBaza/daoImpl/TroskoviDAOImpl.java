@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.TroskoviDAO;
@@ -49,26 +47,46 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 
 	@Override
 	public void izbrisiTrosak(Troskovi trosak) {
-		trosak.setIzbrisan(true);
-		izmeniTrosak(trosak);
+		try {
+			sessionFactory.getCurrentSession().delete(trosak);
+		}catch (Exception e) {
+			trosak.setIzbrisan(true);
+			izmeniTrosak(trosak);
+		}
 	}
 
 	@Override
 	public Troskovi nadjiTrosakPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		String upit = "SELECT t FROM Troskovi t WHERE t.id = :id";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class).setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
 			Troskovi trosak = (Troskovi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 			return trosak;
 		}else {
 			return null;
-		}
+		}*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSveTroskovePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean izbrisan) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		String upit = "SELECT t FROM Troskovi t WHERE (t.sistemPretplatnici IS NULL OR t.sistemPretplatnici = :pretplatnik)"
+				+ " AND (t.organizacija IS NULL OR t.organizacija =: organizacija)"
+				+ " ORDER BY t.datumVreme DESC";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter(1, pretplatnik)
+				.setParameter(2, organizacija);
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
 		if(pretplatnik != null) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
@@ -83,32 +101,45 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
 			lista.addAll(lista2);
-		}
+		}*/
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSveTroskove(Korisnici korisnik) {
 		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-			criteria.addOrder(Order.desc("datumVreme"));
 			ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+			String upit = "SELECT t FROM Troskovi t ORDER BY t.datumVreme DESC";
+			TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class);
+			
+			if(query.getResultList() != null)
+				lista.addAll(query.getResultList());
+			/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+			criteria.addOrder(Order.desc("datumVreme"));
 			ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 			if(lista2 != null) {
 				lista.addAll(lista2);
-			}
+			}*/
 			return lista;
 		}else {
 			return nadjiSveTroskovePoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSvaOdrzavanjaPoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean izbrisan) {
 		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		String upit = "SELECT t FROM Troskovi t WHERE (:pretplatnik IS NULL OR t.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR t.organizacija = :organizacija)"
+				+ " AND t.tipServisa <> 0"
+				+ " ORDER BY t.datumVreme DESC";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("pretplatnik", pretplatnik)
+				.setParameter("organizacija", organizacija);
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		if(pretplatnik != null) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		}
@@ -124,14 +155,26 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
 			lista.addAll(lista2);
-		}
+		}*/
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSvaOdrzavanja(Korisnici korisnik) {
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		String upit = "SELECT t FROM Troskovi t WHERE (:pretplatnik IS NULL OR t.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR t.organizacija = :organizacija)"
+				+ " AND t.tipServisa <> 0"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme DESC";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("pretplatnik", korisnik.getSistemPretplatnici())
+				.setParameter("organizacija", korisnik.getOrganizacija());
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		return lista;
+		/*if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 			if(!korisnik.isSistem() && !korisnik.getSistemPretplatnici().isSistem()) {
 				criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
@@ -151,13 +194,26 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 			return lista;
 		}else {
 			return nadjiSvaOdrzavanjaPoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
-		}
+		}*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSvuPotrosnjuPoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija, boolean izbrisan) {
 		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		String upit = "SELECT t FROM Troskovi t WHERE (:pretplatnik IS NULL OR t.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR t.organizacija = :organizacija)"
+				+ " AND t.tipServisa = 0"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme DESC";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("pretplatnik", pretplatnik)
+				.setParameter("organizacija", organizacija);
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		return lista;
+		
+		/*ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		if(pretplatnik != null) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
@@ -175,13 +231,24 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(lista2 != null) {
 			lista.addAll(lista2);
 		}
-		return lista;
+		return lista;*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSvuPotrosnju(Korisnici korisnik) {
-		if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
+		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		String upit = "SELECT t FROM Troskovi t WHERE (:pretplatnik IS NULL OR t.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR t.organizacija = :organizacija)"
+				+ " AND t.tipServisa = 0"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme DESC";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("pretplatnik", korisnik.getSistemPretplatnici())
+				.setParameter("organizacija", korisnik.getOrganizacija());
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		return lista;
+		/*if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 			criteria.add(Restrictions.eq("tipServisa", 0));
 			criteria.addOrder(Order.desc("datumVreme"));
@@ -193,12 +260,25 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 			return lista;
 		}else {
 			return nadjiSvuPotrosnjuPoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
-		}
+		}*/
 	}
 
 	@Override
 	public Troskovi nadjiPoslednjiTrosakDo(Timestamp datumVreme, int tipTroska) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		String upit = "SELECT t FROM Troskovi t WHERE t.tipServisa = tipServisa"
+				+ " AND t.datumVreme <= :datumVreme"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme DESC";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("tipServisa", tipTroska)
+				.setParameter("datumVreme", datumVreme)
+				.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		criteria.add(Restrictions.eq("tipServisa", tipTroska));
 		criteria.add(Restrictions.lt("datumVreme", datumVreme));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -209,14 +289,28 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 			return trosak;
 		}else {
 			return null;
-		}
+		}*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSveTroskoveOd(Timestamp datumVremeOd, SistemPretplatnici pretplatnik, Organizacije organizacija) {
 		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		String upit = "SELECT t FROM Troskovi t WHERE (:pretplatnik IS NULL OR t.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR t.organizacija = :organizacija)"
+				+ " AND t.datumVreme >= :datumVremeOd"
+				+ " AND t.tipServisa = 0"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme DESC";
+		
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("pretplatnik", pretplatnik)
+				.setParameter("organizacija", organizacija)
+				.setParameter("datumVremeOd", datumVremeOd);
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		return lista;
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		if(organizacija != null) {
@@ -229,14 +323,28 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(lista2 != null) {
 			lista.addAll(lista2);
 		}
-		return lista;
+		return lista;*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSveTroskoveUkupno(ArrayList<Objekti> vozila, Timestamp datumVremeOd, Timestamp datumVremeDo, Integer tipTroska){
 		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		if(vozila != null && !vozila.isEmpty()) {
+		String upit = "SELECT t FROM Troskovi t WHERE t.objekti IN :vozila"
+				+ " AND t.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo"
+				+ " AND (:tipTroska IS NULL OR t.tipServisa = :tipTroska)"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme ASC";
+		
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("vozila", vozila)
+				.setParameter("datumVremeOd", datumVremeOd)
+				.setParameter("datumVremeDo", datumVremeDo)
+				.setParameter("tipTroska", tipTroska);
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		return lista;
+		/*if(vozila != null && !vozila.isEmpty()) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 			criteria.add(Restrictions.in("objekti", vozila));
 			criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
@@ -251,13 +359,23 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 				lista.addAll(lista2);
 				}
 			}
-		return lista;
+		return lista;*/
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Troskovi> nadjiSvuPotrosnjuPoRacunu(Racuni racun) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
+		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		String upit = "SELECT t FROM Troskovi t WHERE t.racun = :racun"
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme DESC";
+		
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("racun", racun);
+		
+		if(query.getResultList() != null)
+			lista.addAll(query.getResultList());
+		return lista;
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
 		criteria.add(Restrictions.eq("racun", racun));
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.addOrder(Order.desc("datumVreme"));
@@ -266,6 +384,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(lista2 != null) {
 			lista.addAll(lista2);
 		}
-		return lista;
+		return lista;*/
 	}
 }
