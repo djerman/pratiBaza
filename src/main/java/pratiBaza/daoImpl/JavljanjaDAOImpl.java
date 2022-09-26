@@ -9,7 +9,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.JavljanjaDAO;
+import pratiBaza.pomocne.GorivoSaCenama;
 import pratiBaza.pomocne.KontrolaGoriva;
+import pratiBaza.pomocne.KontrolaTocenja;
 import pratiBaza.pomocne.PredjeniPut;
 import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
@@ -17,6 +19,7 @@ import pratiBaza.tabele.Javljanja;
 import pratiBaza.tabele.Obd;
 import pratiBaza.tabele.Objekti;
 import pratiBaza.tabele.SistemAlarmi;
+import pratiBaza.tabele.Troskovi;
 import pratiBaza.tabele.Vozila;
 
 @Repository("javljanjeDAO")
@@ -448,15 +451,106 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		
 		return lista;
 	}
+	
+	@Override
+	public ArrayList<GorivoSaCenama> vratiGorivoSaCenama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo){
+		ArrayList<GorivoSaCenama> lista = new ArrayList<GorivoSaCenama>();
+		
+		for(Objekti objekat : objekti) {
+			ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+			ArrayList<Obd> obd = nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, vremeOd, vremeDo);
+			ArrayList<Troskovi> troskovi = nadjiSveTroskoveGoriva(objekat, vremeOd, vremeDo);
+			
+			String registracija = "";
+			String markaTip = "";
+			float dozvoljenaPotrosnja = 0;
+			if(objekat.getVozilo() != null) {
+				registracija = objekat.getVozilo().getRegistracija();
+				markaTip = objekat.getVozilo().getMarka() + " " + objekat.getVozilo().getModel();
+				dozvoljenaPotrosnja = objekat.getVozilo().getPotrosnja();
+			}
+			float cena = 0;
+			float kolicina = 0;
+			float ukupnoCena = 0;
+			if(troskovi != null && !troskovi.isEmpty() && troskovi.size() > 0) {
+				cena = (float)troskovi.stream().mapToDouble(t -> t.getCena()).average().orElse(0);
+				kolicina = (float)troskovi.stream().mapToDouble(t -> t.getKolicina()).sum();
+				ukupnoCena = (float)troskovi.stream().mapToDouble(t -> t.getUkupno()).sum();
+			}
+			float predjenoGps = 0;
+			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 0) {
+				predjenoGps = javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo();
+			}
+
+			float ukupnaPotrosnja = 0;
+			int predjenoObd = 0;
+			float prosPotrosnja = 0;
+			if(obd != null && !obd.isEmpty() && obd.size() > 0) {
+				ukupnaPotrosnja = obd.get(1).getUkupnoGorivo() - obd.get(0).getUkupnoGorivo();
+				predjenoObd = (obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm());
+				prosPotrosnja = ukupnaPotrosnja == 0 || predjenoObd == 0 ? 0 : ukupnaPotrosnja /(predjenoObd/100);
+			}
+			float razlikaUPotrosnji = prosPotrosnja - dozvoljenaPotrosnja;
+			float potrosenoViseGoriva = razlikaUPotrosnji == 0 || predjenoObd == 0 ? 0 : razlikaUPotrosnji * predjenoObd / 100;
+			float cenaVisePotrosenogGoriva = potrosenoViseGoriva * cena;
+			
+			GorivoSaCenama gor = new GorivoSaCenama(objekat.getOznaka(), "", markaTip, registracija, prosPotrosnja, dozvoljenaPotrosnja, razlikaUPotrosnji, 
+					predjenoGps, predjenoObd, cena, kolicina, ukupnoCena, potrosenoViseGoriva, cenaVisePotrosenogGoriva);
+			
+			lista.add(gor);
+		}
+		return lista;
+	}
 
 	@Override
-	public float nadjiSumuPotroseneKolicine(Objekti objakat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
+	public ArrayList<KontrolaTocenja> vratiSipanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo){
+		ArrayList<KontrolaTocenja> lista = new ArrayList<KontrolaTocenja>();
+		for(Objekti objekat : objekti) {
+			ArrayList<Troskovi> troskovi = nadjiSveTroskoveGoriva(objekat, vremeOd, vremeDo);
+			System.out.println("broj točenja: " + troskovi.size());
+			if(troskovi != null && !troskovi.isEmpty() && troskovi.size() > 1) {
+				Timestamp pocetak =  troskovi.get(0).getDatumVreme();
+				Timestamp poslednjeSipanje = troskovi.get(troskovi.size() - 1).getDatumVreme();
+				ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, pocetak, poslednjeSipanje);
+				ArrayList<Obd> obd = nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, pocetak, poslednjeSipanje);
+				
+				if(javljanja != null && !javljanja.isEmpty() && javljanja.size() == 2) {
+					String registracija = "";
+					String markaTip = "";
+					if(objekat.getVozilo() != null) {
+						registracija = objekat.getVozilo().getRegistracija();
+						markaTip = objekat.getVozilo().getMarka() + " " + objekat.getVozilo().getModel();
+					}
+					float gpsPut = javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo();
+					float ukupno = (float)troskovi.stream().mapToDouble(t -> t.getKolicina()).sum();
+					int obdPut = 0;
+					if(obd != null && !obd.isEmpty() && obd.size() == 2) {
+						obdPut = obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm();
+					}
+					float prosGps = 0;
+					float prosoObd = 0;
+					if(gpsPut != 0){
+						prosGps = ukupno / (gpsPut / 100);
+					}
+					if(obdPut != 0) 
+						prosoObd = ukupno / (obdPut / 100);
+					KontrolaTocenja kon = new KontrolaTocenja(objekat.getOznaka(), registracija, markaTip, troskovi.size() - 1, new Date(pocetak.getTime()), 
+							new Date(poslednjeSipanje.getTime()), ukupno, gpsPut, obdPut, prosGps, prosoObd);
+					lista.add(kon);
+				}
+			}
+		}
+		return lista;
+	}
+	
+	@Override
+	public float nadjiSumuPotroseneKolicine(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		String upit = "SELECT SUM(t.kolicina) FROM Troskovi t WHERE t.objekti = :objekat"
 				+ " AND t.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo"
 				+ " AND t.tipServisa = 0"
 				+ " AND t.izbrisan = false";
 		TypedQuery<Double> query = sessionFactory.getCurrentSession().createQuery(upit, Double.class)
-				.setParameter("objekat", objakat)
+				.setParameter("objekat", objekat)
 				.setParameter("datumVremeOd", datumVremeOd)
 				.setParameter("datumVremeDo", datumVremeDo);
 		try {
@@ -464,6 +558,24 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		}catch (Exception e) {
 			return 0.0f;
 		}
+	}
+	
+	private ArrayList<Troskovi> nadjiSveTroskoveGoriva(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo){
+		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
+		String upit = "SELECT t FROM Troskovi t WHERE t.objekti = :objekat"
+				+ " AND t.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo"
+				+ " AND t.tipServisa = 0"
+				+ " AND t.izbrisan = false";
+		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
+				.setParameter("objekat", objekat)
+				.setParameter("datumVremeOd", datumVremeOd)
+				.setParameter("datumVremeDo", datumVremeDo);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return lista;
 	}
 	
 	@Override

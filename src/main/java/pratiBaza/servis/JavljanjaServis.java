@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import pratiBaza.pomocne.GorivoSaCenama;
 import pratiBaza.pomocne.KontrolaGoriva;
+import pratiBaza.pomocne.KontrolaTocenja;
 import pratiBaza.pomocne.PredjeniPut;
 import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
@@ -59,4 +61,8 @@ public interface JavljanjaServis {
 	public ArrayList<Vozila> vratiVozilaZaServise(ArrayList<Objekti> objekti, int tipServisa, int doServisa);
 	
 	public float nadjiSumuPotroseneKolicine(Objekti objakat, Timestamp datumVremeOd, Timestamp datumVremeDo);
+	
+	public ArrayList<GorivoSaCenama> vratiGorivoSaCenama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
+	
+	public ArrayList<KontrolaTocenja> vratiSipanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo);
 }

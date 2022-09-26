@@ -87,10 +87,12 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/VozilaOprema.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/ProcedureDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/VozaciLicenceDAO.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/pomocne/KontrolaGoriva.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/PartneriDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/PartneriServisImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/VozaciLicenceDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servis/ObjektiServis.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/pomocne/GorivoSaCenama.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/GrupeObjektiDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/servisImpl/ObdServisImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/SistemOperateriDAO.java
@@ -179,6 +181,7 @@
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/UredjajiDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/SistemOperateriDAOImpl.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/daoImpl/ZoneDAOImpl.java
+/home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/pomocne/KontrolaTocenja.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/dao/SistemAlarmiDAO.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/Obd.java
 /home/goran/Radni/git/pratibaza/src/main/java/pratiBaza/tabele/SistemObracuni.java

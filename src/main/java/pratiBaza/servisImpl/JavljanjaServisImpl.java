@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pratiBaza.dao.JavljanjaDAO;
+import pratiBaza.pomocne.GorivoSaCenama;
 import pratiBaza.pomocne.KontrolaGoriva;
+import pratiBaza.pomocne.KontrolaTocenja;
 import pratiBaza.pomocne.PredjeniPut;
 import pratiBaza.pomocne.PredjeniPutGPS;
 import pratiBaza.pomocne.StajanjeMirovanje;
@@ -167,4 +169,15 @@ public class JavljanjaServisImpl implements JavljanjaServis{
 		return javljanjeDAO.nadjiSumuPotroseneKolicine(objakat, datumVremeOd, datumVremeDo);
 	}
 	
+	@Override
+	@Transactional
+	public ArrayList<GorivoSaCenama> vratiGorivoSaCenama(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo){
+		return javljanjeDAO.vratiGorivoSaCenama(objekti, vremeOd, vremeDo);
+	}
+	
+	@Override
+	@Transactional
+	public ArrayList<KontrolaTocenja> vratiSipanja(ArrayList<Objekti> objekti, Timestamp vremeOd, Timestamp vremeDo){
+		return javljanjeDAO.vratiSipanja(objekti, vremeOd, vremeDo);
+	}
 }
