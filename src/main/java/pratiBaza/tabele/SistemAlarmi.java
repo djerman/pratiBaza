@@ -35,18 +35,6 @@ public class SistemAlarmi implements Serializable {
 	
 	private boolean izbrisan;
 
-	//bi-directional many-to-one association to AlarmiKorisnik
-	/*@OneToMany(mappedBy="sistemAlarm")
-	private List<AlarmiKorisnik> alarmiKorisniks;**/
-
-	//bi-directional many-to-one association to Javljanja
-	/*@OneToMany(mappedBy="sistemAlarmi")
-	private List<Javljanja> javljanjas;
-
-	//bi-directional many-to-one association to JavljanjaPoslednja
-	@OneToMany(mappedBy="sistemAlarmi")
-	private List<JavljanjaPoslednja> javljanjaPoslednjas;**/
-
 	public SistemAlarmi() {
 		
 	}
