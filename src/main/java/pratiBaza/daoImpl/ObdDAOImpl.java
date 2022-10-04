@@ -40,7 +40,9 @@ public class ObdDAOImpl implements ObdDAO{
 
 	@Override
 	public Obd nadjiObdPoslednji(Objekti objekat, Timestamp datumVreme) {
-		String upit = "SELECT o FROM Obd o where o.objekti = :objekat AND o.datumVreme <= :datumVreme ORDER BY o.datumVreme desc";
+		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat"
+				+ " AND o.datumVreme <= :datumVreme"
+				+ " ORDER BY o.datumVreme desc";
 		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class)
 				.setParameter("objekat", objekat)
 				.setParameter("datumVreme", datumVreme)
@@ -111,7 +113,9 @@ public class ObdDAOImpl implements ObdDAO{
 	@Override
 	public ArrayList<Obd> nadjiObdPoObjektuOdDo(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
-		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo ORDER BY o.datumVreme asc";
+		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat"
+				+ " AND o.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo"
+				+ " ORDER BY o.datumVreme asc";
 		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
 		query.setParameter("objekat", objekat);
 		query.setParameter("datumVremeOd", datumVremeOd);
@@ -163,7 +167,9 @@ public class ObdDAOImpl implements ObdDAO{
 	@Override
 	public ArrayList<Obd> nadjiObdPoslednjaStajanja(Objekti objekat, Timestamp datumVremeOd) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
-		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme > :datumVremeOd ORDER BY o.datumVreme asc";
+		String upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat"
+				+ " AND o.datumVreme > :datumVremeOd"
+				+ " ORDER BY o.datumVreme asc";
 		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class);
 		query.setParameter("objekat", objekat);
 		query.setParameter("datumVremeOd", datumVremeOd);
@@ -176,9 +182,9 @@ public class ObdDAOImpl implements ObdDAO{
 	private Obd vratiObdObjektaDoIliOd(Objekti objekat, Timestamp datumVreme, boolean vremeDo) {
 		String upit = "";
 		if(vremeDo) {
-			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme <= :datumVreme ORDER BY o.datumVreme desc";
+			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme <= :datumVreme ORDER BY o.datumVreme desc";
 		}else {
-			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat and o.datumVreme >= :datumVreme ORDER BY o.datumVreme asc";
+			upit = "SELECT o FROM Obd o WHERE o.objekti = :objekat AND o.datumVreme >= :datumVreme ORDER BY o.datumVreme asc";
 		}
 		TypedQuery<Obd> query = sessionFactory.getCurrentSession().createQuery(upit, Obd.class)
 				.setParameter("objekat", objekat)

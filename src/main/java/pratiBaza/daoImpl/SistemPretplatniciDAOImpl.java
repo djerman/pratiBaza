@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemPretplatniciDAO;
@@ -40,7 +38,15 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 
 	public ArrayList<SistemPretplatnici> nadjiSvePretplatnike() {
 		ArrayList<SistemPretplatnici> lista = new ArrayList<SistemPretplatnici>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
+		String upit = "SELECT p FROM SistemPretplatnici p ORDER BY p.izbrisan ASC, p.aktivan DESC, p.id DESC";
+		TypedQuery<SistemPretplatnici> query = sessionFactory.getCurrentSession().createQuery(upit, SistemPretplatnici.class);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lista;
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
 		criteria.addOrder(Order.desc("izbrisan"));
 		criteria.addOrder(Order.desc("aktivan"));
 		criteria.addOrder(Order.desc("id"));
@@ -50,12 +56,22 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 			return lista2;
 		}else {
 			return lista;
-		}
+		}*/
 	}
 	
 	public ArrayList<SistemPretplatnici> nadjiSveAktivnePretplatnike() {
 		ArrayList<SistemPretplatnici> lista = new ArrayList<SistemPretplatnici>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
+		String upit = "SELECT p FROM SistemPretplatnici p WHERE p.izbrisan = false"
+				+ " AND p.aktivan = true"
+				+ " ORDER BY p.naziv ASC";
+		TypedQuery<SistemPretplatnici> query = sessionFactory.getCurrentSession().createQuery(upit, SistemPretplatnici.class);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lista;
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.addOrder(Order.asc("naziv"));
@@ -65,7 +81,7 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 			return lista2;
 		}else {
 			return lista;
-		}
+		}*/
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -77,16 +93,31 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 	}
 
 	public SistemPretplatnici nadjiPretplatnikaPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
-		criteria.add(Restrictions.eq("id", id));
-		SistemPretplatnici pretplatnik = (SistemPretplatnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return pretplatnik;
+		String upit = "SELECT p FROM SistemPretplatnici p WHERE p.id = :id";
+		TypedQuery<SistemPretplatnici> query = sessionFactory.getCurrentSession().createQuery(upit, SistemPretplatnici.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public ArrayList<SistemPretplatnici> nadjiSveAktivneSistemskePretplatnike() {
 		ArrayList<SistemPretplatnici> lista = new ArrayList<SistemPretplatnici>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
+		String upit = "SELECT p FROM SistemPretplatnici p WHERE p.izbrisan = false"
+				+ " AND p.aktivan = true"
+				+ " AND p.sistem = true"
+				+ " ORDER BY p.naziv ASC";
+		TypedQuery<SistemPretplatnici> query = sessionFactory.getCurrentSession().createQuery(upit, SistemPretplatnici.class);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lista;
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemPretplatnici.class);
 		criteria.add(Restrictions.eq("izbrisan", false));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("sistem", true));
@@ -97,7 +128,7 @@ public class SistemPretplatniciDAOImpl implements SistemPretplatniciDAO{
 			return lista2;
 		}else {
 			return lista;
-		}
+		}*/
 	}
 	
 }

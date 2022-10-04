@@ -54,16 +54,6 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			GrupeObjekti grupaObjekat = (GrupeObjekti)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return grupaObjekat;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	public void izbrisiSveGrupaObjekti(Grupe grupa) {
@@ -78,18 +68,6 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		TypedQuery<GrupeObjekti> query = sessionFactory.getCurrentSession().createQuery(upit, GrupeObjekti.class);
 		query.setParameter("grupa", grupa);
 		return query.getResultList();
-		/*
-		ArrayList<GrupeObjekti> grupaObjekti = new ArrayList<GrupeObjekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
-		criteria.add(Restrictions.eq("grupe", grupa));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(grupaObjekti2 != null) {
-			return grupaObjekti2;
-		}else {
-			return grupaObjekti;
-		}
-		*/
 	}
 
 	@Override
@@ -106,18 +84,6 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		TypedQuery<GrupeObjekti> query = sessionFactory.getCurrentSession().createQuery(upit, GrupeObjekti.class);
 		query.setParameter("objekat", objekat);
 		return query.getResultList();
-		/*
-		ArrayList<GrupeObjekti> grupaObjekti = new ArrayList<GrupeObjekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(grupaObjekti2 != null) {
-			return grupaObjekti2;
-		}else {
-			return grupaObjekti;
-		}
-		*/
 	}
 
 	@Override
@@ -126,16 +92,6 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		TypedQuery<GrupeObjekti> query = sessionFactory.getCurrentSession().createQuery(upit, GrupeObjekti.class);
 		query.setParameter("objekti", grupe);
 		return query.getResultList();
-		/*
-		ArrayList<GrupeObjekti> grupaObjekti = new ArrayList<GrupeObjekti>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
-		criteria.add(Restrictions.in("grupe", grupe));
-		ArrayList<GrupeObjekti> grupaObjekti2 = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(grupaObjekti2 != null) {
-			grupaObjekti.addAll(grupaObjekti2);
-		}
-		return grupaObjekti;
-		*/
 	}
 
 	@Override
@@ -166,23 +122,6 @@ public class GrupeObjektiDAOImpl implements GrupeObjektiDAO{
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		query.setParameter("grupa", grupa);
 		return query.getResultList();
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeObjekti.class);
-		criteria.add(Restrictions.in("grupe", grupa));
-		ArrayList<GrupeObjekti> grupaObjekti = (ArrayList<GrupeObjekti>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		ArrayList<Objekti> objekti = new ArrayList<Objekti>();
-		if(grupaObjekti != null && grupaObjekti.size() > 0 && !grupaObjekti.isEmpty()) {
-			for(GrupeObjekti grupaObjekat : grupaObjekti) {
-				if(!objekti.contains(grupaObjekat.getObjekti())) {
-					Objekti objekat = grupaObjekat.getObjekti();
-					if(objekat.getVozilo() != null) {
-						objekti.add(objekat);
-						}			
-					}
-				}
-		}
-		return objekti;
-		*/
 	}
 
 	@Override

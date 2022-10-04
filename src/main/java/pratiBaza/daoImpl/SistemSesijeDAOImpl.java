@@ -2,10 +2,8 @@ package pratiBaza.daoImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemSesijeDAO;
@@ -34,26 +32,22 @@ public class SistemSesijeDAOImpl implements SistemSesijeDAO{
 		sessionFactory.getCurrentSession().update(sesija);
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<SistemSesije> nadjiSveSesije(Korisnici korisnik) {
 		ArrayList<SistemSesije> lista = new ArrayList<SistemSesije>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemSesije.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemSesije> lista2 = (ArrayList<SistemSesije>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT s FROM SistemSesije s WHERE (:sistem = true OR s.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:sistem = true OR s.izbrisan = false)"
+				+ " AND (:organizacija IS NULL OR s.organizacija = :organizacija)"
+				+ " ORDER BY s.sistemPretplatnici.naziv ASC, s.izbrisan ASC, s.id DESC";
+		TypedQuery<SistemSesije> query = sessionFactory.getCurrentSession().createQuery(upit, SistemSesije.class);
+		query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		query.setParameter("sistem", korisnik.isSistem());
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
 	public ArrayList<SistemSesije> nadjiSveSesijeKorisnika(Korisnici korisnik) {

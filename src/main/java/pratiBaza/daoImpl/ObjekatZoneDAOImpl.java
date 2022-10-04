@@ -43,17 +43,6 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 			lista.addAll(query.getResultList());
 		}
 		return lista;
-		/*
-		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		ArrayList<ObjekatZone> lista2 = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public ArrayList<ObjekatZone> nadjiZoneObjektePoZoni(Zone zona) {
@@ -65,17 +54,6 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 			lista.addAll(query.getResultList());
 			}
 		return lista;
-		/*
-		ArrayList<ObjekatZone> lista = new ArrayList<ObjekatZone>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
-		criteria.add(Restrictions.eq("zone", zona));
-		ArrayList<ObjekatZone> lista2 = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -112,16 +90,6 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return objekatZona;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	@Override
@@ -151,30 +119,6 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 			lista.addAll(query.getResultList());
 			}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.desc("sistemPretplatnici"));
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<ObjekatZone> lista2 = (ArrayList<ObjekatZone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -198,16 +142,5 @@ public class ObjekatZoneDAOImpl implements ObjekatZoneDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObjekatZone.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.eq("zone", zona));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			ObjekatZone objekatZona = (ObjekatZone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return objekatZona;
-		}else {
-			return null;
-		}
-		*/
 	}
 }

@@ -1,10 +1,8 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemUredjajiProizvodjaciDAO;
@@ -33,16 +31,15 @@ public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvod
 
 	public ArrayList<SistemUredjajiProizvodjac> nadjiSveSistemUredjajeProizvodjace() {
 		ArrayList<SistemUredjajiProizvodjac> lista = new ArrayList<SistemUredjajiProizvodjac>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiProizvodjac.class);
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<SistemUredjajiProizvodjac> lista2 = (ArrayList<SistemUredjajiProizvodjac>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT up FROM SistemUredjajiProizvodjac up"
+				+ " ORDER BY up.izbrisan ASC, up.id DESC";
+		TypedQuery<SistemUredjajiProizvodjac> query = sessionFactory.getCurrentSession().createQuery(upit, SistemUredjajiProizvodjac.class);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -54,10 +51,14 @@ public class SistemUredjajiProizvodjaciDAOImpl implements SistemUredjajiProizvod
 	}
 
 	public SistemUredjajiProizvodjac nadjiProizvodjacaPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiProizvodjac.class);
-		criteria.add(Restrictions.eq("id", id));
-		SistemUredjajiProizvodjac proizvodjac = (SistemUredjajiProizvodjac)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return proizvodjac;
+		String upit = "SELECT up FROM Partneri up WHERE up.id = :id";
+		TypedQuery<SistemUredjajiProizvodjac> query = sessionFactory.getCurrentSession().createQuery(upit, SistemUredjajiProizvodjac.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 	
 }

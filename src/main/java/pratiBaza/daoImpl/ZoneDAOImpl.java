@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.ZoneDAO;
@@ -21,6 +19,7 @@ public class ZoneDAOImpl implements ZoneDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Override
 	public void unesiZonu(Zone zona) {
 		zona.setVersion(0);
 		zona.setIzmenjeno(new Timestamp((new Date()).getTime()));
@@ -28,69 +27,73 @@ public class ZoneDAOImpl implements ZoneDAO{
 		sessionFactory.getCurrentSession().persist(zona);
 	}
 
+	@Override
 	public void izmeniZonu(Zone zona) {
 		zona.setVersion(zona.getVersion() + 1);
 		zona.setIzmenjeno(new Timestamp((new Date()).getTime()));
 		sessionFactory.getCurrentSession().update(zona);
 	}
 
+	@Override
 	public void izbrisiZonu(Zone zona) {
-		zona.setAktivan(false);
-		zona.setIzbrisan(true);
-		izmeniZonu(zona);
+		try {
+			sessionFactory.getCurrentSession().delete(zona);
+		}catch (Exception e) {
+			zona.setAktivan(false);
+			zona.setIzbrisan(true);
+			izmeniZonu(zona);
+		}
 	}
 
+	@Override
 	public ArrayList<Zone> nadjiSveZone(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Zone> lista = new ArrayList<Zone>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() && !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
+		String upit = "SELECT z FROM Zone z WHERE (:sistem = true OR z.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR z.organizacija = :organizacija)"
+				+ " AND (:aktivan = false OR z.aktivan = true)"
+				+ " AND (:aktivan = false OR z.izbrisan = false)"
+				+ " ORDER BY z.izbrisan ASC, z.aktivan DESC, z.sistemPretplatnici.naziv ASC, z.id DESC";
+		TypedQuery<Zone> query = sessionFactory.getCurrentSession().createQuery(upit, Zone.class);
+		query.setParameter("sistem", korisnik.isSistem());
+		query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		query.setParameter("aktivan", aktivan);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.desc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<Zone> lista2 = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
+		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public ArrayList<Zone> nadjiSveZonePoPretplatniku(SistemPretplatnici pretplatnik) {
 		ArrayList<Zone> lista = new ArrayList<Zone>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		ArrayList<Zone> lista2 = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT z FROM Zone z WHERE z.sistemPretplatnici = :pretplatnik"
+				+ " ORDER BY z.izbrisan ASC, z.aktivan DESC, z.id DESC";
+		TypedQuery<Zone> query = sessionFactory.getCurrentSession().createQuery(upit, Zone.class);
+		query.setParameter("pretplatnik", pretplatnik);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public ArrayList<Zone> nadjiSveZonePoOrganizaciji(Organizacije organizacija) {
 		ArrayList<Zone> lista = new ArrayList<Zone>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
-		criteria.add(Restrictions.eq("organizacija", organizacija));
-		ArrayList<Zone> lista2 = (ArrayList<Zone>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT z FROM Zone z WHERE z.organizacija = :organizacija"
+				+ " ORDER BY z.izbrisan ASC, z.aktivan DESC, z.id DESC";
+		TypedQuery<Zone> query = sessionFactory.getCurrentSession().createQuery(upit, Zone.class);
+		query.setParameter("organizacija", organizacija);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -101,16 +104,16 @@ public class ZoneDAOImpl implements ZoneDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
+	@Override
 	public Zone nadjiZonuPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Zone.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Zone zona = (Zone)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return zona;
-		}else {
+		String upit = "SELECT z FROM Zone z WHERE z.id = :id";
+		TypedQuery<Zone> query = sessionFactory.getCurrentSession().createQuery(upit, Zone.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
-		
 	}
 
 }

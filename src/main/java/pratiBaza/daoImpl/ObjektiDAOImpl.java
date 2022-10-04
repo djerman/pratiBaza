@@ -64,8 +64,9 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			akt = " AND obj.aktivan = :akt";
 		}
 		
-		String upit = "Select obj FROM Objekti obj where " + pretp + "(:organizacija is null or obj.organizacija = :organizacija) "
-				+ akt + " ORDER BY obj.sistemPretplatnici, obj.izbrisan, obj.aktivan, obj.id desc";
+		String upit = "SELECT obj FROM Objekti obj WHERE" + " " + pretp + ""
+				+ "(:organizacija is null or obj.organizacija = :organizacija)"
+				+ akt + " ORDER BY obj.sistemPretplatnici.naziv asc, obj.izbrisan asc, obj.aktivan desc, obj.id desc";
 		
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		
@@ -84,9 +85,10 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		if(aktivan) {
 			akt = " AND obj.aktivan = :akt";
 		}
-		String upit = "Select obj FROM Objekti obj where obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false AND "
-				+ "(:organizacija is null or obj.organizacija = :organizacija) "
-				+ akt + " ORDER BY obj.sistemPretplatnici, obj.izbrisan, obj.aktivan, obj.id desc";
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+				+ " AND obj.izbrisan = false"
+				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
+				+ akt + " ORDER BY obj.sistemPretplatnici.naziv asc, obj.izbrisan asc, obj.aktivan desc, obj.id desc";
 		
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		query.setParameter("pretplatnik", pretplatnik);
@@ -107,8 +109,10 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			akt = " AND obj.aktivan = :akt";
 		}
 		
-		String upit = "Select obj FROM Objekti obj where " + pretp + "(:organizacija is null or obj.organizacija = :organizacija) "
-				+ akt + " AND obj.tip = true ORDER BY obj.sistemPretplatnici, obj.izbrisan, obj.aktivan, obj.id desc";
+		String upit = "SELECT obj FROM Objekti obj WHERE " + pretp + ""
+				+ "(:organizacija is null or obj.organizacija = :organizacija)"
+				+ akt + " AND obj.tip = true "
+						+ " ORDER BY obj.sistemPretplatnici.naziv asc, obj.izbrisan asc, obj.aktivan desc, obj.id desc";
 		
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		
@@ -139,9 +143,10 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	}
 
 	public List<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "Select obj FROM Objekti obj where obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false AND "
-				+ "(:organizacija is null or obj.organizacija = :organizacija)"
-				+ " AND obj.aktivan = true ORDER BY  obj.id, obj.aktivan desc, obj.izbrisan";
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
+				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
+				+ " AND obj.aktivan = true"
+				+ " ORDER BY obj.id desc, obj.aktivan desc, obj.izbrisan asc";
 		
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		
@@ -152,8 +157,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 
 	@Override
 	public List<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "Select obj FROM Objekti obj where obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false AND "
-				+ "(:organizacija is null or obj.organizacija = :organizacija) AND obj.aktivan = true AND obj.tip = true ORDER BY obj.id desc";
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+				+ " AND obj.izbrisan = false"
+				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
+				+ " AND obj.aktivan = true"
+				+ " AND obj.tip = true"
+				+ " ORDER BY obj.id desc";
 		
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		
@@ -176,9 +185,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 
 	@Override
 	public List<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "Select obj FROM Objekti obj where obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false AND "
-				+ "(:organizacija is null or obj.organizacija = :organizacija) AND obj.vozilo IS NOT NULL"
-				+ " AND obj.aktivan = true ORDER BY obj.id desc";
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+				+ " AND obj.izbrisan = false"
+				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
+				+ " AND obj.vozilo IS NOT NULL"
+				+ " AND obj.aktivan = true"
+				+ " ORDER BY obj.id desc";
 		
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
 		
@@ -189,34 +201,41 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	
 	@Override
 	public List<Objekti> nadjiSveObjekteBezVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "Select obj FROM Objekti obj where obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false AND "
-				+ "(:organizacija is null or obj.organizacija = :organizacija) AND obj.vozilo IS NULL"
-				+ " AND obj.aktivan = true AND obj.tip = true ORDER BY obj.id desc";
-		
+		String org = "";
+		if(organizacija != null)
+			org = " AND obj.organizacija = :organizacija";
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+				+ " AND obj.izbrisan = false"
+				+ org
+				+ " AND obj.vozilo IS NULL"
+				+ " AND obj.aktivan = true"
+				+ " AND obj.tip = true"
+				+ " ORDER BY obj.oznaka asc";
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
-		
 		query.setParameter("pretplatnik", pretplatnik);
-		query.setParameter("organizacija", organizacija);
+		if(organizacija != null)
+			query.setParameter("organizacija", organizacija);
 		return query.getResultList();
 	}
 
 	@Override
 	public Objekti nadjiObjekatSadrzi(SistemPretplatnici pretplatnik, String oznaka) {
-		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
+		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+				+ " AND obj.izbrisan = false"
 				+ " AND (lower(obj.oznaka) like lower(concat('%',:oznaka,'%')))"
 				+ " AND obj.aktivan = true";
-				//+ " ORDER BY obj.id desc";
-		/*String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
-				+ " AND (lower(obj.oznaka) like lower(concat('%',:oznaka,'%')) OR lower(obj.vozilo.registracija) like lower(concat('%',:oznaka,'%')))"
-				+ " AND obj.aktivan = true";*/
 		TypedQuery<Objekti> query = sessionFactory.getCurrentSession().createQuery(upit, Objekti.class);
-		
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("oznaka", oznaka);
+		query.setMaxResults(1);
 		try {
 			return query.getSingleResult();
 		}catch (Exception e) {
-			return null;
+			try {
+				return query.getResultList().get(0);
+			}catch (Exception ee) {
+				return null;
+			}
 		}
 	}
 	

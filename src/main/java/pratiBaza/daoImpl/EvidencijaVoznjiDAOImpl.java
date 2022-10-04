@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.EvidencijaVoznjiDAO;
@@ -52,21 +50,44 @@ public class EvidencijaVoznjiDAOImpl implements EvidencijaVoznjiDAO{
 
 	@Override
 	public EvidencijaVoznji nadjiEvidencijuPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EvidencijaVoznji.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (EvidencijaVoznji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
+		String upit = "SELECT ev FROM EvidencijaVoznji ev WHERE ev.id = :id";
+		TypedQuery<EvidencijaVoznji> query = sessionFactory.getCurrentSession().createQuery(upit, EvidencijaVoznji.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<EvidencijaVoznji> vratiEvidencije(SistemPretplatnici pretplatnik, Organizacije organizacija, String nalog,
 			String registracija, String vozac, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<EvidencijaVoznji> lista = new ArrayList<EvidencijaVoznji>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EvidencijaVoznji.class);
+		String upit = "SELECT fv FROM EvidencijaVoznji ev WHERE"
+				+ " ev.sistemPretplatnici = :pretplatnik"
+				+ " AND (:organizacija IS NULL OR ev.organizacija = :organizacija)"
+				+ " AND (:nalog IS NULL OR ev.voziloNalog = :nalog)"
+				+ " AND (:registracija IS NULL OR ev.registracijaVozila = :registracija)"
+				+ " AND (:vozac IS NULL OR ev.vozac = :vozac)"
+				+ " AND (:datumVremeOd IS NULL OR ev.datumVremePolaska >= :datumVremeOd)"
+				+ " AND (:datumVremeDo IS NULL OR ev.datumVremeDolaska <= :datumVremeDo)"
+				+ " ORDER BY ev.datumVremePolaska DESC";
+		TypedQuery<EvidencijaVoznji> query = sessionFactory.getCurrentSession().createQuery(upit, EvidencijaVoznji.class);
+		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("organizacija", organizacija);
+		query.setParameter("nalog", nalog);
+		query.setParameter("registracija", registracija);
+		query.setParameter("vozac", vozac);
+		query.setParameter("datumVremeOd", datumVremeOd);
+		query.setParameter("datumVremeDo", datumVremeDo);
+		
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EvidencijaVoznji.class);
 		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
 		if(organizacija != null) {
 			criteria.add(Restrictions.eq("organizacija", organizacija));
@@ -90,7 +111,7 @@ public class EvidencijaVoznjiDAOImpl implements EvidencijaVoznjiDAO{
 		ArrayList<EvidencijaVoznji> lista2 = (ArrayList<EvidencijaVoznji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
 			lista.addAll(lista2);
-		}
+		}*/
 		return lista;
 	}
 

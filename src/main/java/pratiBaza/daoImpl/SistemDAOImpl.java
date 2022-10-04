@@ -1,9 +1,7 @@
 package pratiBaza.daoImpl;
 
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemDAO;
@@ -37,18 +35,33 @@ public class SistemDAOImpl implements SistemDAO{
 	}
 
 	public Sistem vratiSistem() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sistem.class);
+		String upit = "SELECT s FROM Sistem s ORDER BY s.id ASC";
+		TypedQuery<Sistem> query = sessionFactory.getCurrentSession().createQuery(upit, Sistem.class);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sistem.class);
 		criteria.addOrder(Order.asc("id"));
 		criteria.setMaxResults(1);
 		Sistem rezultat = (Sistem)criteria.uniqueResult();
-		return rezultat;
+		return rezultat;*/
 	}
 
 	public Sistem nadjiSistemPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sistem.class);
+		String upit = "SELECT s FROM Sistem s WHERE s.id = :id";
+		TypedQuery<Sistem> query = sessionFactory.getCurrentSession().createQuery(upit, Sistem.class);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sistem.class);
 		criteria.add(Restrictions.eq("id", id));
 		Sistem sistem = (Sistem)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return sistem;
+		return sistem;*/
 	}
 	
 }

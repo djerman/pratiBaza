@@ -15,7 +15,6 @@ import pratiBaza.tabele.SistemPretplatnici;
 @Repository("korisnikDAO")
 public class KorisniciDAOImpl implements KorisniciDAO{
 
-	//mora da se doda i get i set metode za SessionFactory objekat
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -48,19 +47,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		criteria.add(Restrictions.eq("email", email));
-		criteria.add(Restrictions.eq("lozinka", lozinka));
-		Korisnici korisnik = (Korisnici) criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().clear();
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return korisnik;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	public ArrayList<Korisnici> nadjiKorisnikePoPretplatniku(SistemPretplatnici pretplatnik) {
@@ -72,17 +58,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 			lista.addAll(query.getResultList());
 		}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("aktivan", true));
-		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public Korisnici nadjiKorisnikaPoIButton(String iButton) {
@@ -94,11 +69,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		criteria.add(Restrictions.eq("ibutton", iButton));
-		return (Korisnici) criteria.uniqueResult();
-		*/
 	}
 	
 	public SessionFactory getSessionFactory() {
@@ -136,30 +106,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 			lista.addAll(query.getResultList());
 			}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	public Korisnici nadjiKorisnikaPoId(int id) {
@@ -171,15 +117,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (Korisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	public ArrayList<Korisnici> nadjiKorisnikeAktivneIzbrisane(boolean aktivan, boolean izbrisan) {
@@ -198,18 +135,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 			lista.addAll(query.getResultList());
 		}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("organizacija", organizacija));
-		criteria.add(Restrictions.eq("aktivan", true));
-		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -240,30 +165,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 			lista.addAll(query.getResultList());
 			}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		if(korisnik.getSistemPretplatnici().isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.add(Restrictions.eq("vozac", true));
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -287,29 +188,6 @@ public class KorisniciDAOImpl implements KorisniciDAO{
 			lista.addAll(query.getResultList());
 			}
 		return lista;
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnici.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-			}
-		criteria.add(Restrictions.eq("izbrisan", false));
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", true));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		criteria.add(Restrictions.eq("vozac", true));
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Korisnici> lista2 = (ArrayList<Korisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 }

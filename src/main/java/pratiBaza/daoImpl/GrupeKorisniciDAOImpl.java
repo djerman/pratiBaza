@@ -51,16 +51,6 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			GrupeKorisnici grupaKorisnik = (GrupeKorisnici)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return grupaKorisnik;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	public List<GrupeKorisnici> vratiSveGrupeKorisnikPoKorisniku(Korisnici korisnik) {
@@ -68,17 +58,6 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 		TypedQuery<GrupeKorisnici> query = sessionFactory.getCurrentSession().createQuery(upit, GrupeKorisnici.class);
 		query.setParameter("korisnik", korisnik);
 		return query.getResultList();
-		/*
-		ArrayList<GrupeKorisnici> grupeKorisnik = new ArrayList<GrupeKorisnici>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
-		ArrayList<GrupeKorisnici> grupeKorisnik2 = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(grupeKorisnik2 != null) {
-			return grupeKorisnik2;
-		}else {
-			return grupeKorisnik;
-		}
-		*/
 	}
 
 	@Override
@@ -87,19 +66,5 @@ public class GrupeKorisniciDAOImpl implements GrupeKorisniciDAO{
 		TypedQuery<Grupe> query = sessionFactory.getCurrentSession().createQuery(upit, Grupe.class);
 		query.setParameter("korisnik", korisnik);
 		return query.getResultList();
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GrupeKorisnici.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
-		ArrayList<GrupeKorisnici> grupeKorisnik2 = (ArrayList<GrupeKorisnici>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		ArrayList<Grupe> grupe = new ArrayList<Grupe>();
-		if(grupeKorisnik2 != null) {
-			for(GrupeKorisnici grupaKorisnik: grupeKorisnik2) {
-				if(!grupe.contains(grupaKorisnik.getGrupe())) {
-					grupe.add(grupaKorisnik.getGrupe());
-				}
-			}
-		}
-		return grupe;
-		*/
 	}
 }

@@ -60,27 +60,6 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 			query.setParameter("obavestenje", obavestenje);
 		}
 		return query.getResultList();
-		
-		//"SELECT c FROM Customer c WHERE (:name is null or c.name = :name) and (:email is null or c.email = :email)"
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-		criteria.add(Restrictions.eq("korisnik", korisnik));
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-		}
-		if(aktivno) {
-			criteria.add(Restrictions.eq("aktivan", aktivno));
-		}
-		if(email) {
-			criteria.add(Restrictions.eq("email", true));
-		}
-		if(obavestenje) {
-			criteria.add(Restrictions.eq("obavestenje", true));
-		}
-		ArrayList<AlarmiKorisnik> alarmi = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return alarmi;
-		*/
 	}
 	
 	@Override
@@ -112,16 +91,6 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			AlarmiKorisnik alarmKorisnik = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return alarmKorisnik;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	@Override
@@ -136,18 +105,6 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
-		criteria.add(Restrictions.eq("korisnik", korisnik));
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.eq("sistemAlarm", alarm));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			AlarmiKorisnik alarmKorisnik = (AlarmiKorisnik)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return alarmKorisnik;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 
@@ -189,34 +146,6 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 			query.setParameter("obavestenje", obavestenje);
 		}
 		return query.getResultList();
-		/*
-		ArrayList<AlarmiKorisnik> lista = new ArrayList<AlarmiKorisnik>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-		}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-		}
-		if(!korisnik.isAdmin()) {
-			criteria.add(Restrictions.eq("korisnik", korisnik));
-		}
-		if(aktivno) {
-			criteria.add(Restrictions.eq("aktivan", aktivno));
-		}
-		if(email) {
-			criteria.add(Restrictions.eq("email", true));
-		}
-		if(obavestenje) {
-			criteria.add(Restrictions.eq("obavestenje", true));
-		}
-		ArrayList<AlarmiKorisnik> lista2 = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -226,18 +155,6 @@ public class AlarmiKorisnikDAOImpl implements AlarmiKorisnikDAO{
 		query.setParameter("objekat", objekat);
 		query.setParameter("aktivan", true);
 		return query.getResultList();
-		/*
-		ArrayList<AlarmiKorisnik> lista = new ArrayList<AlarmiKorisnik>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AlarmiKorisnik.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		criteria.add(Restrictions.eq("aktivan", true));
-		ArrayList<AlarmiKorisnik> lista2 = (ArrayList<AlarmiKorisnik>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 	
 }

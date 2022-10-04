@@ -102,12 +102,17 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	public ArrayList<Javljanja> vratiJavljanjaObjektaOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Javljanja> lista = new ArrayList<Javljanja>();
 		Javljanja prvo = vratiJavljanjeObjektaDoIliOd(objekat, datumVremeOd, false);
-		if(prvo != null) {
-			lista.add(prvo);
-			Javljanja poslednje = vratiJavljanjeObjektaDoIliOd(objekat, datumVremeDo, true);
-			if(poslednje != null) {
+		Javljanja poslednje = vratiJavljanjeObjektaDoIliOd(objekat, datumVremeDo, true);
+		
+		if(prvo != null && poslednje != null) {
+			if(prvo.getDatumVreme().before(poslednje.getDatumVreme())) {
+				lista.add(prvo);
 				lista.add(poslednje);
+			}else {
+				lista.add(poslednje);
+				lista.add(prvo);
 			}
+			
 		}
 		return lista;
 	}
@@ -116,11 +121,14 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 	public ArrayList<Obd> nadjiObdPoObjektuOdDoPrvoPoslednje(Objekti objekat, Timestamp datumVremeOd, Timestamp datumVremeDo) {
 		ArrayList<Obd> lista = new ArrayList<Obd>();
 		Obd prvo = vratiObdObjektaDoIliOd(objekat, datumVremeOd, false);
-		if(prvo != null) {
-			lista.add(prvo);
-			Obd poslednje = vratiObdObjektaDoIliOd(objekat, datumVremeDo, true);
-			if(poslednje != null) {
+		Obd poslednje = vratiObdObjektaDoIliOd(objekat, datumVremeDo, true);
+		if(prvo != null && poslednje != null) {
+			if(prvo.getDatumVreme().before(poslednje.getDatumVreme())) {
+				lista.add(prvo);
 				lista.add(poslednje);
+			}else {
+				lista.add(poslednje);
+				lista.add(prvo);
 			}
 		}
 		return lista;
@@ -247,7 +255,6 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				.setParameter("objekat", objekat)
 				.setParameter("datumVreme", datumVreme)
 				.setMaxResults(1);
-		
 		try {
 			return query.getSingleResult();
 		}catch (Exception e) {
@@ -426,7 +433,7 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 				kon.setVirtualOdo(javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo());
 				//prosečna potrošnja po gps i kupljenom gorivu
 				if(kon.getVirtualOdo() != 0.0f)
-					kon.setGpsKolicina(kon.getKolicina()/(kon.getVirtualOdo()/100));
+					kon.setGpsKolicina(kon.getKolicina()/(kon.getVirtualOdo()/100.0f));
 				
 				//ako imamo obd podatke
 				if(obd != null && !obd.isEmpty()) {
@@ -436,19 +443,17 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 					kon.setUkupnoGorivo(obd.get(1).getUkupnoGorivo() - obd.get(0).getUkupnoGorivo());
 					//prosečna potrošnja po gps km i potrošenom gorivu sa obd
 					if(kon.getVirtualOdo() != 0.0f) {
-						kon.setProsPotGps(kon.getUkupnoGorivo()/(kon.getVirtualOdo()/100));
+						kon.setProsPotGps(kon.getUkupnoGorivo()/(kon.getVirtualOdo()/100.0f));
 						}
 					//prosečna potrošnja po obd km i potrošenom gorivu obd
 					if(kon.getUkupnoKm() != 0.0f) {
-						kon.setProsPotr(kon.getUkupnoGorivo()/(kon.getUkupnoKm()/100));
-						kon.setOdoKolicina(kon.getKolicina()/(kon.getUkupnoKm()/100));
+						kon.setProsPotr(kon.getUkupnoGorivo()/(kon.getUkupnoKm()/100.0f));
+						kon.setOdoKolicina(kon.getKolicina()/(kon.getUkupnoKm()/100.0f));
 						}
 					}
 				}
-			
 			lista.add(kon);
 		}
-		
 		return lista;
 	}
 	
@@ -463,38 +468,43 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 			
 			String registracija = "";
 			String markaTip = "";
+			String mesto = objekat.getOrganizacija() == null ? "" : objekat.getOrganizacija().getNaziv();
 			float dozvoljenaPotrosnja = 0;
 			if(objekat.getVozilo() != null) {
 				registracija = objekat.getVozilo().getRegistracija();
 				markaTip = objekat.getVozilo().getMarka() + " " + objekat.getVozilo().getModel();
 				dozvoljenaPotrosnja = objekat.getVozilo().getPotrosnja();
+				
 			}
-			float cena = 0;
-			float kolicina = 0;
-			float ukupnoCena = 0;
+			float cena = 0.0f;
+			float kolicina = 0.0f;
+			float ukupnoCena = 0.0f;
 			if(troskovi != null && !troskovi.isEmpty() && troskovi.size() > 0) {
 				cena = (float)troskovi.stream().mapToDouble(t -> t.getCena()).average().orElse(0);
 				kolicina = (float)troskovi.stream().mapToDouble(t -> t.getKolicina()).sum();
 				ukupnoCena = (float)troskovi.stream().mapToDouble(t -> t.getUkupno()).sum();
 			}
-			float predjenoGps = 0;
-			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 0) {
+			
+			float predjenoGps = 0.0f;
+			if(javljanja != null && !javljanja.isEmpty() && javljanja.size() > 1) {
 				predjenoGps = javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo();
 			}
-
-			float ukupnaPotrosnja = 0;
+			
+			float ukupnaPotrosnja = 0.0f;
 			int predjenoObd = 0;
-			float prosPotrosnja = 0;
-			if(obd != null && !obd.isEmpty() && obd.size() > 0) {
+			float prosPotrosnja = 0.0f;
+			if(obd != null && !obd.isEmpty() && obd.size() > 1) {
 				ukupnaPotrosnja = obd.get(1).getUkupnoGorivo() - obd.get(0).getUkupnoGorivo();
-				predjenoObd = (obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm());
-				prosPotrosnja = ukupnaPotrosnja == 0 || predjenoObd == 0 ? 0 : ukupnaPotrosnja /(predjenoObd/100);
+				predjenoObd = obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm();
+				if(predjenoObd != 0)
+					prosPotrosnja = ukupnaPotrosnja / (predjenoObd / 100.0f);
 			}
+			
 			float razlikaUPotrosnji = prosPotrosnja - dozvoljenaPotrosnja;
-			float potrosenoViseGoriva = razlikaUPotrosnji == 0 || predjenoObd == 0 ? 0 : razlikaUPotrosnji * predjenoObd / 100;
+			float potrosenoViseGoriva = razlikaUPotrosnji * predjenoObd / 100.0f;
 			float cenaVisePotrosenogGoriva = potrosenoViseGoriva * cena;
 			
-			GorivoSaCenama gor = new GorivoSaCenama(objekat.getOznaka(), "", markaTip, registracija, prosPotrosnja, dozvoljenaPotrosnja, razlikaUPotrosnji, 
+			GorivoSaCenama gor = new GorivoSaCenama(objekat.getOznaka(), mesto, markaTip, registracija, prosPotrosnja, dozvoljenaPotrosnja, razlikaUPotrosnji, 
 					predjenoGps, predjenoObd, cena, kolicina, ukupnoCena, potrosenoViseGoriva, cenaVisePotrosenogGoriva);
 			
 			lista.add(gor);
@@ -507,10 +517,11 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		ArrayList<KontrolaTocenja> lista = new ArrayList<KontrolaTocenja>();
 		for(Objekti objekat : objekti) {
 			ArrayList<Troskovi> troskovi = nadjiSveTroskoveGoriva(objekat, vremeOd, vremeDo);
-			System.out.println("broj točenja: " + troskovi.size());
+
 			if(troskovi != null && !troskovi.isEmpty() && troskovi.size() > 1) {
-				Timestamp pocetak =  troskovi.get(0).getDatumVreme();
+				Timestamp pocetak = troskovi.get(0).getDatumVreme();
 				Timestamp poslednjeSipanje = troskovi.get(troskovi.size() - 1).getDatumVreme();
+				
 				ArrayList<Javljanja> javljanja = vratiJavljanjaObjektaOdDoPrvoPoslednje(objekat, pocetak, poslednjeSipanje);
 				ArrayList<Obd> obd = nadjiObdPoObjektuOdDoPrvoPoslednje(objekat, pocetak, poslednjeSipanje);
 				
@@ -522,19 +533,23 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 						markaTip = objekat.getVozilo().getMarka() + " " + objekat.getVozilo().getModel();
 					}
 					float gpsPut = javljanja.get(1).getVirtualOdo() - javljanja.get(0).getVirtualOdo();
+					
+					troskovi.remove(0);
+					int brSipanja = troskovi.size();
 					float ukupno = (float)troskovi.stream().mapToDouble(t -> t.getKolicina()).sum();
+					
 					int obdPut = 0;
 					if(obd != null && !obd.isEmpty() && obd.size() == 2) {
 						obdPut = obd.get(1).getUkupnoKm() - obd.get(0).getUkupnoKm();
 					}
-					float prosGps = 0;
-					float prosoObd = 0;
-					if(gpsPut != 0){
-						prosGps = ukupno / (gpsPut / 100);
+					float prosGps = 0.0f;
+					float prosoObd = 0.0f;
+					if(gpsPut != 0.0f){
+						prosGps = ukupno / (gpsPut / 100.0f);
 					}
 					if(obdPut != 0) 
-						prosoObd = ukupno / (obdPut / 100);
-					KontrolaTocenja kon = new KontrolaTocenja(objekat.getOznaka(), registracija, markaTip, troskovi.size() - 1, new Date(pocetak.getTime()), 
+						prosoObd = ukupno / (obdPut / 100.0f);
+					KontrolaTocenja kon = new KontrolaTocenja(objekat.getOznaka(), registracija, markaTip, brSipanja, new Date(pocetak.getTime()), 
 							new Date(poslednjeSipanje.getTime()), ukupno, gpsPut, obdPut, prosGps, prosoObd);
 					lista.add(kon);
 				}
@@ -565,7 +580,8 @@ public class JavljanjaDAOImpl implements JavljanjaDAO{
 		String upit = "SELECT t FROM Troskovi t WHERE t.objekti = :objekat"
 				+ " AND t.datumVreme BETWEEN :datumVremeOd AND :datumVremeDo"
 				+ " AND t.tipServisa = 0"
-				+ " AND t.izbrisan = false";
+				+ " AND t.izbrisan = false"
+				+ " ORDER BY t.datumVreme ASC";
 		TypedQuery<Troskovi> query = sessionFactory.getCurrentSession().createQuery(upit, Troskovi.class)
 				.setParameter("objekat", objekat)
 				.setParameter("datumVremeOd", datumVremeOd)

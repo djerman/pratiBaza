@@ -45,18 +45,6 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 		TypedQuery<SistemGoriva> query = sessionFactory.getCurrentSession().createQuery(upit, SistemGoriva.class);
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
-		if(!izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemGoriva> lista2 = (ArrayList<SistemGoriva>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}*/
 		return lista;
 	}
 
@@ -69,10 +57,6 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
-		criteria.add(Restrictions.eq("id", id));
-		SistemGoriva gorivo = (SistemGoriva)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return gorivo;*/
 	}
 
 	@Override
@@ -90,15 +74,6 @@ public class SistemGorivoDAOImpl implements SistemGorivaDAO{
 				return null;
 			}
 		}
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemGoriva.class);
-		criteria.add(Restrictions.ilike("naziv", gorivo, MatchMode.ANYWHERE));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			SistemGoriva g = (SistemGoriva)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return g;
-		}else {
-			return null;
-		}*/
 	}
 	
 	@Override

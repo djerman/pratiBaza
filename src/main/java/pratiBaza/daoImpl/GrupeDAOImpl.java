@@ -66,27 +66,6 @@ public class GrupeDAOImpl implements GrupeDAO{
 		query.setParameter("organizacija", korisnik.getOrganizacija());
 
 		return query.getResultList();
-		/*
-		ArrayList<Grupe> lista = new ArrayList<Grupe>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.add(Restrictions.eq("organizacija", korisnik.getOrganizacija()));
-		}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("aktivan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Grupe> lista2 = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 
 	@Override
@@ -99,16 +78,6 @@ public class GrupeDAOImpl implements GrupeDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Grupe grupa = (Grupe)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return grupa;
-		}else {
-			return null;
-		}
-		*/
 	}
 
 	@Override
@@ -121,23 +90,6 @@ public class GrupeDAOImpl implements GrupeDAO{
 		query.setParameter("organizacija", organizacija);
 
 		return query.getResultList();
-		/*
-		ArrayList<Grupe> lista = new ArrayList<Grupe>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Grupe.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-			}
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.add(Restrictions.eq("aktivan", true));
-		criteria.addOrder(Order.asc("naziv"));
-		ArrayList<Grupe> lista2 = (ArrayList<Grupe>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
-		*/
 	}
 	
 }

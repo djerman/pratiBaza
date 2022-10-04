@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SimDAO;
@@ -57,10 +55,36 @@ public class SimDAOImpl implements SimDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<Sim> vratiSveSimKartice(Korisnici korisnik, boolean aktivan) {
 		ArrayList<Sim> lista = new ArrayList<Sim>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
+		String pretp = "";
+		String akt = "";
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			pretp = "sim.sistemPretplatnici = :pretplatnik AND sim.izbrisan = false AND ";
+		}
+		if(aktivan) {
+			akt = " AND sim.aktivan = :akt";
+		}
+		
+		String upit = "SELECT sim FROM Sim sim WHERE" + " " + pretp + ""
+				+ "(:organizacija is null or sim.organizacija = :organizacija) "
+				+ akt + " ORDER BY sim.sistemPretplatnici.naziv asc, sim.izbrisan asc, sim.aktivan desc, sim.id desc";
+		
+		TypedQuery<Sim> query = sessionFactory.getCurrentSession().createQuery(upit, Sim.class);
+		
+		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
+			query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		}
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		if(aktivan) {
+			query.setParameter("akt", aktivan);
+		}
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
 		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
 			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
 			criteria.add(Restrictions.eq("izbrisan", false));
@@ -79,31 +103,61 @@ public class SimDAOImpl implements SimDAO{
 		ArrayList<Sim> lista2 = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
 			lista.addAll(lista2);
-			}
+			}*/
 		return lista;
 	}
 
 	@Override
 	public Sim nadjiSimPoID(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
+		String upit = "SELECT sim FROM Sim obj WHERE sim.id = :id";
+		TypedQuery<Sim> query = sessionFactory.getCurrentSession().createQuery(upit, Sim.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
 		criteria.add(Restrictions.eq("id", id));
 		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
 			Sim sim = (Sim)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
 			return sim;
 		}else {
 			return null;
-		}
+		}*/
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Sim> vratiSveAktivneSimKartice(SistemPretplatnici pretplatnici, Organizacije organizacija, Sim sim) {
 		ArrayList<Sim> lista = new ArrayList<Sim>();
 		if(sim != null) {
 			lista.add(sim);
 		}
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
+		String pretp = "";
+
+		if(pretplatnici != null) {
+			pretp = "sim.sistemPretplatnici = :pretplatnik AND sim.izbrisan = false AND ";
+		}
+
+		String upit = "SELECT sim FROM Sim sim WHERE" + " " + pretp + ""
+				+ "(:organizacija IS NULL OR sim.organizacija = :organizacija)"
+				+ " AND sim.aktivan = true"
+				+ " AND sim.izbrisan = false"
+				+ " ORDER BY sim.sistemPretplatnici.naziv asc, sim.izbrisan asc, sim.aktivan desc, sim.id desc";
+		
+		TypedQuery<Sim> query = sessionFactory.getCurrentSession().createQuery(upit, Sim.class);
+		
+		if(pretplatnici != null) {
+			query.setParameter("pretplatnik", pretplatnici != null);
+		}
+		query.setParameter("organizacija", organizacija);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Sim.class);
 		criteria.add(Restrictions.isNull("uredjaji"));
 		criteria.add(Restrictions.eq("aktivan", true));
 		criteria.add(Restrictions.eq("izbrisan", false));
@@ -117,7 +171,7 @@ public class SimDAOImpl implements SimDAO{
 		ArrayList<Sim> lista2 = (ArrayList<Sim>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 		if(lista2 != null) {
 			lista.addAll(lista2);
-		}
+		}*/
 		return lista;
 	}
 

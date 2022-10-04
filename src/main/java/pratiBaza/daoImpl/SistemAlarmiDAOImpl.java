@@ -1,10 +1,8 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemAlarmiDAO;
@@ -40,84 +38,77 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<SistemAlarmi> vratiSveAlarme() {
 		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT sa FROM SistemAlarmi sa"
+				+ " ORDER BY sa.izbrisan ASC, sa.id DESC";
+		TypedQuery<SistemAlarmi> query = sessionFactory.getCurrentSession().createQuery(upit, SistemAlarmi.class);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			
 		}
+		return lista;
 	}
 
 	public SistemAlarmi nadjiAlaramPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return alarm;
-		}else {
+		String upit = "SELECT sa FROM SistemAlarmi sa WHERE sa.id = :id";
+		TypedQuery<SistemAlarmi> query = sessionFactory.getCurrentSession().createQuery(upit, SistemAlarmi.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
 	}
 
 	@Override
 	public SistemAlarmi nadjiAlarmPoSifri(String sifra) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
-		criteria.add(Restrictions.eq("sifra", sifra));
-		if(sifra.equals("0")) {
-			criteria.add(Restrictions.eq("aktivan", true));
-		}
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			SistemAlarmi alarm = (SistemAlarmi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return alarm;
-		}else {
+		String upit = "SELECT sa FROM SistemAlarmi sa WHERE sa.sifra = :sifra";
+		TypedQuery<SistemAlarmi> query = sessionFactory.getCurrentSession().createQuery(upit, SistemAlarmi.class);
+		query.setParameter("sifra", sifra);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<SistemAlarmi> vratiAlarmePoZahtevu(boolean aktivan, boolean email, boolean pregled) {
 		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", aktivan));
+		String upit = "SELECT sa FROM SistemAlarmi sa WHERE (:aktivan = false OR sa.aktivan = :aktivan)"
+				+ " AND (:email = false OR sa.email = :email)"
+				+ " AND (:pregled = false OR sa.pregled = :pregled)"
+				+ " ORDER BY sa.izbrisan ASC, sa.id DESC";
+		TypedQuery<SistemAlarmi> query = sessionFactory.getCurrentSession().createQuery(upit, SistemAlarmi.class);
+		query.setParameter("aktivan", aktivan);
+		query.setParameter("email", email);
+		query.setParameter("pregled", pregled);
+		try {
+			lista.add(query.getSingleResult());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(email) {
-			criteria.add(Restrictions.eq("email", email));
-		}
-		if(pregled)
-			criteria.add(Restrictions.eq("pregled", pregled));
-		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
+		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<SistemAlarmi> vratiAlarmeZaPregled(boolean aktivan, boolean pregled) {
 		ArrayList<SistemAlarmi> lista = new ArrayList<SistemAlarmi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemAlarmi.class);
-		if(aktivan) {
-			criteria.add(Restrictions.eq("aktivan", aktivan));
+		String upit = "SELECT sa FROM SistemAlarmi sa WHERE (:aktivan = false OR sa.aktivan = :aktivan)"
+				+ " AND (:pregled = false OR sa.pregled = :pregled)"
+				+ " ORDER BY sa.izbrisan ASC, sa.id DESC";
+		TypedQuery<SistemAlarmi> query = sessionFactory.getCurrentSession().createQuery(upit, SistemAlarmi.class);
+		query.setParameter("aktivan", aktivan);
+		query.setParameter("pregled", pregled);
+		try {
+			lista.add(query.getSingleResult());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(pregled) {
-			criteria.add(Restrictions.eq("pregled", pregled));
-		}
-		ArrayList<SistemAlarmi> lista2 = (ArrayList<SistemAlarmi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
+		return lista;
 	}
 	
 }

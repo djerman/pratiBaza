@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.VozaciDAO;
@@ -45,70 +43,66 @@ public class VozaciDAOImpl implements VozaciDAO{
 
 	@Override
 	public Vozaci nadjiVozacaPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (Vozaci)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
-			return null;
+		String upit = "SELECT v FROM Vozaci v WHERE v.id = :id";
+		TypedQuery<Vozaci> query = sessionFactory.getCurrentSession().createQuery(upit, Vozaci.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+			}catch (Exception e) {
+				return null;
+				}
 		}
-	}
 
 	@Override
 	public Vozaci nadjiVozacaPoKorisniku(Korisnici korisnik) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		criteria.add(Restrictions.eq("korisnici", korisnik));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.desc("id")).setMaxResults(1);
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (Vozaci)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
-			return null;
-		}
+		String upit = "SELECT v FROM Vozaci v WHERE v.korisnici = :korisnik"
+				+ " AND v.izbrisan = false"
+				+ " ORDER BY v.id DESC";
+		TypedQuery<Vozaci> query = sessionFactory.getCurrentSession().createQuery(upit, Vozaci.class);
+		query.setParameter("korisnik", korisnik);
+		query.setMaxResults(1);
+		try {
+			return query.getSingleResult();
+			}catch (Exception e) {
+				return null;
+				}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Vozaci> nadjiSveVozacePoKorisniku(Korisnici korisnik) {
 		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
 		if(korisnik.isVozac()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-			criteria.add(Restrictions.eq("korisnici", korisnik));
-			criteria.add(Restrictions.eq("izbrisan", false));
-			ArrayList<Vozaci> lista2 = (ArrayList<Vozaci>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				return lista2;
-			}else {
-				return lista;
+			String upit = "SELECT v FROM Vozaci v WHERE v.korisnici = :korisnik"
+					+ " AND v.izbrisan = false"
+					+ " ORDER BY v.id DESC";
+			TypedQuery<Vozaci> query = sessionFactory.getCurrentSession().createQuery(upit, Vozaci.class);
+			query.setParameter("korisnik", korisnik);
+			try {
+				lista.addAll(query.getResultList());
+			}catch (Exception e) {
+				e.printStackTrace();
 			}
-		}else {
-			return lista;
 		}
+		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Vozaci> nadjiSveVozace(Korisnici korisnik) {
 		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
+		String upit = "SELECT v FROM Vozaci v WHERE (:sistem = true OR v.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR v.korisnici.organizacija = :organizacija)"
+				+ " AND v.izbrisan = false"
+				+ " ORDER BY v.izbrisan ASC, v.sistemPretplatnici.naziv ASC, v.id DESC";
+		TypedQuery<Vozaci> query = sessionFactory.getCurrentSession().createQuery(upit, Vozaci.class);
+		query.setParameter("sistem", korisnik.isSistem());
+		query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		query.setParameter("organizacija", korisnik.getOrganizacija());
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.createAlias("korisnici", "ko");
-			criteria.add(Restrictions.eq("ko.organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		
-		ArrayList<Vozaci> lista2 = (ArrayList<Vozaci>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -119,37 +113,36 @@ public class VozaciDAOImpl implements VozaciDAO{
 		this.sessionFactory = sessionFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Vozaci> nadjiSveVozacePoPretplatniku(SistemPretplatnici pretplatnik) {
 		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.asc("id"));
-		ArrayList<Vozaci> lista2 = (ArrayList<Vozaci>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT v FROM Vozaci v WHERE v.sistemPretplatnici = :pretplatnik"
+				+ " AND v.izbrisan = false"
+				+ " ORDER BY v.id DESC";
+		TypedQuery<Vozaci> query = sessionFactory.getCurrentSession().createQuery(upit, Vozaci.class);
+		query.setParameter("pretplatnik", pretplatnik);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Vozaci> nadjiSveVozacePoOrganizaciji(Organizacije organizacija) {
 		ArrayList<Vozaci> lista = new ArrayList<Vozaci>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozaci.class);
-		criteria.createAlias("korisnici", "ko");
-		criteria.add(Restrictions.eq("k.organizacija", organizacija));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.asc("id"));
-		ArrayList<Vozaci> lista2 = (ArrayList<Vozaci>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT v FROM Vozaci v WHERE v.korisnici.organizacija = :organizacija"
+				+ " AND v.izbrisan = false"
+				+ " ORDER BY v.id DESC";
+		TypedQuery<Vozaci> query = sessionFactory.getCurrentSession().createQuery(upit, Vozaci.class);
+		query.setParameter("organizacija", organizacija);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
 }

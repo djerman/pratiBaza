@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.RacuniDAO;
@@ -53,41 +51,39 @@ public class RacuniDAOImpl implements RacuniDAO{
 
 	@Override
 	public Racuni nadjiRacunPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Racuni.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Racuni racun = (Racuni)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return racun;
-		}else {
+		String upit = "SELECT r FROM Racuni r WHERE r.id = :id";
+		TypedQuery<Racuni> query = sessionFactory.getCurrentSession().createQuery(upit, Racuni.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Racuni> nadjiRacunePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija,
-			boolean izbrisan, Date datumOd, Date DatumDo, Partneri partner) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Racuni.class);
+			boolean izbrisan, Date datumOd, Date datumDo, Partneri partner) {
 		ArrayList<Racuni> lista = new ArrayList<Racuni>();
-		if(pretplatnik != null) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		}
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		if(datumOd != null) {
-			criteria.add(Restrictions.ge("datum", datumOd));
-		}
-		if(DatumDo != null) {
-			criteria.add(Restrictions.lt("datum", datumOd));
-		}
-		criteria.addOrder(Order.desc("datum"));
-		ArrayList<Racuni> lista2 = (ArrayList<Racuni>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
+		String upit = "SELECT r FROM Racuni r WHERE (:pretplatnik IS NULL OR r.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL OR r.organizacija = :organizacija)"
+				+ " AND (:partner IS NULL OR r.partner = :partner)"
+				+ " AND (:izbrisan = false OR r.izbrisan = false)"
+				+ " AND (:datumOd IS NULL OR r.datum >= :datumOd)"
+				+ " AND (:datumDo IS NULL OR r.datum <= :datumOd)"
+				+ " ORDER BY r.datum DESC";
+		TypedQuery<Racuni> query = sessionFactory.getCurrentSession().createQuery(upit, Racuni.class);
+		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("organizacija", organizacija);
+		query.setParameter("partner", partner);
+		query.setParameter("izbrisan", izbrisan);
+		query.setParameter("datumOd", datumOd);
+		query.setParameter("datumDo", datumDo);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			System.out.println("računi listanje ne valja: ");
+			e.printStackTrace();
 		}
 		return lista;
 	}

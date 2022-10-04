@@ -61,7 +61,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}
 		
 		String upit = "Select u FROM Uredjaji u where " + pretp + "(:organizacija is null or u.organizacija = :organizacija) "
-				+ akt + " ORDER BY u.sistemPretplatnici.naziv, u.id, u.izbrisan, u.aktivan desc";
+				+ akt + " ORDER BY u.sistemPretplatnici.naziv asc, u.izbrisan asc , u.aktivan desc, u.id desc";
 		
 		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
 		
@@ -102,9 +102,12 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 	}
 
 	public List<Uredjaji> nadjiSveAktivneSlobodneUredjajePoPretplatniku(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "SELECT u FROM Uredjaji u where u.objekti IS NULL AND (:pretplatnik IS NULL or u.sistemPretplatnici = :pretplatnik) AND "
-				+ "(:organizacija IS NULL or u.organizacija = :organizacija) "
-				+ "AND u.aktivan = true AND u.izbrisan = false ORDER BY u.id asc";
+		String upit = "SELECT u FROM Uredjaji u WHERE u.objekti IS NULL"
+				+ " AND (:pretplatnik IS NULL or u.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:organizacija IS NULL or u.organizacija = :organizacija)"
+				+ " AND u.aktivan = true"
+				+ " AND u.izbrisan = false"
+				+ " ORDER BY u.id desc";
 		
 		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
 		
@@ -160,7 +163,9 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 		}
 		
 		String upit = "Select u FROM Uredjaji u where " + pretp + "(:organizacija is null or u.organizacija = :organizacija) AND u.objekti IS NULL"
-				+ " AND u.aktivan = true AND u.izbrisan = false ORDER BY u.sistemPretplatnici.naziv, u.id, u.izbrisan, u.aktivan desc";
+				+ " AND u.aktivan = true"
+				+ " AND u.izbrisan = false"
+				+ " ORDER BY u.sistemPretplatnici.naziv asc, u.id desc";
 		
 		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
 		
@@ -199,7 +204,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 
 	@Override
 	public Uredjaji nadjiUredjajPoId(int id) {
-		String upit = "SELECT u FROM Uredjaji u where u.id = :id";
+		String upit = "SELECT u FROM Uredjaji u WHERE u.id = :id";
 		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
 		query.setParameter("id", id);
 		try {
@@ -221,7 +226,7 @@ public class UredjajiDAOImpl implements UredjajiDAO{
 
 	@Override
 	public Uredjaji nadjiUredjajPoKodu(String kod) {
-		String upit = "SELECT u FROM Uredjaji u where u.kod = :kod";
+		String upit = "SELECT u FROM Uredjaji u WHERE u.kod = :kod";
 		TypedQuery<Uredjaji> query = sessionFactory.getCurrentSession().createQuery(upit, Uredjaji.class);
 		query.setParameter("kod", kod);
 		try {

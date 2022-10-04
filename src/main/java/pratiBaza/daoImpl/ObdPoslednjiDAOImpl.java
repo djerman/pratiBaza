@@ -49,22 +49,13 @@ public class ObdPoslednjiDAOImpl implements ObdPoslednjiDAO{
 			if(query.getResultList() != null) {
 				lista.addAll(query.getResultList());
 				}
-			/*
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObdPoslednji.class);
-			criteria.add(Restrictions.in("objekti", objekti));
-			ArrayList<ObdPoslednji> lista2 = (ArrayList<ObdPoslednji>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				lista.addAll(lista2);
-				//lista.sort(Comparator.comparing(ObdPoslednji::getDatumVreme).reversed());
-				}
-				*/
 		}
 		return lista;
 	}
 
 	@Override
 	public ObdPoslednji nadjiObdPoslednjiPoObjektu(Objekti objekat) {
-		String upit = "SELECT o FROM ObdPoslednji o WHERE o.objekat = :objekat ORDER BY o.datumVreme desc";
+		String upit = "SELECT o FROM ObdPoslednji o WHERE o.objekti = :objekat ORDER BY o.datumVreme desc";
 		TypedQuery<ObdPoslednji> query = sessionFactory.getCurrentSession().createQuery(upit, ObdPoslednji.class);
 		query.setMaxResults(1);
 		try {
@@ -72,15 +63,6 @@ public class ObdPoslednjiDAOImpl implements ObdPoslednjiDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ObdPoslednji.class);
-		criteria.add(Restrictions.eq("objekti", objekat));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (ObdPoslednji)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
-			return null;
-		}
-		*/
 	}
 
 }

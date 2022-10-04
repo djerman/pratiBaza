@@ -64,14 +64,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Troskovi trosak = (Troskovi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return trosak;
-		}else {
-			return null;
-		}*/
 	}
 
 	@Override
@@ -86,22 +78,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		if(pretplatnik != null) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		}
-		if(organizacija != null) {
-			criteria.add(Restrictions.eq("organizacija", organizacija));
-		}
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.addOrder(Order.desc("datumVreme"));
-		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
 		return lista;
 	}
 
@@ -114,12 +90,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 			
 			if(query.getResultList() != null)
 				lista.addAll(query.getResultList());
-			/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-			criteria.addOrder(Order.desc("datumVreme"));
-			ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				lista.addAll(lista2);
-			}*/
 			return lista;
 		}else {
 			return nadjiSveTroskovePoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
@@ -139,23 +109,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		if(pretplatnik != null) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		}
-		if(organizacija != null) {
-			criteria.createAlias("objekti", "o");
-			criteria.add(Restrictions.eq("o.organizacija", organizacija));
-		}
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.add(Restrictions.ne("tipServisa", 0));
-		criteria.addOrder(Order.desc("datumVreme"));
-		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
 		return lista;
 	}
 
@@ -174,27 +127,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
 		return lista;
-		/*if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-			if(!korisnik.isSistem() && !korisnik.getSistemPretplatnici().isSistem()) {
-				criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-				criteria.add(Restrictions.eq("izbrisan", false));
-			}
-			if(korisnik.getOrganizacija() != null) {
-				criteria.createAlias("objekti", "o");
-				criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
-			}
-			criteria.add(Restrictions.ne("tipServisa", 0));
-			criteria.addOrder(Order.desc("datumVreme"));
-			ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-			ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				lista.addAll(lista2);
-			}
-			return lista;
-		}else {
-			return nadjiSvaOdrzavanjaPoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
-		}*/
 	}
 
 	@Override
@@ -212,26 +144,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
 		return lista;
-		
-		/*ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		if(pretplatnik != null) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		}
-		if(organizacija != null) {
-			criteria.createAlias("objekti", "o");
-			criteria.add(Restrictions.eq("o.organizacija", organizacija));
-		}
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.add(Restrictions.eq("tipServisa", 0));
-		criteria.addOrder(Order.desc("datumVreme"));
-		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}
-		return lista;*/
 	}
 
 	@Override
@@ -248,19 +160,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
 		return lista;
-		/*if(korisnik.getSistemPretplatnici().isSistem() && korisnik.isSistem()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-			criteria.add(Restrictions.eq("tipServisa", 0));
-			criteria.addOrder(Order.desc("datumVreme"));
-			ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-			ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				lista.addAll(lista2);
-			}
-			return lista;
-		}else {
-			return nadjiSvuPotrosnjuPoPretplatniku(korisnik.getSistemPretplatnici(), korisnik.getOrganizacija(), true);
-		}*/
 	}
 
 	@Override
@@ -278,18 +177,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		criteria.add(Restrictions.eq("tipServisa", tipTroska));
-		criteria.add(Restrictions.lt("datumVreme", datumVreme));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.desc("datumVreme"));
-		criteria.setMaxResults(1);
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Troskovi trosak = (Troskovi)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return trosak;
-		}else {
-			return null;
-		}*/
 	}
 
 	@Override
@@ -310,20 +197,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
 		return lista;
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		if(organizacija != null) {
-			criteria.createAlias("objekti", "o");
-			criteria.add(Restrictions.eq("o.organizacija", organizacija));
-		}
-		criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
-		criteria.addOrder(Order.desc("datumVreme"));
-		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}
-		return lista;*/
 	}
 
 	@Override
@@ -344,22 +217,6 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
 		return lista;
-		/*if(vozila != null && !vozila.isEmpty()) {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-			criteria.add(Restrictions.in("objekti", vozila));
-			criteria.add(Restrictions.ge("datumVreme", datumVremeOd));
-			criteria.add(Restrictions.lt("datumVreme", datumVremeDo));
-			if(tipTroska != null) {
-				criteria.add(Restrictions.eq("tipServisa", tipTroska));
-				}
-			criteria.add(Restrictions.eq("izbrisan", false));
-			criteria.addOrder(Order.asc("datumVreme"));
-			ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-			if(lista2 != null) {
-				lista.addAll(lista2);
-				}
-			}
-		return lista;*/
 	}
 
 	@Override
@@ -375,15 +232,5 @@ public class TroskoviDAOImpl implements TroskoviDAO{
 		if(query.getResultList() != null)
 			lista.addAll(query.getResultList());
 		return lista;
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Troskovi.class);
-		criteria.add(Restrictions.eq("racun", racun));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.desc("datumVreme"));
-		ArrayList<Troskovi> lista = new ArrayList<Troskovi>();
-		ArrayList<Troskovi> lista2 = (ArrayList<Troskovi>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}
-		return lista;*/
 	}
 }

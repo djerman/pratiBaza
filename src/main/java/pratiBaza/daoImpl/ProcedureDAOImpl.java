@@ -20,8 +20,7 @@ public class ProcedureDAOImpl implements ProcedureDAO{
 	//mora da se doda i get i set metode za SessionFactory objekat
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	//@SuppressWarnings({ "unchecked", "rawtypes" })
+
 	@Override
 	public List<RadnoVremePutGPS> radnoVremePutGPS(int idObjekta, Timestamp pocetak, Timestamp kraj, int satiOd, int satiDo) {
 		DateFormat datum = new SimpleDateFormat("yyyy-MM-dd");

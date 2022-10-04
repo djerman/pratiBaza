@@ -3,10 +3,8 @@ package pratiBaza.daoImpl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.PartneriDAO;
@@ -44,11 +42,12 @@ public class PartneriDAOImpl implements PartneriDAO{
 
 	@Override
 	public Partneri nadjiPartneraPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
-		criteria.add(Restrictions.eq("id", id));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (Partneri)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
+		String upit = "SELECT p FROM Partneri p WHERE p.id = :id";
+		TypedQuery<Partneri> query = sessionFactory.getCurrentSession().createQuery(upit, Partneri.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
 	}
@@ -63,52 +62,49 @@ public class PartneriDAOImpl implements PartneriDAO{
 
 	@Override
 	public Partneri nadjiPartneraPoPibu(SistemPretplatnici pretplatnik, int pib) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("pib", pib));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			return (Partneri)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		}else {
+		String upit = "SELECT p FROM Partneri p WHERE p.sistemPretplatnici = :pretplatnik"
+				+ " AND p.pib = :pib";
+		TypedQuery<Partneri> query = sessionFactory.getCurrentSession().createQuery(upit, Partneri.class);
+		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("pib", pib);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
 			return null;
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Partneri> nadjiSvePartnere(Korisnici korisnik, boolean izbrisan) {
 		ArrayList<Partneri> lista = new ArrayList<Partneri>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-		}
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Partneri> lista2 = (ArrayList<Partneri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
+		String upit = "SELECT p FROM Partneri p WHERE (:sistem = true OR p.sistemPretplatnici = :pretplatnik)"
+				+ " AND (:izbrisan = true OR p.izbrisan = izbrisan)"
+				+ " ORDER BY p.id DESC";
+		TypedQuery<Partneri> query = sessionFactory.getCurrentSession().createQuery(upit, Partneri.class);
+		query.setParameter("sistem", korisnik.isSistem());
+		query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
+		query.setParameter("izbrisan", izbrisan);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			
 		}
 		return lista;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Partneri> nadjiSvePartnerePoPretplatniku(SistemPretplatnici pretplatnik, boolean izbrisan) {
 		ArrayList<Partneri> lista = new ArrayList<Partneri>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Partneri.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		if(izbrisan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-		}
-		criteria.addOrder(Order.asc("sistemPretplatnici"));
-		criteria.addOrder(Order.asc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Partneri> lista2 = (ArrayList<Partneri>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
+		String upit = "SELECT p FROM Partneri p WHERE p.sistemPretplatnici = :pretplatnik"
+				+ " AND (:izbrisan = true OR p.izbrisan = :izbrisan)"
+				+ " ORDER BY p.id DESC";
+		TypedQuery<Partneri> query = sessionFactory.getCurrentSession().createQuery(upit, Partneri.class);
+		query.setParameter("pretplatnik", pretplatnik);
+		query.setParameter("izbrisan", izbrisan);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			
 		}
 		return lista;
 	}

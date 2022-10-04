@@ -1,10 +1,8 @@
 package pratiBaza.daoImpl;
 
 import java.util.ArrayList;
-import org.hibernate.Criteria;
+import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pratiBaza.dao.SistemUredjajiModeliDAO;
@@ -34,16 +32,15 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 
 	public ArrayList<SistemUredjajiModeli> nadjiSveUredjajModele() {
 		ArrayList<SistemUredjajiModeli> lista = new ArrayList<SistemUredjajiModeli>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiModeli.class);
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("id"));
-		@SuppressWarnings("unchecked")
-		ArrayList<SistemUredjajiModeli> lista2 = (ArrayList<SistemUredjajiModeli>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
+		String upit = "SELECT um FROM SistemUredjajiModeli um"
+				+ " ORDER BY um.izbrisan ASC, um.id DESC";
+		TypedQuery<SistemUredjajiModeli> query = sessionFactory.getCurrentSession().createQuery(upit, SistemUredjajiModeli.class);
+		try {
+			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
 	}
 
 	public SessionFactory getSessionFactory() {
@@ -55,10 +52,14 @@ public class SistemUredjajiModeliDAOImpl implements SistemUredjajiModeliDAO{
 	}
 
 	public SistemUredjajiModeli nadjiModelPoId(int id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SistemUredjajiModeli.class);
-		criteria.add(Restrictions.eq("id", id));
-		SistemUredjajiModeli model = (SistemUredjajiModeli)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-		return model;
+		String upit = "SELECT up FROM Partneri up WHERE up.id = :id";
+		TypedQuery<SistemUredjajiModeli> query = sessionFactory.getCurrentSession().createQuery(upit, SistemUredjajiModeli.class);
+		query.setParameter("id", id);
+		try {
+			return query.getSingleResult();
+		}catch (Exception e) {
+			return null;
+		}
 	}
 	
 }

@@ -98,28 +98,11 @@ public class VozilaDAOImpl implements VozilaDAO{
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
 		query.setParameter("organizacija", korisnik.getOrganizacija());
-		if(query.getResultList() != null)
+		try {
 			lista.addAll(query.getResultList());
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		if(korisnik.getOrganizacija() != null) {
-			criteria.createAlias("objekti", "o");
-			criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.desc("sistemPretplatnici"));
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("objekti"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
 		return lista;
 	}
 
@@ -133,15 +116,6 @@ public class VozilaDAOImpl implements VozilaDAO{
 		}catch (Exception e) {
 			return null;
 		}
-		
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		criteria.add(Restrictions.eq("saobracajna", saobracajna));
-		if(criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult() != null) {
-			Vozila vozilo = (Vozila)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).uniqueResult();
-			return vozilo;
-		}else {
-			return null;
-		}*/
 	}
 
 	@Override
@@ -152,19 +126,12 @@ public class VozilaDAOImpl implements VozilaDAO{
 				+ " ORDER BY v.id desc";
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("pretplatnik", pretplatnik);
-		if(query.getResultList() != null)
+		try {
 			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return lista;
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.asc("id"));
-		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			return lista2;
-		}else {
-			return lista;
-		}*/
 	}
 
 	@Override
@@ -175,18 +142,12 @@ public class VozilaDAOImpl implements VozilaDAO{
 				+ " ORDER BY v.id desc";
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("organizacija", organizacija);
-		if(query.getResultList() != null)
+		try {
 			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return lista;
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		criteria.createAlias("objekti", "o");
-		criteria.add(Restrictions.eq("o.organizacija", organizacija));
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.addOrder(Order.asc("id"));
-		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
 	}
 
 	@Override
@@ -197,16 +158,12 @@ public class VozilaDAOImpl implements VozilaDAO{
 				+ " ORDER BY v.id desc";
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("objekti", objekti);
-		if(query.getResultList() != null)
+		try {
 			lista.addAll(query.getResultList());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return lista;
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		criteria.add(Restrictions.eq("izbrisan", false));
-		criteria.add(Restrictions.in("objekti", objekti));
-		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
 	}
 
 	@Override
@@ -220,31 +177,12 @@ public class VozilaDAOImpl implements VozilaDAO{
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("pretplatnik", korisnik.getSistemPretplatnici());
 		query.setParameter("organizacija", korisnik.getOrganizacija());
-		if(query.getResultList() != null)
+		try {
 			lista.addAll(query.getResultList());
-		return lista;
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		if(!korisnik.getSistemPretplatnici().isSistem() || !korisnik.isSistem()) {
-			criteria.add(Restrictions.eq("sistemPretplatnici", korisnik.getSistemPretplatnici()));
-			criteria.add(Restrictions.eq("izbrisan", false));
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		if(aktivan) {
-			criteria.add(Restrictions.eq("izbrisan", false));
-			}
-		criteria.add(Restrictions.isNull("saobracajna"));
-		if(korisnik.getOrganizacija() != null) {
-			criteria.createAlias("objekti", "o");
-			criteria.add(Restrictions.eq("o.organizacija", korisnik.getOrganizacija()));
-			}
-		criteria.addOrder(Order.desc("sistemPretplatnici"));
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("objekti"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
-		
+		return lista;
 	}
 
 	@Override
@@ -258,24 +196,11 @@ public class VozilaDAOImpl implements VozilaDAO{
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("organizacija", organizacija);
-		if(query.getResultList() != null)
+		try {
 			lista.addAll(query.getResultList());
-		/*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vozila.class);
-		criteria.add(Restrictions.eq("sistemPretplatnici", pretplatnik));
-		criteria.add(Restrictions.eq("izbrisan", false));
-
-		criteria.add(Restrictions.isNull("saobracajna"));
-		if(organizacija != null) {
-			criteria.createAlias("objekti", "o");
-			criteria.add(Restrictions.eq("o.organizacija", organizacija));
-			}
-		criteria.addOrder(Order.desc("izbrisan"));
-		criteria.addOrder(Order.desc("objekti"));
-		criteria.addOrder(Order.desc("id"));
-		ArrayList<Vozila> lista2 = (ArrayList<Vozila>)criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		if(lista2 != null) {
-			lista.addAll(lista2);
-		}*/
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return lista;
 	}
 
@@ -283,11 +208,10 @@ public class VozilaDAOImpl implements VozilaDAO{
 	public Vozila nadjiVoziloPoRegistraciji(SistemPretplatnici pretplatnik, String registracija) {
 		String upit = "SELECT v FROM Vozila v WHERE v.sistemPretplatnici = :pretplatnik"
 				+ " AND (lower(v.registracija) like lower(concat('%',:registracija,'%')))";
-		
 		TypedQuery<Vozila> query = sessionFactory.getCurrentSession().createQuery(upit, Vozila.class);
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("registracija", registracija);
-		
+		query.setMaxResults(1);
 		try {
 			return query.getSingleResult();
 		}catch (Exception e) {
