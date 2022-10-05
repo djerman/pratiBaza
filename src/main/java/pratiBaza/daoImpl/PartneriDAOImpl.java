@@ -62,8 +62,7 @@ public class PartneriDAOImpl implements PartneriDAO{
 
 	@Override
 	public Partneri nadjiPartneraPoPibu(SistemPretplatnici pretplatnik, int pib) {
-		String upit = "SELECT p FROM Partneri p WHERE p.sistemPretplatnici = :pretplatnik"
-				+ " AND p.pib = :pib";
+		String upit = "SELECT p FROM Partneri p WHERE p.sistemPretplatnici = :pretplatnik AND p.pib = :pib";
 		TypedQuery<Partneri> query = sessionFactory.getCurrentSession().createQuery(upit, Partneri.class);
 		query.setParameter("pretplatnik", pretplatnik);
 		query.setParameter("pib", pib);
