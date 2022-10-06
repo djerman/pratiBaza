@@ -15,7 +15,6 @@ import pratiBaza.tabele.SistemPretplatnici;
 @Repository("partnerDAO")
 public class PartneriDAOImpl implements PartneriDAO{
 
-	//mora da se doda i get i set metode za SessionFactory objekat
 	@Autowired
 	private SessionFactory sessionFactory;
 	
