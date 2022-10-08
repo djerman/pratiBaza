@@ -8,7 +8,8 @@ class ProracunPuta {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		fail("Not yet implemented but maybe latter");
+		
 	}
 
 }
