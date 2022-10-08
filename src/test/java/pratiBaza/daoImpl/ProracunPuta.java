@@ -14,6 +14,7 @@ class ProracunPuta {
 	    assertTrue(numbers.stream().mapToInt(Integer::intValue)
 	      .sum() > 5, () -> "Sum should be greater than 5");
 	    assertTrue(numbers.stream().mapToInt(Integer::intValue).count() == 3);
+	    assertTrue(numbers.stream().mapToInt(Integer::intValue).sum() > 3);
 	}
 
 }
