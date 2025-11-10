@@ -36,15 +36,32 @@ public class ProcedureDAOImpl implements ProcedureDAO{
 		@SuppressWarnings("unchecked")
 		List<Object[]> redovi = query.getResultList();
 		for(Object[] red : redovi) {
-			RadnoVremePutGPS rv = new RadnoVremePutGPS();
+			
+			if(red == null || red.length < 5) {
+				continue;
+			}
+
+			boolean nedostajePodatak = false;
+			for(int i = 0; i < 5; i++) {
+				if(red[i] == null) {
+					nedostajePodatak = true;
+					break;
+				}
+			}
+			
+			if(nedostajePodatak) {
+				continue;
+			}
+			
 			try {
+				RadnoVremePutGPS rv = new RadnoVremePutGPS();
 				rv.setDatum(datum.parse(red[0].toString()));
 				rv.setPocetak(datumVreme.parse(red[1].toString()));
 				rv.setKraj(datumVreme.parse(red[2].toString()));
 				rv.setMaxBrzina(Float.parseFloat(red[3].toString()));
 				rv.setPredjeniPut(Float.parseFloat(red[4].toString()));
 				lista.add(rv);
-			}catch (ParseException e) {
+			}catch (ParseException | NullPointerException e) {
 				System.out.println(e.toString());
 			}
 		}
