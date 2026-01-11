@@ -64,7 +64,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			akt = " AND obj.aktivan = :akt";
 		}
 		
-		String upit = "SELECT obj FROM Objekti obj WHERE" + " " + pretp + ""
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE" + " " + pretp + ""
 				+ "(:organizacija is null or obj.organizacija = :organizacija)"
 				+ akt + " ORDER BY obj.sistemPretplatnici.naziv asc, obj.izbrisan asc, obj.aktivan desc, obj.id desc";
 		
@@ -85,7 +90,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		if(aktivan) {
 			akt = " AND obj.aktivan = :akt";
 		}
-		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE obj.sistemPretplatnici = :pretplatnik"
 				+ " AND obj.izbrisan = false"
 				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
 				+ akt + " ORDER BY obj.sistemPretplatnici.naziv asc, obj.izbrisan asc, obj.aktivan desc, obj.id desc";
@@ -109,7 +119,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 			akt = " AND obj.aktivan = :akt";
 		}
 		
-		String upit = "SELECT obj FROM Objekti obj WHERE " + pretp + ""
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE " + pretp + ""
 				+ "(:organizacija is null or obj.organizacija = :organizacija)"
 				+ akt + " AND obj.tip = true "
 						+ " ORDER BY obj.sistemPretplatnici.naziv asc, obj.izbrisan asc, obj.aktivan desc, obj.id desc";
@@ -143,7 +158,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 	}
 
 	public List<Objekti> vratiSveObjekte(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE obj.sistemPretplatnici = :pretplatnik AND obj.izbrisan = false"
 				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
 				+ " AND obj.aktivan = true"
 				+ " ORDER BY obj.id desc, obj.aktivan desc, obj.izbrisan asc";
@@ -157,7 +177,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 
 	@Override
 	public List<Objekti> vratiSveObjekteVozila(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE obj.sistemPretplatnici = :pretplatnik"
 				+ " AND obj.izbrisan = false"
 				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
 				+ " AND obj.aktivan = true"
@@ -185,7 +210,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 
 	@Override
 	public List<Objekti> nadjiSveObjekteSavozilom(SistemPretplatnici pretplatnik, Organizacije organizacija) {
-		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE obj.sistemPretplatnici = :pretplatnik"
 				+ " AND obj.izbrisan = false"
 				+ " AND (:organizacija is null or obj.organizacija = :organizacija)"
 				+ " AND obj.vozilo IS NOT NULL"
@@ -204,7 +234,12 @@ public class ObjektiDAOImpl implements ObjektiDAO{
 		String org = "";
 		if(organizacija != null)
 			org = " AND obj.organizacija = :organizacija";
-		String upit = "SELECT obj FROM Objekti obj WHERE obj.sistemPretplatnici = :pretplatnik"
+		String upit = "SELECT DISTINCT obj FROM Objekti obj"
+				+ " LEFT JOIN FETCH obj.uredjaji u"
+				+ " LEFT JOIN FETCH u.sistemUredjajiModeli"
+				+ " LEFT JOIN FETCH obj.sistemPretplatnici"
+				+ " LEFT JOIN FETCH obj.organizacija"
+				+ " WHERE obj.sistemPretplatnici = :pretplatnik"
 				+ " AND obj.izbrisan = false"
 				+ org
 				+ " AND obj.vozilo IS NULL"

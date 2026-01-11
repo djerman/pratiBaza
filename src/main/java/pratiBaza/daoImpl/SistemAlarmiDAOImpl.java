@@ -87,7 +87,7 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		query.setParameter("email", email);
 		query.setParameter("pregled", pregled);
 		try {
-			lista.add(query.getSingleResult());
+			lista.addAll(query.getResultList());
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,7 +104,7 @@ public class SistemAlarmiDAOImpl implements SistemAlarmiDAO{
 		query.setParameter("aktivan", aktivan);
 		query.setParameter("pregled", pregled);
 		try {
-			lista.add(query.getSingleResult());
+			lista.addAll(query.getResultList());
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
